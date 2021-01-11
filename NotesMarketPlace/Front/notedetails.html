@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<title>Notes Details</title>
+
+	<!-- important meta tage-->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Favicon -->
+	<link rel="icon" href="images/home/favicon.ico">
+
+	<!-- font -->
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+	<!-- icons -->
+	<link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
+
+	<!-- Bootstrap CSS-->
+	<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+
+	<!-- css page -->
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- Responsive CSS -->
+	<link rel="stylesheet" href="css/responsive.css">
+
+</head>
+
+<body>
+
+	<!-- Note-detalis Section -->
+	<section class="note-details-section">
+
+		<!-- Header -->
+		<header id="navbar">
+
+			<nav class="nav navbar for-bottom-border">
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+							<span class="hamburger-icon">&#9776;</span>
+						</button>
+						<a href="#"><img src="images/User-Profile/logo.png" alt="Logo" class="logo"> </a>
+					</div>
+					<div class="collapse navbar-collapse" id="myNavbar">
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="./search.html">Search Notes</a></li>
+							<li><a href="./dashboard.html">Sell Your Notes</a></li>
+							<li><a href="./buyerrequest.html">Buyer Requests</a></li>
+							<li><a href="./faq.html">FAQ</a></li>
+							<li><a href="./contactus.html">Contact Us</a></li>
+							<li>
+								<div class="dropdown">
+									<img onclick="showhideDropdown(0)" src="images/Dashboard/user-img.png" class="dropbtn profile-pic" id="ellipsis">
+									<div id="showhideDropdown_0" class="dropdown-content">
+										<a href="#">My Profile</a>
+										<a href="./mydownloadnotes.html">My Downloads</a>
+										<a href="./mysoldnotes.html">My Sold Notes</a>
+										<a href="./myrejectednotes.html">My Rejected Notes</a>
+										<a href="./changepassword.html">Change Password</a>
+										<a href="#" class="logout">Log Out</a>
+									</div>
+								</div>
+							</li>
+							<li><a href="#" class="last-child">Log out</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+
+		</header>
+		<!-- Header Ends-->
+
+		<!-- Note details  -->
+		<div class="note-details main-container">
+
+			<!-- Note details  -->
+			<div class="note-details">
+
+				<div class="container section-container">
+
+					<div class="heading">
+						<h1>Note Details</h1>
+					</div>
+
+					<!-- Note Picture & name -->
+					<div class="row">
+
+						<div class="col-md-2 col-sm-4 book-pic">
+							<img src="images/NotesDetails/1.jpg" class="img-responsive">
+						</div>
+
+						<div class="col-md-5 col-sm-8 note-name">
+
+							<div class="note-info">
+
+								<h3>Computer Science</h3>
+								<h4>Science</h4>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis facilis tempore voluptatibus voluptate explicabo repudiandae, similique et enim quibusdam nulla neque repellendus sunt doloribus!</p>
+								<button type="submit" class="btn submit" data-toggle="modal" data-target="#thanks-modal">DOWNLOAD / $15</button>
+
+							</div>
+
+						</div>
+
+						<div class="col-md-5 col-sm-12">
+
+							<div class="about-book">
+
+								<p>Institution: <span>University of California</span></p>
+								<p>Country: <span>United State</span></p>
+								<p>Course Name: <span>Computer Engineering</span></p>
+								<p>Course Code: <span>248705</span></p>
+								<p>Professor: <span>Mr. Richard Brown</span></p>
+								<p>Namber of Pages: <span>277</span></p>
+								<p>Approved Date: <span>November 25 2020</span></p>
+								<p>Rating: <span><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>100 Reviews</span></p>
+								<p>5% user marked this as inappropriate</p>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<hr class="container horizontal-line">
+
+		<!-- Bottom Side of Page -->
+		<div class="bottom-side">
+
+			<div class="container section-container">
+
+				<!-- Page Review -->
+				<div class="row">
+
+					<div class="col-md-5 note-priview">
+
+						<div class="heading">
+							<h1>Note Preview</h1>
+						</div>
+
+						<div id="Iframe-Cicis-Menu-To-Go" class="set-margin-cicis-menu-to-go set-padding-cicis-menu-to-go set-border-cicis-menu-to-go set-box-shadow-cicis-menu-to-go center-block-horiz">
+							<div class="responsive-wrapper responsive-wrapper-padding-bottom-90pct">
+								<iframe src="http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf">
+									<p style="font-size: 110%;">
+										<a href="http://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf">with this link.</a>
+									</p>
+								</iframe>
+							</div>
+						</div>
+					</div>
+
+					<div class="customer-reviews">
+
+						<div class="col-md-7">
+
+							<div class="heading">
+								<h1>Customers Review</h1>
+							</div>
+
+							<div class="customer-review-block">
+								<!-- Review 01 -->
+								<div class="row customer-review">
+
+									<div class="col-md-1 col-sm-1 col-xs-2">
+
+										<div class="customer-photo">
+											<img src="images/home/team-1.jpg">
+										</div>
+
+									</div>
+
+									<div class="col-md-11 col-sm-11 col-xs-10">
+
+										<h5>Richard Brown</h5>
+										<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur, vitae laudantium! Odit, cum ipsa consectetur itaque. Aspernatur.</p>
+
+									</div>
+
+								</div>
+
+								<hr style="margin: 0 15px" />
+
+								<!-- Review 01 -->
+								<div class="row  customer-review">
+
+									<div class="col-md-1 col-sm-1 col-xs-2">
+
+										<div class="customer-photo">
+											<img src="images/home/team-2.jpg">
+										</div>
+
+									</div>
+
+									<div class="col-md-11 col-sm-11 col-xs-10">
+
+										<h5>Alice Ortiaz</h5>
+										<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur, vitae laudantium! Odit, cum ipsa consectetur itaque. Aspernatur.</p>
+
+									</div>
+
+								</div>
+
+								<hr style="margin: 0 15px" />
+
+								<!-- Review 01 -->
+								<div class="row  customer-review">
+
+									<div class="col-md-1 col-sm-1 col-xs-2">
+
+										<div class="customer-photo">
+											<img src="images/home/team-3.jpg">
+										</div>
+
+									</div>
+
+									<div class="col-md-11 col-sm-11 col-xs-10">
+
+										<h5>Sara Passmore</h5>
+										<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur.</p>
+
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<hr class="horizontal-line">
+
+			<!-- Footer -->
+			<footer class="footer">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<div class="copyright">
+								<p>Copyright &copy; Tatvasoft All Rights Reserved</p>
+							</div>
+						</div>
+
+						<div class="col-md-6 col-sm-6 col-xs-12 list">
+							<ul class="social-list">
+								<li><a href="#"><i class="fa fa-facebook "></i></a></li>
+								<li><a href="#"><i class="fa fa-twitter "></i></a></li>
+								<li><a href="#"><i class="fa fa-linkedin "></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</footer>
+
+			<!-- Model -->
+			<div class="modal fade" id="thanks-modal" role="dialog">
+				<div class="modal-dialog modal-dialog-centered">
+
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						<div class="modal-body">
+							<div class="text-center">
+								<img src="images/NotesDetails/SUCCESS.png" alt="Success">
+								<h3>Thank you for purchasing!</h3>
+							</div>
+							<h5>Dear Smith,</h5>
+							<p>As this is paid notes - you need to pay seller Rahil Shah offline.We will send him an email you want to download this notes. He may contact you further for payment process completion.</p>
+							<br />
+							<p>In case, you have urgency,</p>
+							<p>Please contact us on +919577345959</p>
+							<br />
+							<p>Once he receives the payment and acknowledge us - selected notes you can see over my downloads tab for download.</p>
+							<br />
+							<p>Have a good day.</p>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</section>
+	<!-- Ends Note-details Section -->
+
+	<!-- Jquery Module -->
+	<script src="js/jquery.min.js"></script>
+
+	<!-- Bootstrap JS -->
+	<script src="js/bootstrap/bootstrap.min.js"></script>
+
+	<!-- Javascript Page -->
+	<script src="js/script.js"></script>
+
+</body>
+
+</html>

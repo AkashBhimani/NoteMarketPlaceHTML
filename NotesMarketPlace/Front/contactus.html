@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<title>User Profile</title>
+
+	<!-- important meta tage-->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Favicon -->
+	<link rel="icon" href="images/home/favicon.ico">
+
+	<!-- font -->
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+	<!-- icons -->
+	<link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
+
+	<!-- Bootstrap CSS-->
+	<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+
+	<!-- css page -->
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- Responsive CSS -->
+	<link rel="stylesheet" href="css/responsive.css">
+
+</head>
+
+<body>
+
+	<!-- Cnatact us  Profile  -->
+	<section id="user-input-page">
+
+		<!-- Header -->
+		<header id="navbar">
+
+			<nav class="nav navbar">
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+							<span class="hamburger-icon">&#9776;</span>
+						</button>
+						<a href="#"><img src="images/User-Profile/logo.png" alt="Logo" class="logo"> </a>
+					</div>
+					<div class="collapse navbar-collapse" id="myNavbar">
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="./search.html">Serach Notes</a></li>
+							<li><a href="./dashboard.html">Sell Your Notes</a></li>
+							<li><a href="./buyerrequest.html">Buyers Requests</a></li>
+							<li><a href="./faq.html"> FAQ </a></li>
+							<li><a href="./contactus.html" class="active"><span>Contact Us</span></a></li>
+							<li>
+								<div class="dropdown">
+									<img onclick="showhideDropdown(0)" src="images/Dashboard/user-img.png" class="dropbtn profile-pic" id="ellipsis">
+									<div id="showhideDropdown_0" class="dropdown-content">
+										<a href="#">My Profile</a>
+										<a href="./mydownloadnotes.html">My Downloads</a>
+										<a href="./mysoldnotes.html">My Sold Notes</a>
+										<a href="./myrejectednotes.html">My Rejected Notes</a>
+										<a href="./changepassword.html">Change Password</a>
+										<a href="#" class="logout">Log Out</a>
+									</div>
+								</div>
+							</li>
+							<li><a href="#" class="last-child"> Log out</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+
+		</header>
+		<!-- Header Ends-->
+
+		<!-- Top Title Banner -->
+		<div class="page-banner">
+
+			<h3 class="text-center">Contact Us</h3>
+
+		</div>
+
+		<!-- Basic Profile Details -->
+		<div class="contact-us-details">
+
+			<div class="container section-container">
+
+				<div class="row">
+
+					<div class="col-md-12 heading">
+						<h3>Basic Profile Details</h3>
+						<p>Let us know how to get back to you</p>
+					</div>
+
+				</div>
+
+				<div class="row">
+
+					<!-- Left Side Content -->
+					<div class="contactus-content">
+
+						<div class="col-md-6">
+
+							<div class="form-group">
+								<label for="firstname" class="name-of-input">First Name<i> * </i></label>
+								<input type="text" class="form-control" id="firstname" placeholder="Enter your first name">
+							</div>
+
+							<div class="form-group">
+								<label for="email" class="name-of-input">Email<i> * </i></label>
+								<input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter your email">
+							</div>
+
+							<div class="form-group">
+								<label for="subject" class="name-of-input">Subject<i> * </i></label>
+								<input type="text" class="form-control" id="subject" placeholder="Enter your Subject">
+							</div>
+
+						</div>
+
+						<div class="col-md-6">
+
+							<div class="form-group">
+								<label class="comment name-of-input">Comment / Questions<i> * </i></label>
+								<textarea class="form-control" name="comment" placeholder="Comments..." rows="12"></textarea>
+							</div>
+
+						</div>
+
+						<div class="col-md-6 col-sm-6">
+							<button type="submit" class="btn submit">SUBMIT</button>
+						</div>
+
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<hr class="horizontal-line">
+
+		<!-- Footer -->
+		<footer class="footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<p class="copyright">
+							Copyright &copy; Tatvasoft All Rights Reserved
+						</p>
+					</div>
+
+					<div class="col-md-6 col-sm-6 col-xs-12 list">
+						<ul class="social-list">
+							<li><a href="#"><i class="fa fa-facebook "></i></a></li>
+							<li><a href="#"><i class="fa fa-twitter "></i></a></li>
+							<li><a href="#"><i class="fa fa-linkedin "></i></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+	</section>
+	<!-- End Contact us Section  -->
+
+	<!-- Jquery Module -->
+	<script src="js/jquery.min.js"></script>
+
+	<!-- Bootstrap JS -->
+	<script src="js/bootstrap/bootstrap.min.js"></script>
+
+	<!-- Javascript Page -->
+	<script src="js/script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<title>Buyer Request</title>
+
+	<!-- important meta tage-->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Favicon -->
+	<link rel="icon" href="images/home/favicon.ico">
+
+	<!-- font -->
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+	<!-- icons -->
+	<link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
+
+	<!-- Bootstrap CSS-->
+	<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+
+	<!-- css page -->
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- Responsive CSS -->
+	<link rel="stylesheet" href="css/responsive.css">
+
+</head>
+
+
+<body>
+
+	<!-- Buyer Request Section -->
+	<section class="buyer-request-section">
+
+		<!-- Header -->
+		<header id="navbar">
+
+			<nav class="nav navbar for-bottom-border">
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+							<span class="hamburger-icon">&#9776;</span>
+						</button>
+						<a href="#"><img src="images/User-Profile/logo.png" alt="Logo" class="logo"> </a>
+					</div>
+					<div class="collapse navbar-collapse" id="myNavbar">
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="./search.html">Search Notes</a></li>
+							<li><a href="./dashboard.html">Sell Your Notes</a></li>
+							<li><a href="./buyerrequest.html" class="active"><span>Buyer Requests</span></a></li>
+							<li><a href="./faq.html">FAQ</a></li>
+							<li><a href="./contactus.html">Contact Us</a></li>
+							<li>
+								<div class="dropdown">
+									<img onclick="showhideDropdown(0)" src="images/Dashboard/user-img.png" class="dropbtn profile-pic" id="ellipsis">
+									<div id="showhideDropdown_0" class="dropdown-content">
+										<a href="#">My Profile</a>
+										<a href="./mydownloadnotes.html">My Downloads</a>
+										<a href="./mysoldnotes.html">My Sold Notes</a>
+										<a href="./myrejectednotes.html">My Rejected Notes</a>
+										<a href="./changepassword.html">Change Password</a>
+										<a href="#" class="logout">Log Out</a>
+									</div>
+								</div>
+							</li>
+							<li><a href="#" class="last-child">Log out</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+
+		</header>
+		<!-- Header Ends-->
+
+		<div class="buyer-request my-notes-status main-container">
+
+			<div class="container section-container">
+
+				<div class="row">
+
+					<div class="col-md-7 col-sm-6 col-xs-12">
+						<div class="dash-heading-left">
+							<h4>Buyer Requests</h4>
+						</div>
+					</div>
+
+					<div class="col-md-3 col-sm-4 col-xs-8">
+						<div class="form-group dash-heading-right">
+							<img src="images/Dashboard/search.jpg">
+							<input type="search" name="search" value="" placeholder="Search" class="form-control">
+						</div>
+					</div>
+
+					<div class="col-md-2 col-sm-2 col-xs-4 search-btn">
+						<button type="button" class="btn submit" style="width: 100%;">SEARCH</button>
+					</div>
+
+				</div>
+
+				<div class="row">
+
+					<div class="col-md-12">
+
+						<div class="general-table table-responsive">
+
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col">SR. NO</th>
+										<th scope="col">NOTES TITLE</th>
+										<th scope="col">CATEGORY</th>
+										<th scope="col">BUYER</th>
+										<th scope="col">PHONE NO.</th>
+										<th scope="col">SELL TYPE</th>
+										<th scope="col">PRICE</th>
+										<th scope="col">DOWNLOAD DATE/TIME</th>
+										<th scope="col"></th>
+										<th scope="col"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td scope="row">1</td>
+										<td>Data Science</td>
+										<td>Science</td>
+										<td>testting123@gmail.com</td>
+										<td>+91 9874563527</td>
+										<td>Paid</td>
+										<td>$250</td>
+										<td>27 Nov 2020, 11:24:34</td>
+										<td><img src="images/Dashboard/eye.png"></td>
+										<td>
+											<div class="dropdown">
+												<i onclick="showhideDropdown(1)" class="fa fa-ellipsis-v dropbtn" id="ellipsis"></i>
+												<div id="showhideDropdown_1" class="dropdown-content">
+													<a href="#">Allow Download</a>
+												</div>
+											</div>
+										</td>
+									<tr>
+										<td scope="row">2</td>
+										<td>Account</td>
+										<td>Commerce</td>
+										<td>testting123@gmail.com</td>
+										<td>+91 9874563527</td>
+										<td>Free</td>
+										<td>$0</td>
+										<td>27 Nov 2020, 11:24:34</td>
+										<td><img src="images/Dashboard/eye.png"></td>
+										<td>
+											<div class="dropdown">
+												<i onclick="showhideDropdown(2)" class="fa fa-ellipsis-v dropbtn" id="ellipsis"></i>
+												<div id="showhideDropdown_2" class="dropdown-content">
+													<a href="#">Allow Download</a>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td scope="row">3</td>
+										<td>Social Studies</td>
+										<td>Social</td>
+										<td>testting123@gmail.com</td>
+										<td>+91 9874563527</td>
+										<td>Free</td>
+										<td>$0</td>
+										<td>27 Nov 2020, 11:24:34</td>
+										<td><img src="images/Dashboard/eye.png"></td>
+										<td>
+											<div class="dropdown">
+												<i onclick="showhideDropdown(3)" class="fa fa-ellipsis-v dropbtn" id="ellipsis"></i>
+												<div id="showhideDropdown_3" class="dropdown-content">
+													<a href="#">Allow Download</a>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td scope="row">4</td>
+										<td>AI</td>
+										<td>IT</td>
+										<td>testting123@gmail.com</td>
+										<td>+91 9874563527</td>
+										<td>Paid</td>
+										<td>$158</td>
+										<td>27 Nov 2020, 11:24:34</td>
+										<td><img src="images/Dashboard/eye.png"></td>
+										<td>
+											<div class="dropdown">
+												<i onclick="showhideDropdown(4)" class="fa fa-ellipsis-v dropbtn" id="ellipsis"></i>
+												<div id="showhideDropdown_4" class="dropdown-content">
+													<a href="#">Allow Download</a>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td scope="row">5</td>
+										<td>Lorem ispum</td>
+										<td>Lorem</td>
+										<td>testting123@gmail.com</td>
+										<td>+91 9874563527</td>
+										<td>Free</td>
+										<td>$0</td>
+										<td>27 Nov 2020, 11:24:34</td>
+										<td><img src="images/Dashboard/eye.png"></td>
+										<td>
+											<div class="dropdown">
+												<i onclick="showhideDropdown(5)" class="fa fa-ellipsis-v dropbtn" id="ellipsis"></i>
+												<div id="showhideDropdown_5" class="dropdown-content">
+													<a href="#">Allow Download</a>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td scope="row">6</td>
+										<td>Data Science</td>
+										<td>Science</td>
+										<td>testting123@gmail.com</td>
+										<td>+91 9874563527</td>
+										<td>Paid</td>
+										<td>$555</td>
+										<td>27 Nov 2020, 11:24:34</td>
+										<td><img src="images/Dashboard/eye.png"></td>
+										<td>
+											<div class="dropdown">
+												<i onclick="showhideDropdown(6)" class="fa fa-ellipsis-v dropbtn" id="ellipsis"></i>
+												<div id="showhideDropdown_6" class="dropdown-content">
+													<a href="#">Allow Download</a>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td scope="row">7</td>
+										<td>Accounts</td>
+										<td>Commerce</td>
+										<td>testting123@gmail.com</td>
+										<td>+91 9874563527</td>
+										<td>Free</td>
+										<td>$0</td>
+										<td>27 Nov 2020, 11:24:34</td>
+										<td><img src="images/Dashboard/eye.png"></td>
+										<td>
+											<div class="dropdown">
+												<i onclick="showhideDropdown(7)" class="fa fa-ellipsis-v dropbtn" id="ellipsis"></i>
+												<div id="showhideDropdown_7" class="dropdown-content">
+													<a href="#">Allow Download</a>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td scope="row">8</td>
+										<td>Social Studies</td>
+										<td>social</td>
+										<td>testting123@gmail.com</td>
+										<td>+91 9874563527</td>
+										<td>Free</td>
+										<td>$0</td>
+										<td>27 Nov 2020, 11:24:34</td>
+										<td><img src="images/Dashboard/eye.png"></td>
+										<td>
+											<div class="dropdown">
+												<i onclick="showhideDropdown(8)" class="fa fa-ellipsis-v dropbtn" id="ellipsis"></i>
+												<div id="showhideDropdown_8" class="dropdown-content">
+													<a href="#">Allow Download</a>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td scope="row">9</td>
+										<td>AI</td>
+										<td>IT</td>
+										<td>testting123@gmail.com</td>
+										<td>+91 9874563527</td>
+										<td>Paid</td>
+										<td>$250</td>
+										<td>27 Nov 2020, 11:24:34</td>
+										<td><img src="images/Dashboard/eye.png"></td>
+										<td>
+											<div class="dropdown">
+												<i onclick="showhideDropdown(9)" class="fa fa-ellipsis-v dropbtn" id="ellipsis"></i>
+												<div id="showhideDropdown_9" class="dropdown-content">
+													<a href="#">Allow Download</a>
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td scope="row">10</td>
+										<td>Lorem ipsum</td>
+										<td>Lorem</td>
+										<td>testting123@gmail.com</td>
+										<td>+91 9874563527</td>
+										<td>Free</td>
+										<td>$155</td>
+										<td>27 Nov 2020, 11:24:34</td>
+										<td><img src="images/Dashboard/eye.png"></td>
+										<td>
+											<div class="dropdown">
+												<i onclick="showhideDropdown(10)" class="fa fa-ellipsis-v dropbtn" id="ellipsis"></i>
+												<div id="showhideDropdown_10" class="dropdown-content">
+													<a href="#">Allow Download</a>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+
+				</div>
+
+				<!-- Pagination -->
+				<div class="pagination">
+
+					<div class="container">
+
+						<div class="row">
+
+							<div class="col-md-12 text-center">
+
+								<div class="pagination-section">
+									<div class="pagination-notes">
+										<div class="pagination-number">
+											<a href="#"><i class="fa fa-angle-left"></i></a>
+											<a href="#" class="active-for-page">1</a>
+											<a href="#">2</a>
+											<a href="#">3</a>
+											<a href="#">4</a>
+											<a href="#">5</a>
+											<a href="#"><i class="fa fa-angle-right"></i></a>
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<hr class="horizontal-line">
+
+			<!-- Footer -->
+			<footer class="footer">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-6 col-sm-6 col-xs-12">
+							<p class="copyright">
+								Copyright &copy; Tatvasoft All Rights Reserved
+							</p>
+						</div>
+
+						<div class="col-md-6 col-sm-6 col-xs-12 list">
+							<ul class="social-list">
+								<li><a href="#"><i class="fa fa-facebook "></i></a></li>
+								<li><a href="#"><i class="fa fa-twitter "></i></a></li>
+								<li><a href="#"><i class="fa fa-linkedin "></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</footer>
+
+		</div>
+
+	</section>
+	<!-- Ends Dashboard Section -->
+
+	<!-- Jquery Module -->
+	<script src="js/jquery.min.js"></script>
+
+	<!-- Bootstrap JS -->
+	<script src="js/bootstrap/bootstrap.min.js"></script>
+
+	<!-- Javascript Page -->
+	<script src="js/script.js"></script>
+
+</body>
+
+</html>
