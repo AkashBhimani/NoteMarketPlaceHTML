@@ -1,0 +1,379 @@
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{31C910C9-3843-4A9F-BE6B-FB5074049803}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NotesMarketPlace</RootNamespace>
+    <AssemblyName>NotesMarketPlace</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44318</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FoolproofValidation, Version=0.9.5851.39121, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Foolproof.0.9.4518\lib\net45\FoolproofValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.Identity.EntityFramework.2.2.3\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Razor">
+      <HintPath>packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages">
+      <HintPath>packages\Microsoft.AspNet.Webpages.3.2.7\lib\net45\System.Web.Webpages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Deployment">
+      <HintPath>packages\Microsoft.AspNet.Webpages.3.2.7\lib\net45\System.Web.Webpages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Razor">
+      <HintPath>packages\Microsoft.AspNet.Webpages.3.2.7\lib\net45\System.Web.Webpages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>packages\Microsoft.AspNet.Webpages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Client Scripts\mvcfoolproof.unobtrusive.js" />
+    <Content Include="Client Scripts\mvcfoolproof.unobtrusive.min.js" />
+    <Content Include="Client Scripts\MvcFoolproofJQueryValidation.js" />
+    <Content Include="Client Scripts\MvcFoolproofJQueryValidation.min.js" />
+    <Content Include="Client Scripts\MvcFoolproofValidation.js" />
+    <Content Include="Client Scripts\MvcFoolproofValidation.min.js" />
+    <Content Include="Content\Admin\bootstrap\bootstrap.css" />
+    <Content Include="Content\Admin\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\Admin\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\Admin\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\Admin\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Admin\responsive.css" />
+    <Content Include="Content\Admin\responsive.min.css" />
+    <Content Include="Content\Admin\style.css" />
+    <Content Include="Content\Admin\style.min.css" />
+    <Content Include="Content\Front\bootstrap\bootstrap.css" />
+    <Content Include="Content\Front\bootstrap\bootstrap.min.css" />
+    <Content Include="Content\Front\date-picker\bootstrap-datepicker.css" />
+    <Content Include="Content\Front\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\Front\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\Front\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Front\responsive.css" />
+    <Content Include="Content\Front\responsive.min.css" />
+    <Content Include="Content\Front\style.css" />
+    <Content Include="Content\Front\style.min.css" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="DefaultImages\tech-quote.jpg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Images\Dashboard\earning-icon.svg" />
+    <Content Include="Content\Images\Dashboard\edit.png" />
+    <Content Include="Content\Images\Dashboard\eye.png" />
+    <Content Include="Content\Images\Dashboard\logo.png" />
+    <Content Include="Content\Images\Dashboard\search-icon.svg" />
+    <Content Include="Content\Images\Dashboard\search.jpg" />
+    <Content Include="Content\Images\Dashboard\user-img.png" />
+    <Content Include="Content\Images\FAQ\add.png" />
+    <Content Include="Content\Images\FAQ\banner-with-overlay.jpg" />
+    <Content Include="Content\Images\FAQ\banner.jpg" />
+    <Content Include="Content\Images\FAQ\logo.png" />
+    <Content Include="Content\Images\FAQ\minus.png" />
+    <Content Include="Content\Images\general\banner-with-overlay.jpg" />
+    <Content Include="Content\Images\general\eye.png" />
+    <Content Include="Content\Images\general\top-logo.png" />
+    <Content Include="Content\Images\home\banner-with-overlay.jpg" />
+    <Content Include="Content\Images\home\banner.jpg" />
+    <Content Include="Content\Images\home\download.png" />
+    <Content Include="Content\Images\home\favicon.ico" />
+    <Content Include="Content\Images\home\logo.png" />
+    <Content Include="Content\Images\home\team-1.jpg" />
+    <Content Include="Content\Images\home\team-2.jpg" />
+    <Content Include="Content\Images\home\team-3.jpg" />
+    <Content Include="Content\Images\home\team-4.jpg" />
+    <Content Include="Content\Images\home\team-5.jpg" />
+    <Content Include="Content\Images\home\team-6.jpg" />
+    <Content Include="Content\Images\NotesDetails\.jpg" />
+    <Content Include="Content\Images\NotesDetails\1.jpg" />
+    <Content Include="Content\Images\NotesDetails\close.png" />
+    <Content Include="Content\Images\NotesDetails\SUCCESS.png" />
+    <Content Include="Content\Images\Search\1.jpg" />
+    <Content Include="Content\Images\Search\2.jpg" />
+    <Content Include="Content\Images\Search\3.jpg" />
+    <Content Include="Content\Images\Search\4.jpg" />
+    <Content Include="Content\Images\Search\5.jpg" />
+    <Content Include="Content\Images\Search\6.jpg" />
+    <Content Include="Content\Images\Search\banner-with-overlay.jpg" />
+    <Content Include="Content\Images\Search\banner.jpg" />
+    <Content Include="Content\Images\User-Profile\banner-with-overlay.jpg" />
+    <Content Include="Content\Images\User-Profile\banner.jpg" />
+    <Content Include="Content\Images\User-Profile\calendar.png" />
+    <Content Include="Content\Images\User-Profile\down-arrow.png" />
+    <Content Include="Content\Images\User-Profile\logo.png" />
+    <Content Include="Content\Images\User-Profile\profile-picture.jpg" />
+    <Content Include="Content\Images\User-Profile\upload.png" />
+    <Content Include="NotesMarketPlace.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>NotesMarketPlace.edmx</DependentUpon>
+      <LastGenOutput>NotesMarketPlace.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="NotesMarketPlace.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>NotesMarketPlace.edmx</DependentUpon>
+      <LastGenOutput>NotesMarketPlace.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\Admin\bootstrap\bootstrap.js" />
+    <Content Include="Scripts\Admin\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\Admin\jquery.min.js" />
+    <Content Include="Scripts\Admin\script.js" />
+    <Content Include="Scripts\Admin\script.min.js" />
+    <Content Include="Scripts\Front\bootstrap\bootstrap.js" />
+    <Content Include="Scripts\Front\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\Front\date-picker\bootstrap-datepicker.js" />
+    <Content Include="Scripts\Front\jquery.min.js" />
+    <Content Include="Scripts\Front\pagination\pagination.js" />
+    <Content Include="Scripts\Front\pagination\pagination.min.js" />
+    <Content Include="Scripts\Front\script.js" />
+    <Content Include="Scripts\Front\script.min.js" />
+    <EntityDeploy Include="NotesMarketPlace.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>NotesMarketPlace.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="NotesMarketPlace.edmx.diagram">
+      <DependentUpon>NotesMarketPlace.edmx</DependentUpon>
+    </Content>
+    <Content Include="Members\2070\DP.pdf" />
+    <Content Include="Members\2071\DP.pdf" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="ContactUs.cs">
+      <DependentUpon>NotesMarketPlace.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\ContactUsController.cs" />
+    <Compile Include="Controllers\FAQController.cs" />
+    <Compile Include="Controllers\ForgotPasswordController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\SignUpController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Countries.cs">
+      <DependentUpon>NotesMarketPlace.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DownloadedNotes.cs">
+      <DependentUpon>NotesMarketPlace.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="ManageSystemConfiguration.cs">
+      <DependentUpon>NotesMarketPlace.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AddNoteViewModel.cs" />
+    <Compile Include="Models\ContactUsViewModel.cs" />
+    <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\UsersViewModel.cs" />
+    <Compile Include="NoteCategories.cs">
+      <DependentUpon>NotesMarketPlace.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NoteDetails.cs">
+      <DependentUpon>NotesMarketPlace.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NoteReview.cs">
+      <DependentUpon>NotesMarketPlace.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NotesMarketPlace.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotesMarketPlace.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NotesMarketPlace.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotesMarketPlace.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NotesMarketPlace.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotesMarketPlace.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="NoteTypes.cs">
+      <DependentUpon>NotesMarketPlace.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SellerNotesAttachments.cs">
+      <DependentUpon>NotesMarketPlace.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SpamReports.cs">
+      <DependentUpon>NotesMarketPlace.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserProfile.cs">
+      <DependentUpon>NotesMarketPlace.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserRoles.cs">
+      <DependentUpon>NotesMarketPlace.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Users.cs">
+      <DependentUpon>NotesMarketPlace.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config" />
+    <Content Include="Content\Front\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Front\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Front\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Front\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\Front\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\Admin\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Admin\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Admin\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Admin\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\Admin\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\Images\general\Thumbs.db" />
+    <Content Include="Content\Images\home\Thumbs.db" />
+    <Content Include="Content\Images\NotesDetails\Thumbs.db" />
+    <Content Include="Content\Images\User-Profile\Thumbs.db" />
+    <None Include="packages.config" />
+    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\SignUp\SignUp.cshtml" />
+    <Content Include="Views\ForgotPassword\ForgotPassword.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Home.cshtml" />
+    <Content Include="Views\FAQ\FAQ.cshtml" />
+    <Content Include="Views\ContactUs\ContactUs.cshtml" />
+    <Content Include="Views\User\AddNotes.cshtml" />
+    <Content Include="Views\Shared\_UserLayout.cshtml" />
+    <Content Include="Views\SignUp\EmailVerificationModal.cshtml" />
+    <Content Include="Views\Login\ForgotPassword.cshtml" />
+    <Content Include="Views\User\BuyersRequest.cshtml" />
+    <Content Include="Views\User\Dashboard.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>49684</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44318/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,107 @@
+﻿@model NotesMarketPlace.Models.LoginViewModel
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Login</title>
+
+    <!-- important meta tage-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+    <link rel="icon" href="~/Content/Images/home/favicon.ico" />
+
+    <!-- font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- icons -->
+    <link href="~/Content/Front/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap CSS-->
+    <link href="~/Content/Front/bootstrap/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- css page -->
+    <link href="~/Content/Front/style.css" rel="stylesheet" />
+
+    <!-- Responsive CSS -->
+    <link href="~/Content/Front/responsive.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    <!-- Login Section -->
+    <section class="user-page-banner">
+
+        <div class="text-center">
+            <img class="top-logo" src="~/Content/Images/general/top-logo.png" alt="Logo">
+        </div>
+
+        <div class="user-input-field">
+
+            <div class="title text-center">
+                <h3>Login</h3>
+                <p> Enter your email address and password to login </p>
+            </div>
+
+            @using (Html.BeginForm("VerifyUser", "Login", FormMethod.Post))
+            {
+                if (ViewBag.IsValid == false)
+                {
+                    @Html.ValidationSummary(false, "", new { @class = "validation-error" });
+                }
+
+                if (TempData["Registered"] != null)
+                {
+                    <div class="successful">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i><p>@TempData["Registered"].ToString()</p>
+                    </div>
+                }
+
+                <div class="form-group">
+                    <label for="email" class="email">Email</label>
+                    @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control", @placeholder = "Enter your email" })
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="password">Password</label><span><a href="@Url.Action("ForgotPassword","Login")" class="forgot-password">Forgot Password?</a></span>
+                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @type = "password", @placeholder = "Enter your password", @id = "password" })
+                    <i toggle="#password" class="fa fa-eye field-icon toggle-password" aria-hidden="true"></i>
+                </div>
+
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" name="RememberMe" value="checked">
+                    <label class="form-check-label" for="exampleCheck1">Remember Me</label>
+                </div>
+
+                <button type="submit" class="btn">LOGIN</button>
+
+                <div class="signup text-center">
+                    <p>Don't have an account?<span><a href="@Url.Action("SignUp","SignUp")"> Sign Up </a></span></p>
+                </div>
+
+            }
+
+        </div>
+
+    </section>
+
+    <!-- Jquery Module -->
+    <script src="~/Scripts/Front/jquery.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="~/Scripts/Front/bootstrap/bootstrap.min.js"></script>
+
+    <!-- Validation JS -->
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <!-- Javascript Page -->
+    <script src="~/Scripts/Front/script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+﻿@model NotesMarketPlace.Models.ContactUsViewModel
+@{
+    ViewBag.Title = "Contact Us";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Cnatact us  Profile  -->
+<section id="user-input-page">
+
+    <!-- Top Title Banner -->
+    <div class="page-banner">
+
+        <h3 class="text-center">Contact Us</h3>
+
+    </div>
+
+    <!-- Basic Profile Details -->
+    <div class="contact-us-details">
+
+        <div class="container section-container">
+            <div class="row">
+                <div class="col-md-12 heading">
+                    <h3>Basic Profile Details</h3>
+                    <p>Let us know how to get back to you</p>
+                </div>
+            </div>
+
+            @using (Html.BeginForm("AddQuestions", "ContactUs", FormMethod.Post))
+            {
+                <div class="row">
+
+                    <!-- Left Side Content -->
+                    <div class="contactus-content">
+
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label for="firstname" class="name-of-input">Full Name<i> * </i></label>
+                                @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", @placeholder = "Enter your Full name" })
+                                @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "error" })
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email" class="name-of-input">Email<i> * </i></label>
+                                @Html.TextBoxFor(m=>m.EmailID, new { @class="form-control", @placeholder = "Enter your email" })
+                                @Html.ValidationMessageFor(m => m.EmailID, "", new { @class="error"})
+                            </div>
+
+                            <div class="form-group">
+                                <label for="subject" class="name-of-input">Subject<i> * </i></label>
+                                @Html.TextBoxFor(m=>m.Subject, new { @class="form-control", @placeholder="Enter your Subject"})
+                                @Html.ValidationMessageFor(m => m.Subject, "", new { @class="error"})
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label class="comment name-of-input">Comment / Questions<i> * </i></label>
+                                @Html.TextAreaFor(m => m.Comments_Questions, new { @class="form-control",@rows="12", @placeholder= "Comments..." })
+                                @Html.ValidationMessageFor(m => m.Comments_Questions, "", new { @class="error"})
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6 col-sm-6">
+                            <button type="submit" class="btn submit">SUBMIT</button>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            }
+
+        </div>
+
+    </div>
+
+</section>
+<!-- End Contact us Section  -->

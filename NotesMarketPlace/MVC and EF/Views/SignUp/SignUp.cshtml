@@ -1,0 +1,121 @@
+﻿@model NotesMarketPlace.Models.UsersViewModel
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Sign Up</title>
+
+    <!-- important meta tage-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+    <link rel="icon" href="~/Content/Images/home/favicon.ico" />
+
+    <!-- font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- icons -->
+    <link href="~/Content/Front/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap CSS-->
+    <link href="~/Content/Front/bootstrap/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- css page -->
+    <link href="~/Content/Front/style.css" rel="stylesheet" />
+
+    <!-- Responsive CSS -->
+    <link href="~/Content/Front/responsive.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    <!-- Sign Up Section -->
+    <section class="user-page-banner">
+
+        <div class="text-center">
+            <img class="top-logo" src="~/Content/Images/general/top-logo.png" alt="Logo">
+        </div>
+
+        <div class="user-input-field">
+
+            <div class="title text-center">
+                <h3>Create an Account</h3>
+                <p>Enter your details to signup</p>
+            </div>
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="successful">
+                    <i class="fa fa-check-circle" aria-hidden="true"></i><p>@TempData["Success"].ToString()</p>
+                </div>
+            }
+
+            @using (Html.BeginForm("AddUser", "SignUp", FormMethod.Post))
+            {
+                <div class="form-group">
+                    <label for="firstname" class="firstname">First Name<i> * </i></label>
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "Enter your first name" })
+                    @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "error" })
+                </div>
+
+                <div class="form-group">
+                    <label for="lastname" class="lastname">Last Name<i> * </i></label>
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Enter your last name" })
+                    @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "error" })
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="email">Email<i> * </i></label>
+                    @Html.TextBoxFor(m => m.EmailID, new { @class = "form-control", @placeholder = "Enter your Email" })
+                    @Html.ValidationMessageFor(m => m.EmailID, "", new { @class = "error" })
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="password">Password</label>
+                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @placeholder = "Enter your password", @type = "password", @id = "password" })
+                    <i toggle="#password" class="fa fa-eye field-icon toggle-password" aria-hidden="true"></i>
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "error" })
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="password">Confirm Password</label>
+                    @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Re-enter your password", @type = "password", @id = "confirmpassword" })
+                    <i toggle="#confirmpassword" class="fa fa-eye field-icon toggle-password" aria-hidden="true"></i>
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "error" })
+                </div>
+
+                <button type="submit" class="btn">SIGN UP</button>
+
+                <div id="signup" class="text-center">
+                    <p>
+                        Already have an account? <span>
+                            <a href="@Url.Action("Login", "Login")">Login</a>
+                        </span>
+                    </p>
+                </div>
+
+            }
+
+        </div>
+
+    </section>
+
+    <!-- Jquery Module -->
+    <script src="~/Scripts/Front/jquery.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="~/Scripts/Front/bootstrap/bootstrap.min.js"></script>
+
+    <!-- Validation JS -->
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <!-- Javascript Page -->
+    <script src="~/Scripts/Front/script.js"></script>
+
+</body>
+</html>
