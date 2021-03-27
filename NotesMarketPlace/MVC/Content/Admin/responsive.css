@@ -1,0 +1,138 @@
+/* Large devices (Desktop & Laptop) */
+@media (min-width: 1200px) and (max-width: 1299px) {}
+
+/* Medium devices (Landscape tables & Medium Devices) */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+	/* Member Details */
+	.about-member table td:first-child {
+		padding-right: 5px;
+		padding-left: 5px;
+	}
+
+	.member-details .border {
+		border-right: 1px solid #fff;
+	}
+}
+
+/* Small devices (Portrait tables & small Devices) */
+@media (min-width: 768px) and (max-width: 991px) {
+
+	.main-section {
+		padding-top: 122px;
+	}
+
+	/* Dashboard */
+	.dashboard-content .notes-status .border {
+		height: 190px;
+	}
+
+	/* Member Details */
+	.about-member table td {
+		width: 200px;
+	}
+
+	.member-details .border {
+		border-right: 1px solid #fff;
+	}
+}
+
+/* Extra Small devices (Landscape phone & Portrait tablets) */
+@media (max-width: 767px) {
+	.navbar {
+		padding: 20px;
+	}
+
+	.logo {
+		width: 220px;
+		padding: 10px 0;
+	}
+
+	.section-container {
+		padding: 30px 15px;
+		margin-top: 0;
+	}
+
+	.profile-pic {
+		padding: 0 30px 0 15px;
+		margin-bottom: 10px;
+	}
+
+	.form-controls {
+		width: 100%;
+	}
+
+	.about-member table td {
+		width: 200px;
+	}
+
+	.member-details .border {
+		border-right: 1px solid #fff;
+	}
+
+	footer {
+		padding: 30px 15px;
+	}
+}
+
+/* Extra Small devices (Portrait phone & Small Devices) */
+@media (max-width: 480px) {
+
+	.navbar {
+		padding: 20px;
+	}
+
+	.logo {
+		width: 220px;
+		padding: 10px 0;
+	}
+
+	.section-container {
+		padding: 30px 15px;
+		margin-top: 0;
+	}
+
+	.profile-pic {
+		padding: 0 30px 0 15px;
+		margin-bottom: 10px;
+	}
+
+	.form-controls {
+		width: 100%;
+	}
+
+	.about-member table td {
+		width: 200px;
+		word-break: break-all;
+	}
+
+	.member-details .border {
+		border-right: 1px solid #fff;
+	}
+
+	footer {
+		padding: 30px 15px;
+	}
+}
+
+/* Extra Small devices (Portrait phone & Small Devices) */
+@media (max-width: 320px) {
+
+	/* Pagination  */
+	.pagination-number a {
+		padding: 5px 10px;
+	}
+
+	/* Button */
+	.search-btn {
+		padding-left: 0px;
+	}
+
+	.footer-bottom p {
+		text-align: center;
+	}
+
+	.note-details .about-book p {
+		font-size: 15px;
+	}
+}

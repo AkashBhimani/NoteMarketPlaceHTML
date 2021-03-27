@@ -1,0 +1,127 @@
+﻿@model NotesMarketPlace.Models.NoteListsViewModel
+
+@{
+    ViewBag.Title = "Note List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Search Section -->
+<section class="search-section">
+
+    <!-- Top Title Banner -->
+    <div class="page-banner">
+
+        <h3 class="text-center">Search Notes</h3>
+
+    </div>
+
+    <!-- Search Section -->
+    <div class="search">
+
+        <div class="container section-container">
+
+            <div class="heading">
+                <h1>Search and Filter Notes</h1>
+            </div>
+
+            <div class="search-area">
+
+                <div class="container">
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group has-search">
+                                <i class="fa fa-search"></i>
+                                <input type="text" class="form-control" placeholder="Search your notes..." onchange="searchNotes(this)">
+                            </div>
+                        </div>
+
+                        <div class="fomr-group search-box">
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    @Html.DropDownListFor(x => x.Types, new SelectList(Model.Types, "Type", "Type"), "Select Type", new { @class = "form-control", @name = "searchvalue", @onchange = "javascript:searchNotes(this)" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    @Html.DropDownListFor(x => x.Categories, new SelectList(Model.Categories, "CategoryName", "CategoryName"), "Select Category", new { @class = "form-control", @onchange = "javascript:searchNotes(this)" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+
+                                <div class="form-group">
+                                    @Html.DropDownListFor(x => x.University, new SelectList(Model.University), "Select University", new { @class = "form-control", @onchange = "javascript:searchNotes(this)" })
+                                </div>
+
+                            </div>
+                            <div class="col-md-2 col-sm-6">
+
+                                <div class="form-group">
+                                    @Html.DropDownListFor(x => x.Course, new SelectList(Model.Course), "Select Course", new { @class = "form-control", @onchange = "javascript:searchNotes(this)" })
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    @Html.DropDownListFor(x => x.Countries, new SelectList(Model.Countries, "CountryName", "CountryName"), "Select Country", new { @class = "form-control", @onchange = "javascript:searchNotes(this)" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+
+                                <div class="form-group">
+                                    <select class="form-control" name="Rating">
+                                        <option value="" disabled selected>Select rating</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <input type="hidden" value="@Model.NoteDetails.PageNumber" id="pageNumber" />
+
+    @Html.Partial("_Notes", Model.NoteDetails)
+
+</section>
+
+<script>
+    function searchNotes(element) {
+        const value = element.value;
+        const pageNumber = $('#pageNumber').val();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SearchNotes", "SearchNotes")',
+            dataType: "html",
+            data: {
+                value: value,
+                page: pageNumber,
+            },
+            success: function (response) {
+                $('#books').html(response);
+            },
+            error: function (error) {
+                alert(JSON.stringify(error));
+            }
+        });
+    };
+</script>

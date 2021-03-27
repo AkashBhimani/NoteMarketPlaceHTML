@@ -1,0 +1,123 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+
+@model IPagedList<NotesMarketPlace.NoteDetails>
+
+<div class="available-book" id="books">
+
+    @if (Model != null)
+    {
+        <div class="container">
+            <div class="heading">
+                <h2>Total @ViewBag.count notes</h2>
+            </div>
+        </div>
+
+        <div class="books">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="book">
+                        <input type="hidden" value="@Model.PageNumber" id="pageNumber" />
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-md-4 col-sm-6">
+
+                                <div class="card">
+                                    @{
+                                        string path;
+                                        if (item.DisplayPicture != null)
+                                        {
+                                            path = "../Members/" + item.UserID + "/" + item.ID + "/DP_" + item.CreatedDate?.ToString("dd-MM-yyyy") + ".jpg";
+                                        }
+                                        else
+                                        {
+                                            path = "../DefaultImages/DefaultDisplayPicture.jpg";
+                                        }
+                                    }
+                                    <img class="card-img-top" src="@path" alt="Card image" style="width:100%">
+                                    <div class="card-body">
+                                        <a href="@Url.Action("NoteDetails","SearchNotes", new { @id = item.ID })"><h4 class="card-title">@item.NoteTitle - @item.NoteCategories.CategoryName</h4></a>
+                                        <div class="card-text">
+
+                                            <ul class="book-details">
+                                                <li>
+                                                    @if (item.InstitutionName != null)
+                                                    {
+                                                        <i class="fa fa-university"></i>
+                                                        <span>
+                                                            @item.InstitutionName, @item.Countries.CountryName
+                                                        </span>
+                                                    }
+                                                </li>
+                                                <li>
+                                                    @if (item.NumberOfPages != null)
+                                                    {
+                                                        <i class="fa fa-book"></i>
+                                                        <span>
+                                                            @item.NumberOfPages Pages
+                                                        </span>
+                                                    }
+                                                </li>
+                                                <li><i class="fa fa-calendar"></i><span>@item.CreatedDate.Value.ToString("ddd, MMM dd yyyy")</span></li>
+
+                                                @{
+                                                    List<NoteReview> list = item.NoteReview.Where(x => x.NoteID == item.ID).ToList();
+                                                    int noOfReviews = list.Count();
+                                                    int sumOfStar = list.Sum(x => x.Rate);                                                    
+                                                    int numberOfUser = item.SellerNotesReportedIssues.Where(x => x.NoteID == item.ID).Count();
+                                                }
+
+                                                @if (numberOfUser != 0)
+                                                {
+                                                    <li><i class="fa fa-flag"></i><span>@numberOfUser Users marked this note as inappropriate</span></li>
+                                                }
+                                                @if (noOfReviews != 0)
+                                                {
+                                                    var avg = sumOfStar / noOfReviews;
+                                                    <li class="rating">
+                                                        @for (int i = 1; i <= 5; i++)
+                                                        {
+                                                            string addClass = (i <= avg ? "fa fa-star" : "fa fa-star-o");
+
+                                                            <i class="@addClass"></i>
+                                                        }
+                                                        <span>@noOfReviews Reviews</span>
+                                                    </li>
+                                                }
+
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+
+                    <div class="justify-content-center">
+                        @if (Model != null)
+                        {
+                            @Html.PagedListPager(Model, page => Url.Action("NoteList", "SearchNotes", new { page = page }))
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="container">
+            <h3 class="no-record-found">@ViewBag.count</h3>
+        </div>
+    }
+
+</div>
+

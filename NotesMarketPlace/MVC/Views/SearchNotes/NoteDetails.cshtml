@@ -1,0 +1,274 @@
+﻿@model NotesMarketPlace.NoteDetails
+
+@{
+    ViewBag.Title = "NoteDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    NotesMarketPlaceEntities context = new NotesMarketPlaceEntities();
+
+    List<NoteReview> list = Model.NoteReview.Where(x => x.NoteID == Model.ID).OrderByDescending(x => x.CreatedDate).ToList();
+    int noOfReviews = list.Count();
+    int sumOfStar = list.Sum(x => x.Rate);
+}
+
+<!-- Note-detalis Section -->
+<section class="note-details-section">
+
+    <!-- Note details  -->
+    <div class="note-details">
+
+        <!-- Note details  -->
+        <div class="note-details">
+
+            <div class="container section-container">
+
+                <div class="heading">
+                    <h1>Note Details</h1>
+                </div>
+
+                <!-- Note Picture & name -->
+                <div class="row">
+
+                    @{
+                        string path;
+                        if (Model.DisplayPicture != null)
+                        {
+                            path = "../Members/" + Model.UserID + "/" + Model.ID + "/DP_" + Model.CreatedDate?.ToString("dd-MM-yyyy") + ".jpg";
+                        }
+                        else
+                        {
+                            path = "../DefaultImages/DefaultDisplayPicture.jpg";
+                        }
+                    }
+
+                    <div class="col-md-2 col-sm-4 book-pic">
+                        <img src="@path" class="img-responsive">
+                    </div>
+
+                    <div class="col-md-5 col-sm-8 note-name">
+
+                        <div class="note-info">
+
+                            <h3>@Model.NoteTitle</h3>
+                            <h4>@Model.NoteCategories.CategoryName</h4>
+                            <p>@Model.Description</p>
+
+                            @if (!Model.IsPaid)
+                            {
+                                <a type="button" class="btn submit" href="@Url.Action("MyDownloads","SearchNotes", new { id = Model.ID })">DOWNLOAD</a>
+                            }
+                            else if (User.Identity.IsAuthenticated && !context.DownloadedNotes.Where(x => x.NoteTitle == Model.NoteTitle).Any())
+                            {
+                                using (Html.BeginForm("MyDownloads", "SearchNotes", new { id = Model.ID }))
+                                {
+                                    <button type="submit" class="btn submit" data-toggle="modal" data-target="#thanks-modal"
+                                            onclick="return confirm('Are you sure you want to download this Paid note. Please confirm.')">
+                                        DOWNLOAD/@Model.SellPrice
+                                    </button>
+                                }
+                            }
+                            else if (!User.Identity.IsAuthenticated)
+                            {
+                                <a type="button" class="btn submit" href="@Url.Action("MyDownloads","SearchNotes", new { id = Model.ID })">DOWNLOAD/@Model.SellPrice</a>
+                            }
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-5 col-sm-12">
+
+                        <div class="about-book">
+
+                            @if (Model.InstitutionName != null)
+                            {
+                                <p>Institution: <span>@Model.InstitutionName</span></p>
+                            }
+
+                            <p>Country: <span>@Model.Countries.CountryName</span></p>
+
+                            @if (Model.Course != null)
+                            {
+                                <p>Course Name: <span>@Model.Course</span></p>
+                            }
+
+                            @if (Model.CourseCode != null)
+                            {
+                                <p>Course Code: <span>@Model.CourseCode</span></p>
+                            }
+
+                            @if (Model.Professor != null)
+                            {
+                                <p>Professor: <span>@Model.Professor</span></p>
+                            }
+
+                            @if (Model.NumberOfPages != null)
+                            {
+                                <p>Namber of Pages: <span>@Model.NumberOfPages</span></p>
+                            }
+
+                            <p>Approved Date: <span>@Model.CreatedDate.Value.ToString("MMMM dd yyy")</span></p>
+
+                            @if (noOfReviews != 0)
+                            {
+                                var avg = sumOfStar / noOfReviews;
+
+                                <p>
+                                    Rating: <span>
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            string addClass = (i <= avg ? "fa fa-star" : "fa fa-star-o");
+
+                                            <i class="@addClass"></i>
+                                        }
+                                        @noOfReviews Reviews
+                                    </span>
+                                </p>
+                            }
+
+                            @{ int numberOfUser = Model.SellerNotesReportedIssues.Where(x => x.NoteID == Model.ID).Count();}
+
+                            @if (numberOfUser != 0)
+                            {
+                                <p class="inapropriate-note-number">@numberOfUser users marked this as inappropriate</p>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    @if (Model.NotePreview != null || noOfReviews != 0)
+    {
+        <hr class="container horizontal-line">
+    }
+
+    <!-- Bottom Side of Page -->
+    <div class="bottom-side">
+
+        <div class="container section-container">
+
+            <div class="row">
+
+                @if (Model.NotePreview != null)
+                {
+                    <div class="col-md-5 note-priview">
+
+                        <div class="heading">
+                            <h1>Note Preview</h1>
+                        </div>
+
+                        <div>
+                            @{ string notePreviewPath = "../Members/" + Model.UserID + "/" + Model.ID + "/Preview_" + Model.CreatedDate.Value.ToString("dd-MM-yyyy") + ".pdf"; }
+                            <embed src="@notePreviewPath#toolbar=0&navpanes=0&scrollbar=0" type="application/pdf" Content-Disposition="attachment" class="note-preview" />
+                        </div>
+
+                    </div>
+                }
+
+                @if (noOfReviews != 0)
+                {
+
+                    <div class="col-md-7">
+
+                        <div class="customer-reviews">
+
+                            <div class="col-md-12 heading">
+                                <h1>Customers Review</h1>
+                            </div>
+
+                            <div class="col-md-12 customer-review-block">
+
+                                @{ int flag = 1; }
+
+                                @foreach (var item in list)
+                                {
+                                    var user = item.Users.UserProfile.Where(x => x.UserID == item.ReviewedByID).FirstOrDefault();
+
+                                    <div class="row customer-review">
+
+                                        <div class="col-md-1 col-sm-1 col-xs-2">
+
+                                            <div class="customer-photo">
+                                                <img src="@user.ProfilePicture">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-11 col-sm-11 col-xs-10">
+
+                                            <h5>@user.Users.FirstName @user.Users.LastName</h5>
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                string addClass = (i <= item.Rate ? "fa fa-star" : "fa fa-star-o");
+
+                                                <i class="@addClass"></i>
+                                            }
+                                            <p>@item.Comment</p>
+
+                                        </div>
+
+                                    </div>
+
+                                    if (flag != noOfReviews)
+                                    {
+                                        <hr />
+                                    }
+                                    flag++;
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+            <!-- Model -->
+            <div class="modal fade" id="thanks-modal" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="text-center">
+                                <img src="~/Content/Images/NotesDetails/SUCCESS.png" alt="Success">
+                                <h3>Thank you for purchasing!</h3>
+                            </div>
+                            <h5>Dear @ViewBag.buyer,</h5>
+                            <p>As this is paid notes - you need to pay seller @Model.Users.FirstName offline.We will send him an email you want to download this notes. He may contact you further for payment process completion.</p>
+                            <br />
+                            <p>In case, you have urgency,</p>
+
+                            <p>Please contact us on @Model.Users.UserProfile.Select(x => x.PhoneNumber_CountryCode).FirstOrDefault() @Model.Users.UserProfile.Select(x => x.PhoneNumber).FirstOrDefault()</p>
+                            <br />
+                            <p>Once he receives the payment and acknowledge us - selected notes you can see over my downloads tab for download.</p>
+                            <br />
+                            <p>Have a good day.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- Ends Note-details Section -->

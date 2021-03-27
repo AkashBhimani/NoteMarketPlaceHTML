@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>@ViewBag.Title</title>
+
+    <!-- important meta tage-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+    <link rel="icon" href="~/Content/Images/home/favicon.ico" />
+
+    <!-- font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- icons -->
+    <link href="~/Content/Front/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap CSS-->
+    <link href="~/Content/Front/bootstrap/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Data-picker -->
+    <link rel="stylesheet" href="~/Content/Front/date-picker/bootstrap-datepicker.css">
+
+    <!-- css page -->
+    <link href="~/Content/Front/style.css" rel="stylesheet" />
+
+    <!-- Responsive CSS -->
+    <link href="~/Content/Front/responsive.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    @{
+        NotesMarketPlaceEntities context = new NotesMarketPlaceEntities();
+        string emailId = User.Identity.Name;
+    }
+
+    <div class="for-fixed-footer">
+
+        <!-- Header -->
+        <header id="navbar">
+
+            <nav class="nav navbar bottom-shadow">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="hamburger-icon">&#9776;</span>
+                        </button>
+                        <a href="@Url.Action("Home","Home")"><img src="~/Content/Images/User-Profile/logo.png" alt="Logo" class="logo"> </a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="myNavbar">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="@Url.Action("NoteList","SearchNotes")" class="@(ViewContext.RouteData.Values["Action"].ToString() == "NoteList" ? "active" : "")"><span>Search Notes</span></a></li>
+                            <li><a href="@Url.Action("Dashboard","User")" class="@(ViewContext.RouteData.Values["Action"].ToString() == "Dashboard" ? "active" : "")"><span>Sell Your Notes</span></a></li>
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                var userFromUsers = context.Users.Where(x => x.EmailID == emailId).FirstOrDefault();
+                                var userFromUserProfile = context.UserProfile.Where(x => x.UserID == userFromUsers.ID).FirstOrDefault();
+
+                                if (userFromUserProfile != null)
+                                {
+                                    <li><a href="@Url.Action("BuyersRequest","User")" class="@(ViewContext.RouteData.Values["Action"].ToString() == "BuyersRequest" ? "active" : "")"><span>Buyers Requests</span></a></li>
+                                }
+                            }
+
+                            <li><a href="@Url.Action("FAQ","FAQ")" class="@(ViewContext.RouteData.Values["Action"].ToString() == "FAQ" ? "active" : "")"><span> FAQ </span></a></li>
+                            <li><a href="@Url.Action("ContactUs","ContactUs")" class="@(ViewContext.RouteData.Values["Action"].ToString() == "ContactUs" ? "active" : "")"><span>Contact Us</span></a></li>
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                var userFromUsers = context.Users.Where(x => x.EmailID == emailId).FirstOrDefault();
+                                var userFromUserProfile = context.UserProfile.Where(x => x.UserID == userFromUsers.ID).FirstOrDefault();
+
+                                if (userFromUserProfile != null)
+                                {
+                                    string path = "";
+                                    if (userFromUserProfile.ProfilePicture == null)
+                                    {
+                                        path = "../DefaultImages/DefaultProfilePicture.jpg";
+                                    }
+                                    else
+                                    {
+                                        path = "../Members/" + userFromUsers.ID + "/" + "DP" + "_" + userFromUserProfile.SubmittedDate?.ToString("dd-MM-yyyy") + ".jpg";
+                                    }
+
+                                    <li>
+                                        <div class="dropdown">
+                                            <img onclick="showhideDropdown(0)" src="@path" class="dropbtn profile-pic" id="ellipsis">
+                                            <div id="showhideDropdown_0" class="dropdown-content">
+                                                <a href="@Url.Action("UserProfile", "UserAccount", new { id = userFromUserProfile.ID })">My Profile</a>
+                                                <a href="@Url.Action("MyDownloads","UserAccount")">My Downloads</a>
+                                                <a href="@Url.Action("MySoldNotes","UserAccount")">My Sold Notes</a>
+                                                <a href="@Url.Action("MyRejectedNotes","UserAccount")">My Rejected Notes</a>
+                                                <a href="@Url.Action("ChangePassword", "UserAccount")">Change Password</a>
+                                                <a href="@Url.Action("Logout", "UserAccount")" onclick="return confirm('Are you sure, you want to logout?')" class="logout">Logout</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li><a href="@Url.Action("Logout", "UserAccount")" onclick="return confirm('Are you sure, you want to logout?')" class="last-child">Logout</a></li>
+                                }
+                                else
+                                {
+                                    <li><a href="@Url.Action("Logout", "UserAccount")" onclick="return confirm('Are you sure, you want to logout?')" class="last-child">Logout</a></li>
+                                }
+                            }
+                            else
+                            {
+                                <li><a href="@Url.Action("Login","Login")" class="last-child">Login</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+        </header>
+        <!-- Header Ends-->
+
+        <div>
+            @RenderBody()
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <p class="copyright">
+                            Copyright &copy; Tatvasoft All Rights Reserved
+                        </p>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 col-xs-12 list">
+                        <ul class="social-list">
+                            <li><a href="#"><i class="fa fa-facebook "></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter "></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin "></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Jquery Module -->
+    <script src="~/Scripts/Front/jquery.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="~/Scripts/Front/bootstrap/bootstrap.min.js"></script>
+
+    <!-- Date-Picker JS -->
+    <script src="~/Scripts/Front/date-picker/bootstrap-datepicker.js"></script>
+
+    <!-- Validaiton JS -->
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <!-- Javascript Page -->
+    <script src="~/Scripts/Front/script.js"></script>
+
+</body>
+
+</html>

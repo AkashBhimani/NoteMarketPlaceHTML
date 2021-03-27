@@ -1,0 +1,358 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Home</title>
+
+    <!-- important meta tage-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+    <link rel="icon" href="~/Content/Images/home/favicon.ico" />
+
+    <!-- font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- icons -->
+    <link href="~/Content/Front/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap CSS-->
+    <link href="~/Content/Front/bootstrap/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- css page -->
+    <link href="~/Content/Front/style.css" rel="stylesheet" />
+
+    <!-- Responsive CSS -->
+    <link href="~/Content/Front/responsive.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    @{
+        NotesMarketPlaceEntities context = new NotesMarketPlaceEntities();
+        string emailId = User.Identity.Name;
+    }
+
+    <!-- Home Section  -->
+    <section class="home for-fixed-footer">
+
+        <!-- Header -->
+        <header id="navbar">
+
+            <nav class="nav navbar">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="hamburger-icon">&#9776;</span>
+                        </button>
+                        <a href="@Url.Action("Home","Home")"><img src="~/Content/Images/User-Profile/logo.png" alt="Logo" class="logo"> </a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="myNavbar">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="@Url.Action("NoteList","SearchNotes")">Search Notes</a></li>
+                            <li><a href="@Url.Action("Dashboard","User")">Sell Your Notes</a></li>
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li><a href="@Url.Action("BuyersRequest", "User")">Buyers Requests</a></li>
+                            }
+
+                            <li><a href="@Url.Action("FAQ","FAQ")"><span> FAQ </span></a></li>
+                            <li><a href="@Url.Action("ContactUs","ContactUs")"> Contact Us</a></li>
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                var userFromUsers = context.Users.Where(x => x.EmailID == emailId).FirstOrDefault();
+                                UserProfile userFromUserProfile = context.UserProfile.Where(x => x.UserID == userFromUsers.ID).FirstOrDefault();
+
+                                if (userFromUserProfile != null)
+                                {
+                                    string path = "";
+                                    if (userFromUserProfile.ProfilePicture == null)
+                                    {
+                                        path = "../DefaultImages/DefaultProfilePicture.jpg";
+                                    }
+                                    else
+                                    {
+                                        path = "../Members/" + userFromUsers.ID + "/" + "DP" + "_" + userFromUserProfile.SubmittedDate?.ToString("dd-MM-yyyy") + ".jpg";
+                                    }
+
+                                    <li>
+                                        <div class="dropdown">
+                                            <img onclick="showhideDropdown(0)" src="@path" class="dropbtn profile-pic" id="ellipsis">
+                                            <div id="showhideDropdown_0" class="dropdown-content">
+                                                <a href="@Url.Action("UserProfile","UserAccount",new { id=userFromUserProfile.ID})">My Profile</a>
+                                                <a href="@Url.Action("MyDownloads","UserAccount")">My Downloads</a>
+                                                <a href="@Url.Action("MySoldNotes","UserAccount")">My Sold Notes</a>
+                                                <a href="@Url.Action("MyRejectedNotes","UserAccount")">My Rejected Notes</a>
+                                                <a href="@Url.Action("ChangePassword", "UserAccount")">Change Password</a>
+                                                <a href="@Url.Action("Logout","UserAccount")" onclick="return confirm('Are you sure, you want to logout?')" class="logout">Logout</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li><a href="@Url.Action("Logout","UserAccount")" onclick="return confirm('Are you sure, you want to logout?')" class="last-child">Logout</a></li>
+                                }
+                                else
+                                {
+                                    <li><a href="@Url.Action("Logout", "UserAccount")" onclick="return confirm('Are you sure, you want to logout?')" class="last-child">Logout</a></li>
+                                }
+                            }
+                            else
+                            {
+                                <li><a href="@Url.Action("Login","Login")" class="last-child">Login</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+        </header>
+        <!-- Header Ends-->
+        <!-- Top Title Banner -->
+        <div class="home-banner section-container">
+
+            <div class="container">
+
+                <div class="banner-content">
+
+                    <h2>Download Free/Paid Notes <br /> or Sale your Book</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore veniam, <br />labore, quia obcaecati aspernatur autem quod laudantium? </p>
+
+                    <a class="home-btn" href="@Url.Action("FAQ","FAQ")">Learn More</a>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- End Top Title Banner  -->
+        <!-- About Section -->
+        <div class="about">
+
+            <div class="container section-container">
+
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                        <div class="heading">
+                            <h1 style="word-break: break-all">About<br />NotesMarketPlace</h1>
+                        </div>
+
+                    </div>
+                    <div class="col-md-8">
+
+                        <div class="section-content">
+
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit distinctio, doloremque numquam accusamus ad vero soluta sit eveniet, porro est quas sunt deserunt, eum voluptatibus voluptate officiis qui expedita quasi! consectetu</p>
+
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit distinctio, doloremque numquam accusamus ad vero soluta sit eveniet, porro est quas sunt deserunt, eum voluptatibus voluptate officiis qui expedita quasi!</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- End About Section -->
+        <!-- How it work  -->
+        <div class="how-work">
+
+            <div class="container section-container">
+
+                <div class="row text-center">
+
+                    <div class="col-md-12">
+                        <div class="heading">
+                            <h1>How it Work</h1>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 download">
+                        <div class="icon">
+                            <img src="~/Content/Images/home/download.png" alt="Download" class="rounded">
+                        </div>
+                        <h4>Download Free/Paid Notes</h4>
+                        <p>Get materials for your <br />Cource etc. </p>
+                        <a href="@Url.Action("NoteList","SearchNotes")" class="btn work-btn">Download</a>
+                    </div>
+                    <div class="col-md-6 seller">
+                        <div class="icon">
+                            <img src="~/Content/Images/home/download.png" alt="Seller" class="rounded">
+                        </div>
+                        <h4>Seller</h4>
+                        <p>Upload and Download Cource and<br />Materials etc. </p>
+                        <a href="@Url.Action("Dashboard","User")" class="btn work-btn">Sell Book</a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- End How it work  -->
+        <!-- Customer section  -->
+        <div class="customer-section">
+
+            <div class="container section-container">
+
+                <div class="row">
+
+                    <div class="col-md-12">
+
+                        <div class="heading text-center">
+                            <h1>What Our Customers are Saying</h1>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <!-- Customer 1 -->
+                        <div class="customer">
+
+                            <div class="row">
+
+                                <div class="col-md-3 col-sm-2">
+                                    <img src="~/Content/Images/home/team-1.jpg" alt="Customer">
+                                </div>
+
+                                <div class="col-md-9 col-sm-10 name">
+                                    <h5>Walter Meller</h5>
+                                    <p>Founder & CEO, Matrix group</p>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 review">
+                                    <p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates ipsam ipsum minima magni, similique perspiciatis ut omnis. Odio ullam nostrum quaerat tempore necessitatibus rem inventore, ut, maxime deleniti corporis perferendis."</p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+
+                        <!-- Customer 2 -->
+                        <div class="customer">
+
+                            <div class="row">
+
+                                <div class="col-md-3 col-sm-2">
+                                    <img src="~/Content/Images/home/team-2.jpg" alt="Customer">
+                                </div>
+
+                                <div class="col-md-9 col-sm-10 name">
+                                    <h5>Jonnie Riley</h5>
+                                    <p>Employee, Curious Snakcs</p>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 review">
+                                    <p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates ipsam ipsum minima magni, similique perspiciatis ut omnis. Odio ullam nostrum quaerat tempore necessitatibus rem inventore, ut, maxime deleniti corporis perferendis."</p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+
+                        <!-- Customer 3 -->
+                        <div class="customer">
+
+                            <div class="row">
+
+                                <div class="col-md-3 col-sm-2">
+                                    <img src="~/Content/Images/home/team-3.jpg" alt="Customer">
+                                </div>
+
+                                <div class="col-md-9 col-sm-10 name">
+                                    <h5>Amillia Luna</h5>
+                                    <p>Teacher, Saint Joseph Hign School</p>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 review">
+                                    <p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates ipsam ipsum minima magni, similique perspiciatis ut omnis. Odio ullam nostrum quaerat tempore necessitatibus rem inventore, ut, maxime deleniti corporis perferendis."</p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+
+                        <!-- Customer 4 -->
+                        <div class="customer">
+
+                            <div class="row">
+
+                                <div class="col-md-3 col-sm-2">
+                                    <img src="~/Content/Images/home/team-4.jpg" alt="Customer">
+                                </div>
+
+                                <div class="col-md-9 col-sm-10 name">
+                                    <h5>Daniel Cardos</h5>
+                                    <p>Software Engineer, Infinitum Company</p>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 review">
+                                    <p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates ipsam ipsum minima magni, similique perspiciatis ut omnis. Odio ullam nostrum quaerat tempore necessitatibus rem inventore, ut, maxime deleniti corporis perferendis."</p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="copyright">
+                                <p>Copyright &copy; Tatvasoft All Rights Reserved</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-sm-6 col-xs-12 list">
+                            <ul class="social-list">
+                                <li><a href="#"><i class="fa fa-facebook "></i></a></li>
+                                <li><a href="#"><i class="fa fa-twitter "></i></a></li>
+                                <li><a href="#"><i class="fa fa-linkedin "></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+
+    </section>
+
+    <!-- End User Profile  -->
+    <!-- Jquery Module -->
+    <script src="~/Scripts/Front/jquery.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="~/Scripts/Front/bootstrap/bootstrap.min.js"></script>
+
+    <!-- Javascript Page -->
+    <script src="~/Scripts/Front/script.js"></script>
+
+</body>
+
+</html>
