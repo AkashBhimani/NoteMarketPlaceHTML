@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [NotesMarketPlace]    Script Date: 08-03-2021 16:05:11 ******/
+/****** Object:  Database [NotesMarketPlace]    Script Date: 27-03-2021 10:35:51 ******/
 CREATE DATABASE [NotesMarketPlace]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -82,7 +82,7 @@ ALTER DATABASE [NotesMarketPlace] SET QUERY_STORE = OFF
 GO
 USE [NotesMarketPlace]
 GO
-/****** Object:  ColumnMasterKey [CMK_Auto1]    Script Date: 08-03-2021 16:05:12 ******/
+/****** Object:  ColumnMasterKey [CMK_Auto1]    Script Date: 27-03-2021 10:35:52 ******/
 CREATE COLUMN MASTER KEY [CMK_Auto1]
 WITH
 (
@@ -90,7 +90,7 @@ WITH
 	KEY_PATH = N'CurrentUser/my/6749FB08A30A6CC4E7AEB1B99687BACAE2410E67'
 )
 GO
-/****** Object:  ColumnEncryptionKey [CEK_Auto1]    Script Date: 08-03-2021 16:05:12 ******/
+/****** Object:  ColumnEncryptionKey [CEK_Auto1]    Script Date: 27-03-2021 10:35:52 ******/
 CREATE COLUMN ENCRYPTION KEY [CEK_Auto1]
 WITH VALUES
 (
@@ -99,28 +99,7 @@ WITH VALUES
 	ENCRYPTED_VALUE = 0x016E000001630075007200720065006E00740075007300650072002F006D0079002F0036003700340039006600620030003800610033003000610036006300630034006500370061006500620031006200390039003600380037006200610063006100650032003400310030006500360037001A37A7E3BB78FDF08C641828D082C07E342FB4EA5BD910D4FFB9623BB5936F0DC43CC95784684761C57E8A4DEC9608F2AF6EE366163296683828D472BB199793AE87291DC54A18BDD7A090A144F64E30FF1DE1FC147C967E9EF89CC16181368799D3FD8C9F03B13009C8C60E2E33A2543CD6DE23D723AF9A9F8DD72DBE334836DF17D468B631288A371F0591B763D42358F03E4C282C1F4481EE3862BFF22B9FFCFE983F72ADF45BCDB5A2F19C5ED7DCCF9C4367E87127206F3BF8AC1468B2619D9CAE1649B8ED95BCADB8994A8C39EB3990BFC9AB4DCB986A6120B307071C10B5D32EA0E86694D5C93958CDA6F80D0098D7D7F7E509A020B4884A47C729A14DAE41DA09B5470DECBEDF0A06EC613BA0CBCFB82C6CBB715521A487305B261CDA0FF5D470C671F7CC0A39A2061E5785DD73D1E4F70CC530AA2C99CAD4015EA0B2C5413B93FA813F29E9827AC919917727B9B325CA1C084705161F99516CA3BD893340E038185ADFBF54C0A5EF65F4F8E281D930F65DA7DC5E0E4820F4EDBE6A690F7A70D9727C4F3A572963F8E0F6391C428BC9ECC0CAF3E22EC73689FCFE34446C4061FC8338B9BA0860508213C6DABB40F2A237AB95284BF48C8D42776D8B87DE80B57E26D6FDB5EF4AC0369C1AB392C4B6200A141CA7D713F941DAC746BE57E32F1964D55A45A3213F30F14BB3EF96A8D0ACCE1CF1924C6B1F5F07A8641865
 )
 GO
-/****** Object:  Table [dbo].[ContactUs]    Script Date: 08-03-2021 16:05:12 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[ContactUs](
-	[ID] [int] IDENTITY(1,1) NOT NULL,
-	[FullName] [varchar](50) NOT NULL,
-	[EmailID] [varchar](50) NOT NULL,
-	[Subject] [varchar](100) NOT NULL,
-	[Comments/Questions] [varchar](max) NOT NULL,
-	[CreatedDate] [datetime] NULL,
-	[CreatedBy] [int] NULL,
-	[ModifiedDate] [datetime] NULL,
-	[ModifiedBy] [int] NULL,
- CONSTRAINT [PK_ContactUs] PRIMARY KEY CLUSTERED 
-(
-	[ID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[Countries]    Script Date: 08-03-2021 16:05:13 ******/
+/****** Object:  Table [dbo].[Countries]    Script Date: 27-03-2021 10:35:52 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -139,7 +118,7 @@ CREATE TABLE [dbo].[Countries](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DownloadedNotes]    Script Date: 08-03-2021 16:05:13 ******/
+/****** Object:  Table [dbo].[DownloadedNotes]    Script Date: 27-03-2021 10:35:53 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -147,12 +126,16 @@ GO
 CREATE TABLE [dbo].[DownloadedNotes](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[NoteID] [int] NOT NULL,
+	[Seller] [int] NOT NULL,
+	[Buyer] [int] NOT NULL,
 	[NoteTitle] [varchar](100) NOT NULL,
 	[Category] [varchar](50) NOT NULL,
-	[Buyer] [varchar](100) NOT NULL,
-	[Seller] [varchar](100) NOT NULL,
-	[SellType] [varchar](50) NULL,
-	[Price] [varchar](25) NOT NULL,
+	[IsSellerHasAllowedDownload] [bit] NOT NULL,
+	[AttachmentPath] [varchar](max) NULL,
+	[IsAttachmentDownloaded] [bit] NOT NULL,
+	[AttachmentDownloadedDate] [datetime] NULL,
+	[IsPaid] [bit] NOT NULL,
+	[Price] [decimal](18, 0) NULL,
 	[CreatedDate] [datetime] NULL,
 	[CreatedBy] [int] NULL,
 	[ModifiedDate] [datetime] NULL,
@@ -161,9 +144,9 @@ CREATE TABLE [dbo].[DownloadedNotes](
 (
 	[ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ManageSystemConfiguration]    Script Date: 08-03-2021 16:05:13 ******/
+/****** Object:  Table [dbo].[ManageSystemConfiguration]    Script Date: 27-03-2021 10:35:53 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -188,7 +171,7 @@ CREATE TABLE [dbo].[ManageSystemConfiguration](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[NoteCategories]    Script Date: 08-03-2021 16:05:13 ******/
+/****** Object:  Table [dbo].[NoteCategories]    Script Date: 27-03-2021 10:35:53 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -207,7 +190,7 @@ CREATE TABLE [dbo].[NoteCategories](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[NoteDetails]    Script Date: 08-03-2021 16:05:13 ******/
+/****** Object:  Table [dbo].[NoteDetails]    Script Date: 27-03-2021 10:35:53 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -245,7 +228,7 @@ CREATE TABLE [dbo].[NoteDetails](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[NoteReview]    Script Date: 08-03-2021 16:05:13 ******/
+/****** Object:  Table [dbo].[NoteReview]    Script Date: 27-03-2021 10:35:53 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -253,6 +236,8 @@ GO
 CREATE TABLE [dbo].[NoteReview](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[NoteID] [int] NOT NULL,
+	[ReviewedByID] [int] NOT NULL,
+	[AgainstDownloadsID] [int] NOT NULL,
 	[Rate] [int] NOT NULL,
 	[Comment] [varchar](max) NOT NULL,
 	[CreatedDate] [datetime] NULL,
@@ -265,7 +250,7 @@ CREATE TABLE [dbo].[NoteReview](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[NoteTypes]    Script Date: 08-03-2021 16:05:13 ******/
+/****** Object:  Table [dbo].[NoteTypes]    Script Date: 27-03-2021 10:35:53 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -284,7 +269,7 @@ CREATE TABLE [dbo].[NoteTypes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SellerNotesAttachments]    Script Date: 08-03-2021 16:05:13 ******/
+/****** Object:  Table [dbo].[SellerNotesAttachments]    Script Date: 27-03-2021 10:35:53 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -305,7 +290,28 @@ CREATE TABLE [dbo].[SellerNotesAttachments](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SpamReports]    Script Date: 08-03-2021 16:05:13 ******/
+/****** Object:  Table [dbo].[SellerNotesReportedIssues]    Script Date: 27-03-2021 10:35:53 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[SellerNotesReportedIssues](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[NoteID] [int] NOT NULL,
+	[ReportedByID] [int] NOT NULL,
+	[AgainstDownloadID] [int] NOT NULL,
+	[Remarks] [varchar](max) NOT NULL,
+	[CreatedDate] [datetime] NULL,
+	[CreatedBy] [int] NULL,
+	[ModifiedDate] [datetime] NULL,
+	[ModifiedBy] [int] NULL,
+ CONSTRAINT [PK_SellerNotesReportedIssues_1] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[SpamReports]    Script Date: 27-03-2021 10:35:53 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -325,7 +331,7 @@ CREATE TABLE [dbo].[SpamReports](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserProfile]    Script Date: 08-03-2021 16:05:13 ******/
+/****** Object:  Table [dbo].[UserProfile]    Script Date: 27-03-2021 10:35:53 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -334,7 +340,7 @@ CREATE TABLE [dbo].[UserProfile](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
 	[UserID] [int] NOT NULL,
 	[SecondaryEmail] [varchar](100) NULL,
-	[DateOfBirth] [datetime] NULL,
+	[DateOfBirth] [datetime2](7) NULL,
 	[Gender] [varchar](6) NULL,
 	[PhoneNumber-CountryCode] [varchar](4) NOT NULL,
 	[PhoneNumber] [varchar](20) NOT NULL,
@@ -357,7 +363,7 @@ CREATE TABLE [dbo].[UserProfile](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[UserRoles]    Script Date: 08-03-2021 16:05:13 ******/
+/****** Object:  Table [dbo].[UserRoles]    Script Date: 27-03-2021 10:35:53 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -377,7 +383,7 @@ CREATE TABLE [dbo].[UserRoles](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 08-03-2021 16:05:13 ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 27-03-2021 10:35:53 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -403,12 +409,6 @@ CREATE TABLE [dbo].[Users](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-SET IDENTITY_INSERT [dbo].[ContactUs] ON 
-
-INSERT [dbo].[ContactUs] ([ID], [FullName], [EmailID], [Subject], [Comments/Questions], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, N'adss', N'akash@123', N'asdd', N'ghf', NULL, NULL, NULL, NULL)
-INSERT [dbo].[ContactUs] ([ID], [FullName], [EmailID], [Subject], [Comments/Questions], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, N'akash@123.GHJ', N'akash@123.GHJ', N'asdd', N'123', NULL, NULL, NULL, NULL)
-SET IDENTITY_INSERT [dbo].[ContactUs] OFF
-GO
 SET IDENTITY_INSERT [dbo].[Countries] ON 
 
 INSERT [dbo].[Countries] ([ID], [CountryName], [CountryCode], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, N'India', N'+91', NULL, NULL, NULL, NULL)
@@ -416,54 +416,86 @@ INSERT [dbo].[Countries] ([ID], [CountryName], [CountryCode], [CreatedDate], [Cr
 INSERT [dbo].[Countries] ([ID], [CountryName], [CountryCode], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, N'Germany', N'+49', NULL, NULL, NULL, NULL)
 SET IDENTITY_INSERT [dbo].[Countries] OFF
 GO
+SET IDENTITY_INSERT [dbo].[DownloadedNotes] ON 
+
+INSERT [dbo].[DownloadedNotes] ([ID], [NoteID], [Seller], [Buyer], [NoteTitle], [Category], [IsSellerHasAllowedDownload], [AttachmentPath], [IsAttachmentDownloaded], [AttachmentDownloadedDate], [IsPaid], [Price], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, 2006, 2075, 2070, N'Computer Hardware', N'CS', 1, NULL, 1, CAST(N'2021-03-16T18:53:30.587' AS DateTime), 0, CAST(0 AS Decimal(18, 0)), CAST(N'2021-03-16T18:53:30.593' AS DateTime), 2070, NULL, NULL)
+INSERT [dbo].[DownloadedNotes] ([ID], [NoteID], [Seller], [Buyer], [NoteTitle], [Category], [IsSellerHasAllowedDownload], [AttachmentPath], [IsAttachmentDownloaded], [AttachmentDownloadedDate], [IsPaid], [Price], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 2008, 2070, 2070, N'Artificial Intelligence', N'IT', 0, NULL, 0, CAST(N'2021-03-17T11:42:58.150' AS DateTime), 1, CAST(300 AS Decimal(18, 0)), CAST(N'2021-03-17T11:42:58.153' AS DateTime), 2070, NULL, NULL)
+INSERT [dbo].[DownloadedNotes] ([ID], [NoteID], [Seller], [Buyer], [NoteTitle], [Category], [IsSellerHasAllowedDownload], [AttachmentPath], [IsAttachmentDownloaded], [AttachmentDownloadedDate], [IsPaid], [Price], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (67, 1017, 2070, 2070, N'c#', N'IT', 1, NULL, 1, CAST(N'2021-03-17T18:57:39.650' AS DateTime), 0, CAST(0 AS Decimal(18, 0)), CAST(N'2021-03-17T18:57:39.653' AS DateTime), 2070, NULL, NULL)
+INSERT [dbo].[DownloadedNotes] ([ID], [NoteID], [Seller], [Buyer], [NoteTitle], [Category], [IsSellerHasAllowedDownload], [AttachmentPath], [IsAttachmentDownloaded], [AttachmentDownloadedDate], [IsPaid], [Price], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (68, 1018, 2070, 2070, N'Basic Computer Engineering', N'CA', 1, NULL, 1, CAST(N'2021-03-17T18:58:02.777' AS DateTime), 0, CAST(0 AS Decimal(18, 0)), CAST(N'2021-03-17T18:58:02.783' AS DateTime), 2070, NULL, NULL)
+INSERT [dbo].[DownloadedNotes] ([ID], [NoteID], [Seller], [Buyer], [NoteTitle], [Category], [IsSellerHasAllowedDownload], [AttachmentPath], [IsAttachmentDownloaded], [AttachmentDownloadedDate], [IsPaid], [Price], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (77, 2007, 2070, 2075, N'The Computer Book', N'IT', 1, N'/Members/2070/2007/Attachment/Attachment1_17-03-2021.pdf', 0, CAST(N'2021-03-21T12:09:37.880' AS DateTime), 1, CAST(300 AS Decimal(18, 0)), CAST(N'2021-03-21T12:09:37.893' AS DateTime), 2070, NULL, NULL)
+INSERT [dbo].[DownloadedNotes] ([ID], [NoteID], [Seller], [Buyer], [NoteTitle], [Category], [IsSellerHasAllowedDownload], [AttachmentPath], [IsAttachmentDownloaded], [AttachmentDownloadedDate], [IsPaid], [Price], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (78, 1018, 2070, 2071, N'Basic Computer Engineering', N'CA', 1, N'~/Members/2070/1018/Attachment/Attachment1_12-03-2021.pdf', 1, CAST(N'2021-03-23T10:12:48.907' AS DateTime), 0, CAST(0 AS Decimal(18, 0)), CAST(N'2021-03-23T10:12:49.063' AS DateTime), 2071, NULL, NULL)
+INSERT [dbo].[DownloadedNotes] ([ID], [NoteID], [Seller], [Buyer], [NoteTitle], [Category], [IsSellerHasAllowedDownload], [AttachmentPath], [IsAttachmentDownloaded], [AttachmentDownloadedDate], [IsPaid], [Price], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (79, 1017, 2070, 2070, N'c#', N'IT', 1, N'~/Members/2070/1017/Attachment/Attachment1_11-03-2021.pdf', 1, CAST(N'2021-03-25T10:25:49.290' AS DateTime), 0, CAST(0 AS Decimal(18, 0)), CAST(N'2021-03-25T10:25:49.293' AS DateTime), 2070, NULL, NULL)
+SET IDENTITY_INSERT [dbo].[DownloadedNotes] OFF
+GO
 SET IDENTITY_INSERT [dbo].[NoteCategories] ON 
 
 INSERT [dbo].[NoteCategories] ([ID], [CategoryName], [Description], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, N'IT', N'Lorem Ipsum is simply dumay text.', NULL, NULL, NULL, NULL)
-INSERT [dbo].[NoteCategories] ([ID], [CategoryName], [Description], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, N'Computer', N'Lorem Ipsum is simply dumay text.', NULL, NULL, NULL, NULL)
-INSERT [dbo].[NoteCategories] ([ID], [CategoryName], [Description], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, N'Science', N'Lorem Ipsum is simply dumay text.', NULL, NULL, NULL, NULL)
-INSERT [dbo].[NoteCategories] ([ID], [CategoryName], [Description], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (4, N'History', N'Lorem Ipsum is simply dumay text.', NULL, NULL, NULL, NULL)
-INSERT [dbo].[NoteCategories] ([ID], [CategoryName], [Description], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (5, N'Account', N'Lorem Ipsum is simply dumay text.', NULL, NULL, NULL, NULL)
+INSERT [dbo].[NoteCategories] ([ID], [CategoryName], [Description], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, N'CA', N'Lorem Ipsum is simply dumay text.', NULL, NULL, NULL, NULL)
+INSERT [dbo].[NoteCategories] ([ID], [CategoryName], [Description], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, N'CS', N'Lorem Ipsum is simply dumay text.', NULL, NULL, NULL, NULL)
+INSERT [dbo].[NoteCategories] ([ID], [CategoryName], [Description], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (4, N'MBA', N'Lorem Ipsum is simply dumay text.', NULL, NULL, NULL, NULL)
+INSERT [dbo].[NoteCategories] ([ID], [CategoryName], [Description], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (5, N'MCA', N'Lorem Ipsum is simply dumay text.', NULL, NULL, NULL, NULL)
 SET IDENTITY_INSERT [dbo].[NoteCategories] OFF
 GO
 SET IDENTITY_INSERT [dbo].[NoteDetails] ON 
 
-INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (11, 2070, 1, 1, 1, N'c#', NULL, N'F:\GitHub\NotesMarketPlace\Members\2070\DP.pdf', NULL, N'C#', NULL, NULL, NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), NULL, N'Draft', NULL, NULL, NULL, CAST(N'2021-03-03T13:34:48.500' AS DateTime), NULL, NULL, NULL, 0)
-INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (12, 2071, 2, 2, 2, N'Python', NULL, N'sadlj', NULL, N'Pythonfgfhg', NULL, NULL, NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), NULL, N'Draft', NULL, NULL, NULL, CAST(N'2021-03-05T18:58:27.947' AS DateTime), 2071, NULL, NULL, 1)
-INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (16, 2070, 2, 1, 2, N'c++', NULL, N'F:\GitHub\NotesMarketPlace\Members\2070\DP.pdf', NULL, N'C++', NULL, NULL, NULL, NULL, 1, CAST(300 AS Decimal(18, 0)), NULL, N'In Review', NULL, NULL, NULL, CAST(N'2021-03-04T16:15:04.023' AS DateTime), NULL, NULL, NULL, 0)
-INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (17, 2070, 1, 2, 1, N'c#', NULL, N'F:\GitHub\NotesMarketPlace\Members\2070\DP.pdf', NULL, N'C#', NULL, NULL, NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), NULL, N'In Review', NULL, NULL, NULL, CAST(N'2021-03-04T18:03:32.563' AS DateTime), NULL, NULL, NULL, 0)
-INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (18, 2070, 2, 1, 2, N'c#', NULL, N'F:\GitHub\NotesMarketPlace\Members\2070\DP.pdf', NULL, N'asd', NULL, NULL, NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), NULL, N'In Review', NULL, NULL, NULL, CAST(N'2021-03-05T11:53:24.363' AS DateTime), NULL, NULL, NULL, 0)
-INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (19, 2070, 1, 1, 1, N'c#', NULL, N'sadlj', NULL, N'c#', NULL, NULL, NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), NULL, N'Draft', NULL, NULL, NULL, CAST(N'2021-03-05T16:37:12.337' AS DateTime), 2070, NULL, NULL, 1)
-INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (20, 2070, 2, 1, 2, N'c#', N'~/DefalutImages/tech-quote.jpg', N'sadlj', NULL, N'aaas', NULL, NULL, NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), NULL, N'Draft', NULL, NULL, NULL, CAST(N'2021-03-05T16:44:35.807' AS DateTime), 2070, NULL, NULL, 1)
-INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (21, 2070, 1, 1, 1, N'c#', NULL, N'sadlj', NULL, N'aaa', NULL, NULL, NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), NULL, N'Draft', NULL, NULL, NULL, CAST(N'2021-03-05T16:53:44.463' AS DateTime), 2070, NULL, NULL, 1)
-INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (22, 2070, 1, 1, 1, N'c#', NULL, N'sadlj', NULL, N'aaa', NULL, NULL, NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), NULL, N'Draft', NULL, NULL, NULL, CAST(N'2021-03-05T17:01:28.317' AS DateTime), 2070, NULL, NULL, 1)
-INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (23, 2070, 1, 1, 1, N'c#', NULL, N'sadlj', NULL, N'dfgh', NULL, NULL, NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), NULL, N'Draft', NULL, NULL, NULL, CAST(N'2021-03-05T17:08:16.843' AS DateTime), 2070, NULL, NULL, 1)
-INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (24, 2070, 1, 1, 1, N'Python', NULL, N'sadlj', NULL, N'aa', NULL, NULL, NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), NULL, N'Draft', NULL, NULL, NULL, CAST(N'2021-03-05T17:14:28.717' AS DateTime), 2070, NULL, NULL, 1)
-INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (25, 2070, 2, 1, 2, N'c#', NULL, N'sadlj', NULL, N'gg', NULL, NULL, NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), NULL, N'Draft', NULL, NULL, NULL, CAST(N'2021-03-05T18:08:00.130' AS DateTime), 2070, NULL, NULL, 1)
-INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (26, 2070, 1, 1, 1, N'AI', NULL, N'sadlj', NULL, N'AI', NULL, NULL, NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), NULL, N'Draft', NULL, NULL, NULL, CAST(N'2021-03-07T18:27:43.810' AS DateTime), 2070, NULL, NULL, 1)
-INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (27, 2070, 2, 1, 2, N'JAVA', NULL, N'sadlj', NULL, N'JAVA Programming ', NULL, NULL, NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), NULL, N'Draft', NULL, NULL, NULL, CAST(N'2021-03-07T18:36:10.463' AS DateTime), 2070, NULL, NULL, 1)
-INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (28, 2070, 2, 1, 2, N'Web Technology', NULL, N'sadlj', NULL, N'Web Technology', NULL, NULL, NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), NULL, N'Draft', NULL, NULL, NULL, CAST(N'2021-03-07T18:44:20.913' AS DateTime), 2070, NULL, NULL, 1)
-INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (29, 2070, 2, 1, 2, N'C', NULL, N'sadlj', NULL, N'C Programming', NULL, NULL, NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), NULL, N'Draft', NULL, NULL, NULL, CAST(N'2021-03-07T18:51:05.967' AS DateTime), 2070, NULL, NULL, 1)
-INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (30, 2070, 2, 1, 2, N'Java script', NULL, N'sadlj', NULL, N'Java Script ', NULL, NULL, NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), NULL, N'Draft', NULL, NULL, NULL, CAST(N'2021-03-07T18:55:46.950' AS DateTime), 2070, NULL, NULL, 1)
+INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (1017, 2070, 1, 2, 1, N'c#', NULL, N'sadlj', 120, N'C#', N'GEC', N'Computer Engineering', NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), NULL, N'Draft', NULL, NULL, NULL, CAST(N'2021-03-11T19:35:35.327' AS DateTime), 2070, NULL, NULL, 1)
+INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (1018, 2070, 2, 2, 2, N'Basic Computer Engineering', N'F:\GitHub\NotesMarketPlace\Members\2070\1018\DP_12-03-2021.jpg', N'sadlj', NULL, N'Basic Computer Engineering', N'GTU', N'Information Technology', NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), NULL, N'Draft', NULL, NULL, NULL, CAST(N'2021-03-12T11:43:08.357' AS DateTime), 2070, NULL, NULL, 1)
+INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (2006, 2075, 3, 8, 3, N'Computer Hardware', N'F:\GitHub\NotesMarketPlace\Members\2075\2006\DP_16-03-2021.jpg', N'sadlj', 120, N'Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.', N'GTU', N'demo', NULL, NULL, 0, CAST(0 AS Decimal(18, 0)), N'F:\GitHub\NotesMarketPlace\Members\2075\2006\Preview_16-03-2021.pdf', N'Draft', NULL, NULL, NULL, CAST(N'2021-03-16T12:16:36.303' AS DateTime), 2075, NULL, NULL, 1)
+INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (2007, 2070, 1, 8, 1, N'The Computer Book', N'F:\GitHub\NotesMarketPlace\Members\2070\2007\DP_17-03-2021.jpg', N'sadlj', 500, N'Once email is sent successfully – We can give user a message that “Your password has been changed
+successfully and newly generated password is sent on your registered email address.” and then redirect
+user to Login page
+', N'VGEC', N'EC', NULL, NULL, 1, CAST(300 AS Decimal(18, 0)), N'F:\GitHub\NotesMarketPlace\Members\2070\2007\Preview_17-03-2021.pdf', N'Draft', NULL, NULL, NULL, CAST(N'2021-03-17T11:02:02.947' AS DateTime), 2070, NULL, NULL, 1)
+INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (2008, 2070, 1, 2, 1, N'Artificial Intelligence', NULL, N'sadlj', 1000, N' Click on this button we can ask confirmation box –
+“Publishing this note will send note to administrator for review, once
+administrator review and approve then this note will be published to
+portal. Press yes to continue.” with Yes & Cancel buttons.', N'Gyan', N'Computer Engineering', NULL, NULL, 1, CAST(300 AS Decimal(18, 0)), N'F:\GitHub\NotesMarketPlace\Members\2070\2008\Preview_17-03-2021.pdf', N'Draft', NULL, NULL, NULL, CAST(N'2021-03-17T11:42:15.320' AS DateTime), 2070, NULL, NULL, 1)
+INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (2009, 2070, 2, 9, 2, N'Day Dreamer', NULL, N'sadlj', NULL, N'Seller can define number of pages document has – As it will be shown
+to Downloader/Anonymous users when they search for any notes. It’s
+allowed only numeric values', NULL, NULL, NULL, NULL, 1, CAST(1200 AS Decimal(18, 0)), N'F:\GitHub\NotesMarketPlace\Members\2070\2009\Preview_23-03-2021.jpg', N'Rejected', NULL, NULL, NULL, CAST(N'2021-03-23T11:10:24.177' AS DateTime), 2070, NULL, NULL, 1)
+INSERT [dbo].[NoteDetails] ([ID], [UserID], [CategoryID], [TypeID], [CountryId], [NoteTitle], [DisplayPicture], [UploadNote], [NumberOfPages], [Description], [InstitutionName], [Course], [CourseCode], [Professor], [IsPaid], [SellPrice], [NotePreview], [Status], [ActionBy], [Remarks], [PublishedDate], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (2010, 2077, 2, 8, 2, N'Java script', NULL, N'sadlj', 800, N'This screen is for Sellers to view all buyer requests and to acknowledge that he/she receive the payment
+from buyer or not.', N'XYZ', N'ABC', N'32', N'PQR', 1, CAST(2000 AS Decimal(18, 0)), N'F:\GitHub\NotesMarketPlace\Members\2077\2010\Preview_25-03-2021.pdf', N'Rejected', NULL, NULL, NULL, CAST(N'2021-03-25T12:14:27.140' AS DateTime), 2077, NULL, NULL, 1)
 SET IDENTITY_INSERT [dbo].[NoteDetails] OFF
+GO
+SET IDENTITY_INSERT [dbo].[NoteReview] ON 
+
+INSERT [dbo].[NoteReview] ([ID], [NoteID], [ReviewedByID], [AgainstDownloadsID], [Rate], [Comment], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 2007, 2070, 77, 4, N'mast', CAST(N'2021-03-22T13:59:40.063' AS DateTime), 2070, NULL, NULL)
+INSERT [dbo].[NoteReview] ([ID], [NoteID], [ReviewedByID], [AgainstDownloadsID], [Rate], [Comment], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 2007, 2070, 77, 2, N'Perfect.', CAST(N'2021-03-22T15:28:31.980' AS DateTime), 2070, NULL, NULL)
+INSERT [dbo].[NoteReview] ([ID], [NoteID], [ReviewedByID], [AgainstDownloadsID], [Rate], [Comment], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (5, 1017, 2075, 67, 3, N'Not bad.', CAST(N'2021-03-22T16:14:00.583' AS DateTime), 2075, NULL, NULL)
+INSERT [dbo].[NoteReview] ([ID], [NoteID], [ReviewedByID], [AgainstDownloadsID], [Rate], [Comment], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, 1017, 2070, 67, 3, N'Good Job.', CAST(N'2021-03-22T16:18:45.203' AS DateTime), 2070, NULL, NULL)
+INSERT [dbo].[NoteReview] ([ID], [NoteID], [ReviewedByID], [AgainstDownloadsID], [Rate], [Comment], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (7, 2007, 2075, 77, 2, N'aa', CAST(N'2021-03-22T18:16:38.997' AS DateTime), 2075, NULL, NULL)
+INSERT [dbo].[NoteReview] ([ID], [NoteID], [ReviewedByID], [AgainstDownloadsID], [Rate], [Comment], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, 2007, 2075, 77, 4, N'Excellent.', CAST(N'2021-03-25T10:50:29.497' AS DateTime), 2075, NULL, NULL)
+SET IDENTITY_INSERT [dbo].[NoteReview] OFF
 GO
 SET IDENTITY_INSERT [dbo].[NoteTypes] ON 
 
-INSERT [dbo].[NoteTypes] ([ID], [Type], [Description], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, N'Textbook', N'Lorem Ipsum is simply dumay text.', NULL, NULL, NULL, NULL)
-INSERT [dbo].[NoteTypes] ([ID], [Type], [Description], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, N'Storybook', N'Lorem Ipsum is simply dumay text.', NULL, NULL, NULL, NULL)
+INSERT [dbo].[NoteTypes] ([ID], [Type], [Description], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, N'Handwritten notes', N'Lorem Ipsum is simply dumay text.', NULL, NULL, NULL, NULL)
+INSERT [dbo].[NoteTypes] ([ID], [Type], [Description], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, N'University notes', N'Lorem Ipsum is simply dumay text.', NULL, NULL, NULL, NULL)
+INSERT [dbo].[NoteTypes] ([ID], [Type], [Description], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, N'Notebook', N'Lorem Ipsum is simply dumay text.', NULL, NULL, NULL, NULL)
+INSERT [dbo].[NoteTypes] ([ID], [Type], [Description], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (9, N'Novel', N'Lorem Ipsum is simply dumay text.', NULL, NULL, NULL, NULL)
 SET IDENTITY_INSERT [dbo].[NoteTypes] OFF
 GO
 SET IDENTITY_INSERT [dbo].[SellerNotesAttachments] ON 
 
-INSERT [dbo].[SellerNotesAttachments] ([ID], [NoteID], [FileName], [FilePath], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (1, 23, N'Attachment1_05082021.pdf;', N'/Members/2070/23/Attachment/Attachment1_05082021.pdf', CAST(N'2021-03-05T17:08:41.843' AS DateTime), 23, NULL, NULL, 1)
-INSERT [dbo].[SellerNotesAttachments] ([ID], [NoteID], [FileName], [FilePath], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (2, 24, N'Attachment1_05142021.pdf;Attachment2_05142021.pdf;Attachment3_05142021.pdf;', N'/Members/2070/24/Attachment/Attachment1_05142021.pdf/Members/2070/24/Attachment/Attachment2_05142021.pdf/Members/2070/24/Attachment/Attachment3_05142021.pdf', CAST(N'2021-03-05T17:14:29.697' AS DateTime), 24, NULL, NULL, 1)
-INSERT [dbo].[SellerNotesAttachments] ([ID], [NoteID], [FileName], [FilePath], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (3, 25, N'Attachment1_05-03-2021.pdf;', N'/Members/2070/25/Attachment/Attachment1_05-03-2021.pdf', CAST(N'2021-03-05T18:08:01.947' AS DateTime), 25, NULL, NULL, 1)
-INSERT [dbo].[SellerNotesAttachments] ([ID], [NoteID], [FileName], [FilePath], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (4, 12, N'Attachment1_05-03-2021.pdf;', N'/Members/2071/12/Attachment/Attachment1_05-03-2021.pdf', CAST(N'2021-03-05T18:58:35.177' AS DateTime), 12, NULL, NULL, 1)
-INSERT [dbo].[SellerNotesAttachments] ([ID], [NoteID], [FileName], [FilePath], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (5, 26, N'Attachment1_07-03-2021.pdf;', N'/Members/2070/26/Attachment/Attachment1_07-03-2021.pdf', CAST(N'2021-03-07T18:27:45.227' AS DateTime), 26, NULL, NULL, 1)
-INSERT [dbo].[SellerNotesAttachments] ([ID], [NoteID], [FileName], [FilePath], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (6, 27, N'Attachment1_07-03-2021.pdf;', N'/Members/2070/27/Attachment/Attachment1_07-03-2021.pdf', CAST(N'2021-03-07T18:36:11.153' AS DateTime), 27, NULL, NULL, 1)
-INSERT [dbo].[SellerNotesAttachments] ([ID], [NoteID], [FileName], [FilePath], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (7, 28, N'Attachment1_07-03-2021.pdf;', N'/Members/2070/28/Attachment/Attachment1_07-03-2021.pdf', CAST(N'2021-03-07T18:44:21.483' AS DateTime), 28, NULL, NULL, 1)
-INSERT [dbo].[SellerNotesAttachments] ([ID], [NoteID], [FileName], [FilePath], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (8, 29, N'Attachment1_07-03-2021.pdf;', N'/Members/2070/29/Attachment/Attachment1_07-03-2021.pdf', CAST(N'2021-03-07T18:51:07.183' AS DateTime), 29, NULL, NULL, 1)
-INSERT [dbo].[SellerNotesAttachments] ([ID], [NoteID], [FileName], [FilePath], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (9, 30, N'Attachment1_07-03-2021.pdf;', N'/Members/2070/30/Attachment/Attachment1_07-03-2021.pdf', CAST(N'2021-03-07T18:55:47.323' AS DateTime), 30, NULL, NULL, 1)
+INSERT [dbo].[SellerNotesAttachments] ([ID], [NoteID], [FileName], [FilePath], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (1013, 1017, N'Attachment1_11-03-2021.pdf;', N'/Members/2070/1017/Attachment/Attachment1_11-03-2021.pdf', CAST(N'2021-03-11T19:35:38.507' AS DateTime), 1017, NULL, NULL, 1)
+INSERT [dbo].[SellerNotesAttachments] ([ID], [NoteID], [FileName], [FilePath], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (1014, 1018, N'Attachment1_12-03-2021.pdf;', N'/Members/2070/1018/Attachment/Attachment1_12-03-2021.pdf', CAST(N'2021-03-12T11:43:09.300' AS DateTime), 1018, NULL, NULL, 1)
+INSERT [dbo].[SellerNotesAttachments] ([ID], [NoteID], [FileName], [FilePath], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (2002, 2006, N'Attachment1_16-03-2021.pdf;', N'/Members/2075/2006/Attachment/Attachment1_16-03-2021.pdf', CAST(N'2021-03-16T12:16:36.747' AS DateTime), 2006, NULL, NULL, 1)
+INSERT [dbo].[SellerNotesAttachments] ([ID], [NoteID], [FileName], [FilePath], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (2003, 2007, N'Attachment1_17-03-2021.pdf;', N'/Members/2070/2007/Attachment/Attachment1_17-03-2021.pdf', CAST(N'2021-03-17T11:02:05.617' AS DateTime), 2007, NULL, NULL, 1)
+INSERT [dbo].[SellerNotesAttachments] ([ID], [NoteID], [FileName], [FilePath], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (2004, 2008, N'Attachment1_17-03-2021.pdf;', N'/Members/2070/2008/Attachment/Attachment1_17-03-2021.pdf', CAST(N'2021-03-17T11:42:17.983' AS DateTime), 2008, NULL, NULL, 1)
+INSERT [dbo].[SellerNotesAttachments] ([ID], [NoteID], [FileName], [FilePath], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (3002, 2009, N'Attachment1_23-03-2021.pdf;', N'/Members/2070/2009/Attachment/Attachment1_23-03-2021.pdf', CAST(N'2021-03-23T11:10:25.403' AS DateTime), 2009, NULL, NULL, 1)
+INSERT [dbo].[SellerNotesAttachments] ([ID], [NoteID], [FileName], [FilePath], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (3003, 2010, N'Attachment1_25-03-2021.pdf;', N'/Members/2077/2010/Attachment/Attachment1_25-03-2021.pdf', CAST(N'2021-03-25T12:14:28.553' AS DateTime), 2010, NULL, NULL, 1)
 SET IDENTITY_INSERT [dbo].[SellerNotesAttachments] OFF
+GO
+SET IDENTITY_INSERT [dbo].[SellerNotesReportedIssues] ON 
+
+INSERT [dbo].[SellerNotesReportedIssues] ([ID], [NoteID], [ReportedByID], [AgainstDownloadID], [Remarks], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, 2007, 2075, 77, N'ddd', CAST(N'2021-03-22T18:48:13.550' AS DateTime), 2075, NULL, NULL)
+SET IDENTITY_INSERT [dbo].[SellerNotesReportedIssues] OFF
+GO
+SET IDENTITY_INSERT [dbo].[UserProfile] ON 
+
+INSERT [dbo].[UserProfile] ([ID], [UserID], [SecondaryEmail], [DateOfBirth], [Gender], [PhoneNumber-CountryCode], [PhoneNumber], [ProfilePicture], [AddressLine-1], [AddressLine-2], [City], [State], [ZipCode], [Country], [University], [College], [SubmittedDate], [SubmittedBy], [ModifieDate], [ModifiedBy]) VALUES (1014, 2071, NULL, CAST(N'2021-04-03T00:00:00.0000000' AS DateTime2), N'male', N'+91', N'9099537253', NULL, N'Popatbhai ni wadi', N'Laltanki', N'Bhavnagar', N'Gujarat', N'364002', N'India', N'GTU', N'GEC', CAST(N'2021-03-11T19:42:08.410' AS DateTime), 2071, NULL, NULL)
+INSERT [dbo].[UserProfile] ([ID], [UserID], [SecondaryEmail], [DateOfBirth], [Gender], [PhoneNumber-CountryCode], [PhoneNumber], [ProfilePicture], [AddressLine-1], [AddressLine-2], [City], [State], [ZipCode], [Country], [University], [College], [SubmittedDate], [SubmittedBy], [ModifieDate], [ModifiedBy]) VALUES (1015, 2070, NULL, CAST(N'2021-01-03T00:00:00.0000000' AS DateTime2), NULL, N'+91', N'9099537253', N'\Members\2070\DP_12-03-2021.jpg', N'Popatbhai ni wadi', N'Laltanki', N'akashpbhimani000@gmail.com', N'Gujarat', N'364002', N'India', N'GTU', N'GEC', CAST(N'2021-03-12T11:28:12.170' AS DateTime), 2070, NULL, NULL)
+INSERT [dbo].[UserProfile] ([ID], [UserID], [SecondaryEmail], [DateOfBirth], [Gender], [PhoneNumber-CountryCode], [PhoneNumber], [ProfilePicture], [AddressLine-1], [AddressLine-2], [City], [State], [ZipCode], [Country], [University], [College], [SubmittedDate], [SubmittedBy], [ModifieDate], [ModifiedBy]) VALUES (2015, 2075, NULL, CAST(N'2021-12-03T00:00:00.0000000' AS DateTime2), N'male', N'+91', N'9099537253', NULL, N'Popatbhai ni wadi', N'Laltanki', N'Bhavnagar', N'Gujarat', N'364002', N'Germany', N'GTU', N'GEC', CAST(N'2021-03-16T12:13:34.850' AS DateTime), 2075, NULL, NULL)
+SET IDENTITY_INSERT [dbo].[UserProfile] OFF
 GO
 SET IDENTITY_INSERT [dbo].[UserRoles] ON 
 
@@ -478,11 +510,14 @@ INSERT [dbo].[Users] ([ID], [RoleID], [FirstName], [LastName], [EmailID], [Passw
 INSERT [dbo].[Users] ([ID], [RoleID], [FirstName], [LastName], [EmailID], [Password], [PhoneNumber-CountryCode], [PhoneNumber], [IsEmailVerified], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (2070, 3, N'Pinal', N'Bhimani', N'akashpbhimani000@gmail.com', N'Edv1zipn0Q/eKKcJ4Edvxw==', NULL, NULL, 1, NULL, NULL, NULL, NULL, 1)
 INSERT [dbo].[Users] ([ID], [RoleID], [FirstName], [LastName], [EmailID], [Password], [PhoneNumber-CountryCode], [PhoneNumber], [IsEmailVerified], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (2071, 3, N'Akash', N'Bhimani', N'akashpbhimani1245@yopmail.com', N'Edv1zipn0Q/eKKcJ4Edvxw==', NULL, NULL, 1, NULL, NULL, NULL, NULL, 1)
 INSERT [dbo].[Users] ([ID], [RoleID], [FirstName], [LastName], [EmailID], [Password], [PhoneNumber-CountryCode], [PhoneNumber], [IsEmailVerified], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (2072, 3, N'nisha', N'Bhimani', N'nishabhimani@yopmail.com', N'Edv1zipn0Q/eKKcJ4Edvxw==', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0)
+INSERT [dbo].[Users] ([ID], [RoleID], [FirstName], [LastName], [EmailID], [Password], [PhoneNumber-CountryCode], [PhoneNumber], [IsEmailVerified], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (2075, 3, N'Akash', N'Bhimani', N'akashpbhimani12345@yopmail.com', N'Edv1zipn0Q/eKKcJ4Edvxw==', NULL, NULL, 1, NULL, NULL, NULL, NULL, 1)
+INSERT [dbo].[Users] ([ID], [RoleID], [FirstName], [LastName], [EmailID], [Password], [PhoneNumber-CountryCode], [PhoneNumber], [IsEmailVerified], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (2076, 3, N'Akash', N'Parmar', N'akashpbhimani890@gmail.com', N'Edv1zipn0Q/eKKcJ4Edvxw==', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0)
+INSERT [dbo].[Users] ([ID], [RoleID], [FirstName], [LastName], [EmailID], [Password], [PhoneNumber-CountryCode], [PhoneNumber], [IsEmailVerified], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IsActive]) VALUES (2077, 3, N'Akash', N'Parmar', N'akashpbhimani890@yopmail.com', N'Edv1zipn0Q/eKKcJ4Edvxw==', NULL, NULL, 1, NULL, NULL, NULL, NULL, 1)
 SET IDENTITY_INSERT [dbo].[Users] OFF
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [UQ_Users_EmailID]    Script Date: 08-03-2021 16:05:13 ******/
+/****** Object:  Index [UQ_Users_EmailID]    Script Date: 27-03-2021 10:35:53 ******/
 ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [UQ_Users_EmailID] UNIQUE NONCLUSTERED 
 (
 	[EmailID] ASC
@@ -498,10 +533,20 @@ ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Users_IsEmailVerified]  DEFAULT ((
 GO
 ALTER TABLE [dbo].[Users] ADD  CONSTRAINT [DF_Users_IsActive]  DEFAULT ((1)) FOR [IsActive]
 GO
+ALTER TABLE [dbo].[DownloadedNotes]  WITH CHECK ADD  CONSTRAINT [FK_DownloadedNotes_Buyer] FOREIGN KEY([Buyer])
+REFERENCES [dbo].[Users] ([ID])
+GO
+ALTER TABLE [dbo].[DownloadedNotes] CHECK CONSTRAINT [FK_DownloadedNotes_Buyer]
+GO
 ALTER TABLE [dbo].[DownloadedNotes]  WITH CHECK ADD  CONSTRAINT [FK_DownloadedNotes_NoteID] FOREIGN KEY([NoteID])
 REFERENCES [dbo].[NoteDetails] ([ID])
 GO
 ALTER TABLE [dbo].[DownloadedNotes] CHECK CONSTRAINT [FK_DownloadedNotes_NoteID]
+GO
+ALTER TABLE [dbo].[DownloadedNotes]  WITH CHECK ADD  CONSTRAINT [FK_DownloadedNotes_Seller] FOREIGN KEY([Seller])
+REFERENCES [dbo].[Users] ([ID])
+GO
+ALTER TABLE [dbo].[DownloadedNotes] CHECK CONSTRAINT [FK_DownloadedNotes_Seller]
 GO
 ALTER TABLE [dbo].[NoteDetails]  WITH CHECK ADD  CONSTRAINT [FK_NoteDetails_CategoryID] FOREIGN KEY([CategoryID])
 REFERENCES [dbo].[NoteCategories] ([ID])
@@ -523,10 +568,35 @@ REFERENCES [dbo].[Users] ([ID])
 GO
 ALTER TABLE [dbo].[NoteDetails] CHECK CONSTRAINT [FK_NoteDetails_UserID]
 GO
+ALTER TABLE [dbo].[NoteReview]  WITH CHECK ADD  CONSTRAINT [FK_NoteReview_AgainstDownloadsID] FOREIGN KEY([AgainstDownloadsID])
+REFERENCES [dbo].[DownloadedNotes] ([ID])
+GO
+ALTER TABLE [dbo].[NoteReview] CHECK CONSTRAINT [FK_NoteReview_AgainstDownloadsID]
+GO
 ALTER TABLE [dbo].[NoteReview]  WITH CHECK ADD  CONSTRAINT [FK_NoteReview_NoteID] FOREIGN KEY([NoteID])
 REFERENCES [dbo].[NoteDetails] ([ID])
 GO
 ALTER TABLE [dbo].[NoteReview] CHECK CONSTRAINT [FK_NoteReview_NoteID]
+GO
+ALTER TABLE [dbo].[NoteReview]  WITH CHECK ADD  CONSTRAINT [FK_NoteReview_ReviewedByID] FOREIGN KEY([ReviewedByID])
+REFERENCES [dbo].[Users] ([ID])
+GO
+ALTER TABLE [dbo].[NoteReview] CHECK CONSTRAINT [FK_NoteReview_ReviewedByID]
+GO
+ALTER TABLE [dbo].[SellerNotesReportedIssues]  WITH CHECK ADD  CONSTRAINT [FK_SellerNotesReportedIssues_AgainstDownloadID] FOREIGN KEY([AgainstDownloadID])
+REFERENCES [dbo].[DownloadedNotes] ([ID])
+GO
+ALTER TABLE [dbo].[SellerNotesReportedIssues] CHECK CONSTRAINT [FK_SellerNotesReportedIssues_AgainstDownloadID]
+GO
+ALTER TABLE [dbo].[SellerNotesReportedIssues]  WITH CHECK ADD  CONSTRAINT [FK_SellerNotesReportedIssues_NoteID] FOREIGN KEY([NoteID])
+REFERENCES [dbo].[NoteDetails] ([ID])
+GO
+ALTER TABLE [dbo].[SellerNotesReportedIssues] CHECK CONSTRAINT [FK_SellerNotesReportedIssues_NoteID]
+GO
+ALTER TABLE [dbo].[SellerNotesReportedIssues]  WITH CHECK ADD  CONSTRAINT [FK_SellerNotesReportedIssues_ReportedByID] FOREIGN KEY([ReportedByID])
+REFERENCES [dbo].[Users] ([ID])
+GO
+ALTER TABLE [dbo].[SellerNotesReportedIssues] CHECK CONSTRAINT [FK_SellerNotesReportedIssues_ReportedByID]
 GO
 ALTER TABLE [dbo].[SpamReports]  WITH CHECK ADD  CONSTRAINT [FK_SpamReports_NoteID] FOREIGN KEY([NoteID])
 REFERENCES [dbo].[NoteDetails] ([ID])
