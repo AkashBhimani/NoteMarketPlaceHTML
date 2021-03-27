@@ -35,9 +35,9 @@ namespace NotesMarketPlace.Controllers
         public ActionResult SendContactUsEmail(ContactUsViewModel model)
         {
             string emailId = User.Identity.Name;
-            var fromEmail = new MailAddress("akash.bhimani.046@gmail.com", "Akash Bhimani");
+            var fromEmail = new MailAddress("akashbhimani046@yopmail.com", "Akash Bhimani");
             var toEmail = new MailAddress(emailId);
-            var fromEmailPassword = "Akash@046"; // Replace with actual password
+            var fromEmailPassword = "******"; // Replace with actual password
             string subject = model.FullName + " - Query";
 
             string body = "<br /> Hello, <br />" +

@@ -58,9 +58,9 @@ namespace NotesMarketPlace.Controllers
             var verifyUrl = "/SignUp/EmailVerificationModal?emailID=" + user.EmailID;
             var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
 
-            var fromEmail = new MailAddress("akash.bhimani.046@gmail.com", "Akash Bhimani");
+            var fromEmail = new MailAddress("akashbhimani046@yopmail.com", "Akash Bhimani");
             var toEmail = new MailAddress(user.EmailID);
-            var fromEmailPassword = "Akash@046"; // Replace with actual password
+            var fromEmailPassword = "******"; // Replace with actual password
             string subject = "Note Marketplace - Email Verification";
 
             string body = "<br /> Hello " + user.FirstName + ", <br /> Thank you for signing up with us." +

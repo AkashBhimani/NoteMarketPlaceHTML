@@ -338,9 +338,9 @@ namespace NotesMarketPlace.Controllers
 
         public void SellerAllowsDownloadNote(string emailId,string buyer,string seller)
         {
-            var fromEmail = new MailAddress("akash.bhimani.046@gmail.com", "Akash Bhimani");
+            var fromEmail = new MailAddress("akashbhimani046@yopmail.com", "Akash Bhimani");
             var toEmail = new MailAddress(emailId);
-            var fromEmailPassword = "Akash@046";
+            var fromEmailPassword = "******";
             string subject = $"{seller} Allows you to download a note";
 
             string body = "<br /> Hello " + buyer + ",<br /><br />" +

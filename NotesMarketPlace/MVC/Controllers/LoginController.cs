@@ -100,9 +100,9 @@ namespace NotesMarketPlace.Controllers
             var user = context.Users.Where(a => a.EmailID == emailID).FirstOrDefault();
             user.Password = Encrypt(password);
             context.SaveChanges();
-            var fromEmail = new MailAddress("akash.bhimani.046@gmail.com", "Akash Bhimani");
+            var fromEmail = new MailAddress("akashbhimani046@yopmail.com", "Akash Bhimani");
             var toEmail = new MailAddress(user.EmailID);
-            var fromEmailPassword = "Akash@046";
+            var fromEmailPassword = "******";
             string subject = "New Temporary Password has been created for you";
 
             string body = "<br /> Hello, <br /><br /> We have generated a new password for you " +

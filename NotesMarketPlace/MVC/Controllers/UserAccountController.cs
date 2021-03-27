@@ -461,9 +461,9 @@ namespace NotesMarketPlace.Controllers
 
         public void NotifyAdminToSpamNote(string member,string seller,string noteTitle)
         {
-            var fromEmail = new MailAddress("akash.bhimani.046@gmail.com", "Akash Bhimani");
+            var fromEmail = new MailAddress("akashbhimani046@yopmail.com", "Akash Bhimani");
             var toEmail = new MailAddress("akashpbhimani000@gmail.com");
-            var fromEmailPassword = "Akash@046";
+            var fromEmailPassword = "******";
             string subject = $"{member} Reported an issue for {noteTitle}";
 
             string body = "<br /> Hello Admins, <br /><br />" +

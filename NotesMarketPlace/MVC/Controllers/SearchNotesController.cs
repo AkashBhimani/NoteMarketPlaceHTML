@@ -1,6 +1,5 @@
 ﻿using NotesMarketPlace.Models;
 using PagedList;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -177,9 +176,9 @@ namespace NotesMarketPlace.Controllers
 
         public void notifySellerToAllowDownloadNote(string emailID, string buyer, string seller)
         {
-            var fromEmail = new MailAddress("akash.bhimani.046@gmail.com", "Akash Bhimani");
+            var fromEmail = new MailAddress("akashbhimani046@yopmail.com", "Akash Bhimani");
             var toEmail = new MailAddress(emailID);
-            var fromEmailPassword = "Akash@046";
+            var fromEmailPassword = "******";
             string subject = $"{buyer} wants to purchase your notes";
 
             string body = "<br /> Hello " + seller + ",<br /><br />" +
