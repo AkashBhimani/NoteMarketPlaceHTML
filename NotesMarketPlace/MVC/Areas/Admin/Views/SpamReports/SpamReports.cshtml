@@ -1,0 +1,132 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+
+@model IPagedList<NotesMarketPlace.SellerNotesReportedIssues>
+
+@{
+    ViewBag.Title = "Spam Reports";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="manage main-section">
+
+    <div class="container">
+
+        <div class="section-container">
+
+            <div class="row">
+
+                <div class="col-md-7 col-sm-6 col-xs-12">
+                    <div class="admin-heading-left">
+                        <h4>Spam Reports</h4>
+                    </div>
+                </div>
+
+                @if (ViewBag.Message != null)
+                {
+                    <div class="col-md-12">
+                        <h4>@ViewBag.Message</h4>
+                    </div>
+                }
+                else
+                {
+                    using (Html.BeginForm("SpamReports", "SpamReports", FormMethod.Get))
+                    {
+
+                        <div class="col-md-3 col-sm-4 col-xs-8">
+                            <div class="form-group admin-heading-right">
+                                <img src="~/Content/Images/Dashboard/search-icon.svg">
+                                <input type="search" name="search" value="" placeholder="Search" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-sm-2 col-xs-4 search-btn">
+                            <button type="submit" class="btn submit" style="width:100%;">SEARCH</button>
+                        </div>
+                    }
+                    <div class="col-md-12">
+
+                        <div class="general-table table-responsive">
+
+                            <table class="table table-one-col-color">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">
+                                            SR. NO
+                                        </th>
+                                        <th scope="col">
+                                            @Html.ActionLink("REPORTED BY", "SpamReports", "SpamReports", new { sortBy = ViewBag.SortByReportedBy, search = Request["search"] }, new { @class = "text-center" })
+                                        </th>
+                                        <th scope="col">
+                                            @Html.ActionLink("NOTE TITLE", "SpamReports", "SpamReports", new { sortBy = ViewBag.SortByNoteTitle, search = Request["search"] }, null)
+                                        </th>
+                                        <th scope="col">
+                                            @Html.ActionLink("CATEGORY", "SpamReports", "SpamReports", new { sortBy = ViewBag.SortByCategory, search = Request["search"] }, null)
+                                        </th>
+                                        <th scope="col">
+                                            @Html.ActionLink("DATE EDITED", "SpamReports", "SpamReports", new { sortBy = ViewBag.SortByEditedDate, search = Request["search"] }, null)
+                                        </th>
+                                        <th scope="col">
+                                            @Html.ActionLink("REMARK", "SpamReports", "SpamReports", new { sortBy = ViewBag.SortByRemarks, search = Request["search"] }, new { @class = "text-center" })
+                                        </th>
+                                        <th scope="col">ACTION</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model == null)
+                                    {
+                                        <tr>
+                                            <td colspan="10">No records Found.</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+
+                                        int count = 1;
+                                        foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td scope="row">@count</td>
+                                                <td>@item.Users.FirstName @item.Users.LastName</td>
+                                                <td><a href="@Url.Action("NoteDetails","Notes",new { id = item.NoteID })">@item.NoteDetails.NoteTitle</a></td>
+                                                <td>@item.NoteDetails.NoteCategories.CategoryName</td>
+                                                <td>@item.CreatedDate.Value.ToString("dd-MM-yyyy, hh:mm")</td>
+                                                <td>@item.Remarks</td>
+                                                <td><a href="@Url.Action("DeleteSpamReport","SpamReports",new { id = item.NoteID })" onclick="return confirm('Are you sure you want to delete reported issue.')"><i class="fa fa-trash"></i></a></td>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <i onclick="showhideDropdown(1)" class="fa fa-ellipsis-v dropbtn" id="ellipsis"></i>
+                                                        <div id="showhideDropdown_1" class="dropdown-content">
+                                                            <a href="@Url.Action("DownloadNote","Notes",new { id = item.NoteID })">Download Notes</a>
+                                                            <a href="@Url.Action("NoteDetails","Notes",new { id = item.NoteID })">View More Details</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                @{ count++; }
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="justify-content-center">
+                            @if (Model != null)
+                            {
+                                @Html.PagedListPager(Model, page => Url.Action("SpamReports", "SpamReports", new { page, search = Request["search"], sortBy = Request["sortBy"] }))
+                            }
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+

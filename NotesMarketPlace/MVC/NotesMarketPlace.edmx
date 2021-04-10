@@ -16,6 +16,7 @@
           <Property Name="CreatedBy" Type="int" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="ModifiedBy" Type="int" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DownloadedNotes">
           <Key>
@@ -49,8 +50,8 @@
           <Property Name="FacebookURL" Type="varchar" MaxLength="100" />
           <Property Name="TwitterURL" Type="varchar" MaxLength="100" />
           <Property Name="LinkedInURL" Type="varchar" MaxLength="100" />
-          <Property Name="DefaultNoteDisplayImage" Type="varbinary(max)" Nullable="false" />
-          <Property Name="DefaultProfilePicture" Type="varbinary(max)" Nullable="false" />
+          <Property Name="DefaultNoteDisplayImage" Type="varchar(max)" Nullable="false" />
+          <Property Name="DefaultProfilePicture" Type="varchar(max)" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="CreatedBy" Type="int" />
           <Property Name="ModifiedDate" Type="datetime" />
@@ -67,6 +68,7 @@
           <Property Name="CreatedBy" Type="int" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="ModifiedBy" Type="int" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="NoteDetails">
           <Key>
@@ -79,7 +81,6 @@
           <Property Name="CountryId" Type="int" Nullable="false" />
           <Property Name="NoteTitle" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="DisplayPicture" Type="varchar(max)" />
-          <Property Name="UploadNote" Type="varchar(max)" Nullable="false" />
           <Property Name="NumberOfPages" Type="int" />
           <Property Name="Description" Type="varchar(max)" Nullable="false" />
           <Property Name="InstitutionName" Type="varchar" MaxLength="200" />
@@ -125,6 +126,7 @@
           <Property Name="CreatedBy" Type="int" />
           <Property Name="ModifiedDate" Type="datetime" />
           <Property Name="ModifiedBy" Type="int" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="SellerNotesAttachments">
           <Key>
@@ -179,12 +181,12 @@
           <Property Name="PhoneNumber-CountryCode" Type="varchar" MaxLength="4" Nullable="false" />
           <Property Name="PhoneNumber" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="ProfilePicture" Type="varchar(max)" />
-          <Property Name="AddressLine-1" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="AddressLine-2" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="State" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="ZipCode" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Country" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AddressLine-1" Type="varchar" MaxLength="100" />
+          <Property Name="AddressLine-2" Type="varchar" MaxLength="100" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="State" Type="varchar" MaxLength="50" />
+          <Property Name="ZipCode" Type="varchar" MaxLength="50" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
           <Property Name="University" Type="varchar" MaxLength="100" />
           <Property Name="College" Type="varchar" MaxLength="100" />
           <Property Name="SubmittedDate" Type="datetime" />
@@ -224,6 +226,18 @@
           <Property Name="ModifiedBy" Type="int" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Countries_CreatedBy">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Countries" Type="Self.Countries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Countries">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DownloadedNotes_Buyer">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="DownloadedNotes" Type="Self.DownloadedNotes" Multiplicity="*" />
@@ -257,6 +271,30 @@
             </Principal>
             <Dependent Role="DownloadedNotes">
               <PropertyRef Name="Seller" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NoteCategories_CreatedBy">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="NoteCategories" Type="Self.NoteCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NoteCategories">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NoteDetails_ActionBy">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="NoteDetails" Type="Self.NoteDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NoteDetails">
+              <PropertyRef Name="ActionBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -344,6 +382,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_NoteTypes_CreatedBy">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="NoteTypes" Type="Self.NoteTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NoteTypes">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SellerNotesAttachments_NoteID">
+          <End Role="NoteDetails" Type="Self.NoteDetails" Multiplicity="1" />
+          <End Role="SellerNotesAttachments" Type="Self.SellerNotesAttachments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NoteDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SellerNotesAttachments">
+              <PropertyRef Name="NoteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SellerNotesReportedIssues_AgainstDownloadID">
           <End Role="DownloadedNotes" Type="Self.DownloadedNotes" Multiplicity="1" />
           <End Role="SellerNotesReportedIssues" Type="Self.SellerNotesReportedIssues" Multiplicity="*" />
@@ -416,18 +478,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Users_RoleID">
-          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="1" />
-          <End Role="Users" Type="Self.Users" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserRoles">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Users">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="NotesMarketPlaceModelStoreContainer">
           <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DownloadedNotes" EntityType="Self.DownloadedNotes" Schema="dbo" store:Type="Tables" />
@@ -442,6 +492,10 @@
           <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Countries_CreatedBy" Association="Self.FK_Countries_CreatedBy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Countries" EntitySet="Countries" />
+          </AssociationSet>
           <AssociationSet Name="FK_DownloadedNotes_Buyer" Association="Self.FK_DownloadedNotes_Buyer">
             <End Role="Users" EntitySet="Users" />
             <End Role="DownloadedNotes" EntitySet="DownloadedNotes" />
@@ -453,6 +507,14 @@
           <AssociationSet Name="FK_DownloadedNotes_Seller" Association="Self.FK_DownloadedNotes_Seller">
             <End Role="Users" EntitySet="Users" />
             <End Role="DownloadedNotes" EntitySet="DownloadedNotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NoteCategories_CreatedBy" Association="Self.FK_NoteCategories_CreatedBy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="NoteCategories" EntitySet="NoteCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NoteDetails_ActionBy" Association="Self.FK_NoteDetails_ActionBy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="NoteDetails" EntitySet="NoteDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_NoteDetails_CategoryID" Association="Self.FK_NoteDetails_CategoryID">
             <End Role="NoteCategories" EntitySet="NoteCategories" />
@@ -482,6 +544,14 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="NoteReview" EntitySet="NoteReview" />
           </AssociationSet>
+          <AssociationSet Name="FK_NoteTypes_CreatedBy" Association="Self.FK_NoteTypes_CreatedBy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="NoteTypes" EntitySet="NoteTypes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SellerNotesAttachments_NoteID" Association="Self.FK_SellerNotesAttachments_NoteID">
+            <End Role="NoteDetails" EntitySet="NoteDetails" />
+            <End Role="SellerNotesAttachments" EntitySet="SellerNotesAttachments" />
+          </AssociationSet>
           <AssociationSet Name="FK_SellerNotesReportedIssues_AgainstDownloadID" Association="Self.FK_SellerNotesReportedIssues_AgainstDownloadID">
             <End Role="DownloadedNotes" EntitySet="DownloadedNotes" />
             <End Role="SellerNotesReportedIssues" EntitySet="SellerNotesReportedIssues" />
@@ -506,10 +576,6 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="UserProfile" EntitySet="UserProfile" />
           </AssociationSet>
-          <AssociationSet Name="FK_Users_RoleID" Association="Self.FK_Users_RoleID">
-            <End Role="UserRoles" EntitySet="UserRoles" />
-            <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -527,6 +593,8 @@
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Countries_CreatedBy" FromRole="Countries" ToRole="Users" />
           <NavigationProperty Name="NoteDetails" Relationship="Self.FK_NoteDetails_CountryID" FromRole="Countries" ToRole="NoteDetails" />
         </EntityType>
         <EntityType Name="DownloadedNotes">
@@ -566,8 +634,8 @@
           <Property Name="FacebookURL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="TwitterURL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="LinkedInURL" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="DefaultNoteDisplayImage" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
-          <Property Name="DefaultProfilePicture" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="DefaultNoteDisplayImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DefaultProfilePicture" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
@@ -584,6 +652,8 @@
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_NoteCategories_CreatedBy" FromRole="NoteCategories" ToRole="Users" />
           <NavigationProperty Name="NoteDetails" Relationship="Self.FK_NoteDetails_CategoryID" FromRole="NoteCategories" ToRole="NoteDetails" />
         </EntityType>
         <EntityType Name="NoteDetails">
@@ -597,7 +667,6 @@
           <Property Name="CountryId" Type="Int32" Nullable="false" />
           <Property Name="NoteTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DisplayPicture" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="UploadNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="NumberOfPages" Type="Int32" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="InstitutionName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
@@ -619,9 +688,11 @@
           <NavigationProperty Name="Countries" Relationship="Self.FK_NoteDetails_CountryID" FromRole="NoteDetails" ToRole="Countries" />
           <NavigationProperty Name="DownloadedNotes" Relationship="Self.FK_DownloadedNotes_NoteID" FromRole="NoteDetails" ToRole="DownloadedNotes" />
           <NavigationProperty Name="NoteCategories" Relationship="Self.FK_NoteDetails_CategoryID" FromRole="NoteDetails" ToRole="NoteCategories" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_NoteDetails_ActionBy" FromRole="NoteDetails" ToRole="Users" />
           <NavigationProperty Name="NoteTypes" Relationship="Self.FK_NoteDetails_TypeID" FromRole="NoteDetails" ToRole="NoteTypes" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_NoteDetails_UserID" FromRole="NoteDetails" ToRole="Users" />
+          <NavigationProperty Name="Users1" Relationship="Self.FK_NoteDetails_UserID" FromRole="NoteDetails" ToRole="Users" />
           <NavigationProperty Name="NoteReview" Relationship="Self.FK_NoteReview_NoteID" FromRole="NoteDetails" ToRole="NoteReview" />
+          <NavigationProperty Name="SellerNotesAttachments" Relationship="Self.FK_SellerNotesAttachments_NoteID" FromRole="NoteDetails" ToRole="SellerNotesAttachments" />
           <NavigationProperty Name="SellerNotesReportedIssues" Relationship="Self.FK_SellerNotesReportedIssues_NoteID" FromRole="NoteDetails" ToRole="SellerNotesReportedIssues" />
           <NavigationProperty Name="SpamReports" Relationship="Self.FK_SpamReports_NoteID" FromRole="NoteDetails" ToRole="SpamReports" />
         </EntityType>
@@ -654,7 +725,9 @@
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="NoteDetails" Relationship="Self.FK_NoteDetails_TypeID" FromRole="NoteTypes" ToRole="NoteDetails" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_NoteTypes_CreatedBy" FromRole="NoteTypes" ToRole="Users" />
         </EntityType>
         <EntityType Name="SellerNotesAttachments">
           <Key>
@@ -669,6 +742,7 @@
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="NoteDetails" Relationship="Self.FK_SellerNotesAttachments_NoteID" FromRole="SellerNotesAttachments" ToRole="NoteDetails" />
         </EntityType>
         <EntityType Name="SellerNotesReportedIssues">
           <Key>
@@ -714,12 +788,12 @@
           <Property Name="PhoneNumber_CountryCode" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ProfilePicture" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="AddressLine_1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="AddressLine_2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AddressLine_1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AddressLine_2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ZipCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="University" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="College" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="SubmittedDate" Type="DateTime" Precision="3" />
@@ -740,7 +814,6 @@
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Users" Relationship="Self.FK_Users_RoleID" FromRole="UserRoles" ToRole="Users" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -760,15 +833,30 @@
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="ModifiedBy" Type="Int32" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Countries" Relationship="Self.FK_Countries_CreatedBy" FromRole="Users" ToRole="Countries" />
           <NavigationProperty Name="DownloadedNotes" Relationship="Self.FK_DownloadedNotes_Buyer" FromRole="Users" ToRole="DownloadedNotes" />
           <NavigationProperty Name="DownloadedNotes1" Relationship="Self.FK_DownloadedNotes_Seller" FromRole="Users" ToRole="DownloadedNotes" />
-          <NavigationProperty Name="NoteDetails" Relationship="Self.FK_NoteDetails_UserID" FromRole="Users" ToRole="NoteDetails" />
+          <NavigationProperty Name="NoteCategories" Relationship="Self.FK_NoteCategories_CreatedBy" FromRole="Users" ToRole="NoteCategories" />
+          <NavigationProperty Name="NoteDetails" Relationship="Self.FK_NoteDetails_ActionBy" FromRole="Users" ToRole="NoteDetails" />
+          <NavigationProperty Name="NoteDetails1" Relationship="Self.FK_NoteDetails_UserID" FromRole="Users" ToRole="NoteDetails" />
           <NavigationProperty Name="NoteReview" Relationship="Self.FK_NoteReview_ReviewedByID" FromRole="Users" ToRole="NoteReview" />
+          <NavigationProperty Name="NoteTypes" Relationship="Self.FK_NoteTypes_CreatedBy" FromRole="Users" ToRole="NoteTypes" />
           <NavigationProperty Name="SellerNotesReportedIssues" Relationship="Self.FK_SellerNotesReportedIssues_ReportedByID" FromRole="Users" ToRole="SellerNotesReportedIssues" />
           <NavigationProperty Name="SpamReports" Relationship="Self.FK_SpamReports_ReportedBy" FromRole="Users" ToRole="SpamReports" />
           <NavigationProperty Name="UserProfile" Relationship="Self.FK_UserProfile_UserID" FromRole="Users" ToRole="UserProfile" />
-          <NavigationProperty Name="UserRoles" Relationship="Self.FK_Users_RoleID" FromRole="Users" ToRole="UserRoles" />
         </EntityType>
+        <Association Name="FK_Countries_CreatedBy">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Countries" Type="Self.Countries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Countries">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_NoteDetails_CountryID">
           <End Role="Countries" Type="Self.Countries" Multiplicity="1" />
           <End Role="NoteDetails" Type="Self.NoteDetails" Multiplicity="*" />
@@ -841,6 +929,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_NoteCategories_CreatedBy">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="NoteCategories" Type="Self.NoteCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NoteCategories">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_NoteDetails_CategoryID">
           <End Role="NoteCategories" Type="Self.NoteCategories" Multiplicity="1" />
           <End Role="NoteDetails" Type="Self.NoteDetails" Multiplicity="*" />
@@ -850,6 +950,18 @@
             </Principal>
             <Dependent Role="NoteDetails">
               <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NoteDetails_ActionBy">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="NoteDetails" Type="Self.NoteDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NoteDetails">
+              <PropertyRef Name="ActionBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -885,6 +997,18 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="NoteReview">
+              <PropertyRef Name="NoteID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SellerNotesAttachments_NoteID">
+          <End Role="NoteDetails" Type="Self.NoteDetails" Multiplicity="1" />
+          <End Role="SellerNotesAttachments" Type="Self.SellerNotesAttachments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NoteDetails">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SellerNotesAttachments">
               <PropertyRef Name="NoteID" />
             </Dependent>
           </ReferentialConstraint>
@@ -925,6 +1049,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_NoteTypes_CreatedBy">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="NoteTypes" Type="Self.NoteTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="NoteTypes">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SellerNotesReportedIssues_ReportedByID">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="SellerNotesReportedIssues" Type="Self.SellerNotesReportedIssues" Multiplicity="*" />
@@ -961,18 +1097,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Users_RoleID">
-          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="1" />
-          <End Role="Users" Type="Self.Users" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserRoles">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Users">
-              <PropertyRef Name="RoleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="NotesMarketPlaceEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Countries" EntityType="Self.Countries" />
           <EntitySet Name="DownloadedNotes" EntityType="Self.DownloadedNotes" />
@@ -987,6 +1111,10 @@
           <EntitySet Name="UserProfile" EntityType="Self.UserProfile" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRoles" />
           <EntitySet Name="Users" EntityType="Self.Users" />
+          <AssociationSet Name="FK_Countries_CreatedBy" Association="Self.FK_Countries_CreatedBy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Countries" EntitySet="Countries" />
+          </AssociationSet>
           <AssociationSet Name="FK_NoteDetails_CountryID" Association="Self.FK_NoteDetails_CountryID">
             <End Role="Countries" EntitySet="Countries" />
             <End Role="NoteDetails" EntitySet="NoteDetails" />
@@ -1011,8 +1139,16 @@
             <End Role="DownloadedNotes" EntitySet="DownloadedNotes" />
             <End Role="SellerNotesReportedIssues" EntitySet="SellerNotesReportedIssues" />
           </AssociationSet>
+          <AssociationSet Name="FK_NoteCategories_CreatedBy" Association="Self.FK_NoteCategories_CreatedBy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="NoteCategories" EntitySet="NoteCategories" />
+          </AssociationSet>
           <AssociationSet Name="FK_NoteDetails_CategoryID" Association="Self.FK_NoteDetails_CategoryID">
             <End Role="NoteCategories" EntitySet="NoteCategories" />
+            <End Role="NoteDetails" EntitySet="NoteDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NoteDetails_ActionBy" Association="Self.FK_NoteDetails_ActionBy">
+            <End Role="Users" EntitySet="Users" />
             <End Role="NoteDetails" EntitySet="NoteDetails" />
           </AssociationSet>
           <AssociationSet Name="FK_NoteDetails_TypeID" Association="Self.FK_NoteDetails_TypeID">
@@ -1027,6 +1163,10 @@
             <End Role="NoteDetails" EntitySet="NoteDetails" />
             <End Role="NoteReview" EntitySet="NoteReview" />
           </AssociationSet>
+          <AssociationSet Name="FK_SellerNotesAttachments_NoteID" Association="Self.FK_SellerNotesAttachments_NoteID">
+            <End Role="NoteDetails" EntitySet="NoteDetails" />
+            <End Role="SellerNotesAttachments" EntitySet="SellerNotesAttachments" />
+          </AssociationSet>
           <AssociationSet Name="FK_SellerNotesReportedIssues_NoteID" Association="Self.FK_SellerNotesReportedIssues_NoteID">
             <End Role="NoteDetails" EntitySet="NoteDetails" />
             <End Role="SellerNotesReportedIssues" EntitySet="SellerNotesReportedIssues" />
@@ -1039,6 +1179,10 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="NoteReview" EntitySet="NoteReview" />
           </AssociationSet>
+          <AssociationSet Name="FK_NoteTypes_CreatedBy" Association="Self.FK_NoteTypes_CreatedBy">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="NoteTypes" EntitySet="NoteTypes" />
+          </AssociationSet>
           <AssociationSet Name="FK_SellerNotesReportedIssues_ReportedByID" Association="Self.FK_SellerNotesReportedIssues_ReportedByID">
             <End Role="Users" EntitySet="Users" />
             <End Role="SellerNotesReportedIssues" EntitySet="SellerNotesReportedIssues" />
@@ -1050,10 +1194,6 @@
           <AssociationSet Name="FK_UserProfile_UserID" Association="Self.FK_UserProfile_UserID">
             <End Role="Users" EntitySet="Users" />
             <End Role="UserProfile" EntitySet="UserProfile" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Users_RoleID" Association="Self.FK_Users_RoleID">
-            <End Role="UserRoles" EntitySet="UserRoles" />
-            <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -1072,6 +1212,7 @@
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1126,6 +1267,7 @@
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1139,7 +1281,6 @@
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="NoteTitle" ColumnName="NoteTitle" />
                 <ScalarProperty Name="DisplayPicture" ColumnName="DisplayPicture" />
-                <ScalarProperty Name="UploadNote" ColumnName="UploadNote" />
                 <ScalarProperty Name="NumberOfPages" ColumnName="NumberOfPages" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="InstitutionName" ColumnName="InstitutionName" />
@@ -1187,6 +1328,7 @@
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

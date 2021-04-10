@@ -68,7 +68,7 @@
                                         @Html.ActionLink("PRICE", "MyDownloads", "UserAccount", new { sortBy = ViewBag.SortBySellprice, search = Request["search"] }, null)
                                     </th>
                                     <th scope="col">
-                                        @Html.ActionLink("DOWNLOADED DATE/TIME", "MyDownloads", "UserAccount", new { sortBy = ViewBag.SortByCreatedDate, search = Request["search"] }, null)
+                                        @Html.ActionLink("DOWNLOADED DATE/TIME", "MyDownloads", "UserAccount", new { sortBy = ViewBag.SortByDate, search = Request["search"] }, null)
                                     </th>
                                     <th scope="col"></th>
                                     <th scope="col"></th>
@@ -95,7 +95,7 @@
                                             @{var isPaid = (item.IsPaid == true ? "Paid" : "Free");}
                                             <td>@isPaid</td>
                                             <td>@item.Price</td>
-                                            <td>@item.CreatedDate</td>
+                                            <td>@item.AttachmentDownloadedDate</td>
                                             <td><a href="@Url.Action("NoteDetails","SearchNotes",new { id = item.NoteID })"><img src="~/Content/Images/Dashboard/eye.png"></a></td>
                                             <td>
                                                 <div class="dropdown">

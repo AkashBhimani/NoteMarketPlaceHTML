@@ -1,0 +1,244 @@
+﻿@model NotesMarketPlace.NoteDetails
+
+@{
+    ViewBag.Title = "Note Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@{
+    NotesMarketPlaceEntities context = new NotesMarketPlaceEntities();
+
+    string emailID = User.Identity.Name;
+    Users loggedInUser = context.Users.Where(x => x.EmailID == emailID).FirstOrDefault();
+
+    List<NoteReview> list = Model.NoteReview.Where(x => x.NoteID == Model.ID).OrderByDescending(x => x.CreatedDate).ToList();
+    int noOfReviews = list.Count();
+    int sumOfStar = list.Sum(x => x.Rate);
+}
+
+<!-- Note-detalis Section -->
+<section class="note-details-section main-section">
+
+    <!-- Note details  -->
+    <div class="note-details">
+
+        <!-- Note details  -->
+        <div class="note-details">
+
+            <div class="container section-container">
+
+                <div class="heading">
+                    <h1>Note Details</h1>
+                </div>
+
+                <!-- Note Picture & name -->
+                <div class="row">
+
+                    @{
+                        string path;
+                        if (Model.DisplayPicture != null)
+                        {
+                            path = Model.DisplayPicture;
+                        }
+                        else
+                        {
+                            path = context.ManageSystemConfiguration.Select(x => x.DefaultNoteDisplayImage).FirstOrDefault();
+                        }
+                    }
+
+                    <div class="col-md-2 col-sm-4 book-pic">
+                        <img src="@path" class="img-responsive">
+                    </div>
+
+                    <div class="col-md-5 col-sm-8 note-name">
+
+                        <div class="note-info">
+
+                            <h3>@Model.NoteTitle</h3>
+                            <h4>@Model.NoteCategories.CategoryName</h4>
+                            <p>@Model.Description</p>
+
+                            @if (!Model.IsPaid)
+                            {
+                                <a type="button" class="btn submit" href="@Url.Action("DownloadNote","Notes", new { id = Model.ID })">DOWNLOAD</a>
+                            }
+                            else if (loggedInUser.RoleID == 2)
+                            {
+                                <a type="button" class="btn submit" href="@Url.Action("DownloadNote","Notes", new { id = Model.ID })">DOWNLOAD/@Model.SellPrice</a>
+                            }
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-5 col-sm-12">
+
+                        <div class="about-book">
+
+                            @if (Model.InstitutionName != null)
+                            {
+                                <p>Institution: <span>@Model.InstitutionName</span></p>
+                            }
+
+                            <p>Country: <span>@Model.Countries.CountryName</span></p>
+
+                            @if (Model.Course != null)
+                            {
+                                <p>Course Name: <span>@Model.Course</span></p>
+                            }
+
+                            @if (Model.CourseCode != null)
+                            {
+                                <p>Course Code: <span>@Model.CourseCode</span></p>
+                            }
+
+                            @if (Model.Professor != null)
+                            {
+                                <p>Professor: <span>@Model.Professor</span></p>
+                            }
+
+                            @if (Model.NumberOfPages != null)
+                            {
+                                <p>Namber of Pages: <span>@Model.NumberOfPages</span></p>
+                            }
+
+                            @if (Model.PublishedDate != null)
+                            {
+                                <p>Approved Date: <span>@Model.PublishedDate.Value.ToString("MMMM dd yyy")</span></p>
+                            }
+
+                            @if (noOfReviews != 0)
+                            {
+                                var avg = sumOfStar / noOfReviews;
+
+                                <p>
+                                    Rating: <span>
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            string addClass = (i <= avg ? "fa fa-star" : "fa fa-star-o");
+
+                                            <i class="@addClass"></i>
+                                        }
+                                        @noOfReviews Reviews
+                                    </span>
+                                </p>
+                            }
+
+                            @{ int numberOfUser = Model.SellerNotesReportedIssues.Where(x => x.NoteID == Model.ID).Count();}
+
+                            @if (numberOfUser != 0)
+                            {
+                                <p class="inapropriate-note-number">@numberOfUser users marked this as inappropriate</p>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    @if (Model.NotePreview != null || noOfReviews != 0)
+    {
+        <hr class="container horizontal-line">
+    }
+
+    <!-- Bottom Side of Page -->
+    <div class="bottom-side">
+
+        <div class="container section-container">
+
+            <div class="row">
+
+                @if (Model.NotePreview != null)
+                {
+                    <div class="col-md-5 note-priview">
+
+                        <div class="heading">
+                            <h1>Note Preview</h1>
+                        </div>
+
+                        <div>
+                            <embed src="@Model.NotePreview#toolbar=0&navpanes=0&scrollbar=0" type="application/pdf" Content-Disposition="attachment" class="note-preview" />
+                        </div>
+
+                    </div>
+                }
+
+                @if (noOfReviews != 0)
+                {
+
+                    <div class="col-md-7">
+
+                        <div class="customer-reviews">
+
+                            <div class="col-md-12 heading">
+                                <h1>Customers Review</h1>
+                            </div>
+
+                            <div class="col-md-12 customer-review-block">
+
+                                @{ int flag = 1; }
+
+                                @foreach (var item in list)
+                                {
+                                    var user = item.Users.UserProfile.Where(x => x.UserID == item.ReviewedByID).FirstOrDefault();
+
+                                    <div class="row customer-review">
+
+                                        <div class="col-md-1 col-sm-1 col-xs-2">
+
+                                            <div class="customer-photo">
+                                                <img src="@user.ProfilePicture">
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-11 col-sm-11 col-xs-10">
+
+                                            <h5>
+                                                @user.Users.FirstName @user.Users.LastName
+                                                @if (loggedInUser.RoleID == 2)
+                                                {
+                                                    <a href="@Url.Action("RemoveReview","Notes",new { id=item.ID })"><i class="fa fa-trash" style="float:right;"></i></a>
+                                                }
+                                            </h5>
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                string addClass = (i <= item.Rate ? "fa fa-star" : "fa fa-star-o");
+
+                                                <i class="@addClass"></i>
+                                            }
+                                            <p>@item.Comment</p>
+
+                                        </div>
+
+                                    </div>
+
+                                    if (flag != noOfReviews)
+                                    {
+                                        <hr />
+                                    }
+                                    flag++;
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- Ends Note-details Section -->

@@ -1,0 +1,258 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model NotesMarketPlace.Areas.Admin.Data.MemberDetailsViewModel
+
+@{
+    ViewBag.Title = "Member Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Member Details -->
+<div class="admin-member-details main-section">
+
+    <div class="member-details">
+
+        <div class="container section-container">
+
+            <div class="heading">
+                <h1>Member Details</h1>
+            </div>
+
+            <!-- Note Picture & name -->
+            <div class="row">
+
+                <div class="col-md-2 member-pic">
+
+                    @if (Model.Member.ProfilePicture != null)
+                    {
+                        <img src="@Model.Member.ProfilePicture" class="img-responsive">
+                    }
+                    else
+                    {
+                        NotesMarketPlaceEntities context = new NotesMarketPlaceEntities();
+                        string path = context.ManageSystemConfiguration.Select(x => x.DefaultProfilePicture).FirstOrDefault();
+                        <img src="@path" class="img-responsive">
+                    }
+
+                </div>
+
+                <div class="about-member">
+
+                    <div class="col-md-5 border">
+
+                        <table>
+                            <tr>
+                                <td>First Name: </td>
+                                <td>@Model.Member.Users.FirstName </td>
+                            </tr>
+                            <tr>
+                                <td>Last Name: </td>
+                                <td>@Model.Member.Users.LastName </td>
+                            </tr>
+                            <tr>
+                                <td>Email: </td>
+                                <td>@Model.Member.Users.EmailID</td>
+                            </tr>
+                            @if (Model.Member.DateOfBirth != null)
+                            {
+                                <tr>
+                                    <td>DOB: </td>
+                                    <td>@Model.Member.DateOfBirth.Value.ToString("dd-MM-yyyy")</td>
+                                </tr>
+                            }
+                            <tr>
+                                <td>Phone Number:</td>
+                                <td>@Model.Member.PhoneNumber_CountryCode  @Model.Member.PhoneNumber</td>
+                            </tr>
+                            @if (Model.Member.University != null)
+                            {
+                                <tr>
+                                    <td>College/University:</td>
+                                    <td>@Model.Member.University</td>
+                                </tr>
+                            }
+                        </table>
+
+                    </div>
+
+                    <div class="col-md-5">
+
+                        <table>
+                            <tr>
+                                <td>Address 1: </td>
+                                <td>@Model.Member.AddressLine_1 </td>
+                            </tr>
+                            <tr>
+                                <td>Address 2: </td>
+                                <td>@Model.Member.AddressLine_2 </td>
+                            </tr>
+                            <tr>
+                                <td>City: </td>
+                                <td>@Model.Member.City</td>
+                            </tr>
+                            <tr>
+                                <td>State: </td>
+                                <td>@Model.Member.State</td>
+                            </tr>
+                            <tr>
+                                <td>State: </td>
+                                <td>@Model.Member.Country</td>
+                            </tr>
+                            <tr>
+                                <td>Zip Code: </td>
+                                <td>@Model.Member.ZipCode </td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <hr class="horizontal-line" />
+
+    <!-- Bottom Side of Page -->
+    <div class="manage">
+
+        <div class="container">
+
+            <div class="section-container">
+
+                <div class="row">
+
+                    <div class="col-md-7 col-sm-6 col-xs-12">
+                        <div class="admin-heading-left">
+                            <h4>Members</h4>
+                        </div>
+                    </div>
+
+                    @if (ViewBag.Message != null)
+                    {
+                        <div class="col-md-12">
+                            <h4>@ViewBag.Message</h4>
+                        </div>
+                    }
+                    else
+                    {
+
+                        using (Html.BeginForm("MemberDetails", "Members", FormMethod.Get, new { id = Model.ID }))
+                        {
+                            <div class="col-md-3 col-sm-4 col-xs-8">
+                                <div class="form-group admin-heading-right">
+                                    <img src="~/Content/Images/Dashboard/search-icon.svg">
+                                    <input type="search" name="search" value="" placeholder="Search" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-2 col-xs-4 search-btn">
+                                <button type="submit" class="btn submit" style="width:100%;">SEARCH</button>
+                            </div>
+                        }
+
+
+                        <div class="col-md-12">
+
+                            <div class="general-table table-responsive">
+
+                                <table class="table table-one-col-color-in-member">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">
+                                                SR. NO
+                                            </th>
+                                            <th scope="col">
+                                                @Html.ActionLink("NOTE TITLE", "MemberDetails", "Members", new { sortBy = ViewBag.SortByNoteTitle, id = Model.ID, search = Request["search"] }, null)
+                                            </th>
+                                            <th scope="col">
+                                                @Html.ActionLink("CATEGORY", "MemberDetails", "Members", new { sortBy = ViewBag.SortByCategory, id = Model.ID, search = Request["search"] }, null)
+                                            </th>
+                                            <th scope="col">
+                                                @Html.ActionLink("STATUS", "MemberDetails", "Members", new { sortBy = ViewBag.SortByStatus, id = Model.ID, search = Request["search"] }, null)
+                                            </th>
+                                            <th scope="col">
+                                                DOWNLOADED NOTES
+                                            </th>
+                                            <th scope="col">
+                                                @Html.ActionLink("TOTAL EARNING", "MemberDetails", "Members", new { sortBy = ViewBag.SortByTotalEarning, id = Model.ID, search = Request["search"] }, null)
+                                            </th>
+                                            <th scope="col">
+                                                @Html.ActionLink("ADDED DATE", "MemberDetails", "Members", new { sortBy = ViewBag.SortByAddedDate, id = Model.ID, search = Request["search"] }, null)
+                                            </th>
+                                            <th scope="col">
+                                                @Html.ActionLink("PUBLISHED DATE", "MemberDetails", "Members", new { sortBy = ViewBag.SortByPublished, id = Model.ID, search = Request["search"] }, null)
+                                            </th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.Notes == null)
+                                        {
+                                            <tr>
+                                                <td colspan="10">No records Found.</td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            int count = 1;
+                                            foreach (var item in Model.Notes)
+                                            {
+                                                <tr>
+                                                    <td scope="row">@count</td>
+                                                    <td><a href="@Url.Action("NoteDetails","Notes",new { id = item.ID })">@item.NoteTitle</a></td>
+                                                    <td>@item.NoteCategories.CategoryName</td>
+                                                    <td>@item.Status</td>
+                                                    <td><a href="@Url.Action("DownloadedNotes","Notes", new { search = item.NoteTitle })">@item.DownloadedNotes.Where(x => x.IsAttachmentDownloaded == true).Count()</a></td>
+                                                    <td>$@item.DownloadedNotes.Where(x => x.IsAttachmentDownloaded == true).Sum(x => x.Price)</td>
+                                                    <td>@item.CreatedDate.Value.ToString("dd-MM-yyyy, hh:mm")</td>
+                                                    <td>
+                                                        @if (item.PublishedDate != null)
+                                                        {
+                                                            @item.PublishedDate.Value.ToString("dd-MM-yyyy, hh:mm")
+                                                        }
+                                                        else
+                                                        {
+                                                            <p>N/A</p>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <i onclick="showhideDropdown(1)" class="fa fa-ellipsis-v dropbtn" id="ellipsis"></i>
+                                                            <div id="showhideDropdown_1" class="dropdown-content">
+                                                                <a href="@Url.Action("DownloadNote","Notes", new { id = item.ID })">Download Notes</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    @{ count++;}
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                            <div class="justify-content-center">
+                                @if (Model.Notes != null)
+                                {
+                                    @Html.PagedListPager(Model.Notes, page => Url.Action("MemberDetails", "Members", new { page, search = Request["search"], id = Model.ID, }))
+                                }
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

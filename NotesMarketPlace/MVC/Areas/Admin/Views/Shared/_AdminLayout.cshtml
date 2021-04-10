@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>@ViewBag.Title</title>
+
+    <!-- important meta tage-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+    <link rel="icon" href="~/Content/Images/home/favicon.ico">
+
+    <!-- font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- icons -->
+    <link href="~/Content/Admin/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="~/Content/Admin/bootstrap/bootstrap.min.css">
+
+    <!-- css page -->
+    <link rel="stylesheet" href="~/Content/Admin/style.css">
+
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="~/Content/Admin/responsive.css">
+</head>
+
+<body>
+
+    @{
+        NotesMarketPlaceEntities context = new NotesMarketPlaceEntities();
+        string emailID = User.Identity.Name;
+        int ID = context.Users.Where(x => x.EmailID == emailID).Select(x => x.ID).FirstOrDefault();
+    }
+
+    <!-- Add Category  -->
+    <section id="add-category" class="for-fixed-footer">
+
+        <!-- Header -->
+        <header id="navbar">
+
+            <nav class="nav navbar">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="hamburger-icon">&#9776;</span>
+                        </button>
+                        <a href="@Url.Action("Dashboard","Dashboard")"><img src="~/Content/Images/User-Profile/logo.png" alt="Logo" class="logo"> </a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="myNavbar">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="@Url.Action("Dashboard","Dashboard")" class="@(ViewContext.RouteData.Values["Action"].ToString() == "Dashboard" ? "active" : "")"><span>Dashboard</span></a></li>
+                            <li>
+                                <div class="dropdown">
+                                    <p onclick="showhideDropdown(11)" class="dropbtn profile-pic" id="ellipsis">Notes</p>
+                                    <div id="showhideDropdown_11" class="dropdown-content">
+                                        <a href="@Url.Action("NotesUnderReview","Notes")">Note Under Review</a>
+                                        <a href="@Url.Action("PublishedNotes","Notes")">Published Notes</a>
+                                        <a href="@Url.Action("DownloadedNotes","Notes")">Downloaded Notes</a>
+                                        <a href="@Url.Action("RejectedNotes","Notes")">Rejected Notes</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li><a href="@Url.Action("Members","Members")" class="@(ViewContext.RouteData.Values["Action"].ToString() == "Members" ? "active" : "")"><span>Members</span></a></li>
+                            <li>
+                                <div class="dropdown">
+                                    <p onclick="showhideDropdown(12)" class="dropbtn profile-pic" id="ellipsis">Reports</p>
+                                    <div id="showhideDropdown_12" class="dropdown-content">
+                                        <a href="@Url.Action("SpamReports","SpamReports")">Spam Reports</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="dropdown">
+                                    <p onclick="showhideDropdown(13)" class="dropbtn profile-pic" id="ellipsis">Setting</p>
+                                    <div id="showhideDropdown_13" class="dropdown-content">
+                                        @if (context.ManageSystemConfiguration.Any())
+                                        {
+                                            <a href="@Url.Action("ManageSystemConfiguration","Setting",new { id = context.ManageSystemConfiguration.Select(x=>x.ID).FirstOrDefault() })">Manage System Configuration</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("ManageSystemConfiguration","Setting")">Manage System Configuration</a>
+                                        }
+                                        <a href="@Url.Action("ManageAdministrator","Setting")">Manage Administrator</a>
+                                        <a href="@Url.Action("ManageCategory","Setting")">Manage Category</a>
+                                        <a href="@Url.Action("ManageType","Setting")">Manage Type</a>
+                                        <a href="@Url.Action("ManageCountry","Setting")">Manage Countries</a>
+                                    </div>
+                                </div>
+                            </li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                var userFromUsers = context.Users.Where(x => x.EmailID == emailID).FirstOrDefault();
+                                var userFromUserProfile = context.UserProfile.Where(x => x.UserID == userFromUsers.ID).FirstOrDefault();
+
+                                string path = "";
+                                if (userFromUserProfile != null && userFromUserProfile.ProfilePicture != "")
+                                {
+                                    path = userFromUserProfile.ProfilePicture;                                   
+                                }
+                                else
+                                {
+                                    path = context.ManageSystemConfiguration.Select(x=>x.DefaultProfilePicture).FirstOrDefault();
+                                }
+
+                                <li>
+                                    <div class="dropdown">
+                                        <img onclick="showhideDropdown(14)" src="@path" class="dropbtn profile-pic" id="ellipsis">
+                                        <div id="showhideDropdown_14" class="dropdown-content">
+                                            <a href="@Url.Action("MyProfile","AdminAccount",new { id = ID})">Update Profile</a>
+                                            <a href="@Url.Action("ChangePassword","AdminAccount")">Change Password</a>
+                                            <a href="@Url.Action("Logout","AdminAccount")" onclick="return confirm('Are you sure, you want to logout?')" class="logout">Log Out</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                            <li><a href="@Url.Action("Logout","AdminAccount")" onclick="return confirm('Are you sure, you want to logout?')" class="last-child"> Log out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+        </header>
+        <!-- Header Ends-->
+
+        @RenderBody();
+
+        <footer class="footer-bottom">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-md-12 text-left">
+                        <div class="footer-text-1">
+                            <p>
+                                Version: 1.1.24
+                            </p>
+                        </div>
+
+                        <div class="footer-text-2">
+                            <p>
+                                Copyright &copy; Tatvasoft All Rights Reserved
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </section>
+    <!-- Ends Add Category  -->
+    <!-- Jquery Module -->
+    <script src="~/Scripts/Admin/jquery.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="~/Scripts/Admin/bootstrap/bootstrap.min.js"></script>
+
+    <!-- Validaiton JS -->
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <!-- Javascript Page -->
+    <script src="~/Scripts/Admin/script.js"></script>
+
+</body>
+
+</html>

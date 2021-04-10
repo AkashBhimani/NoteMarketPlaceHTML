@@ -21,8 +21,8 @@ namespace NotesMarketPlace.Controllers
             var types = context.NoteTypes.ToList();
             var university = context.NoteDetails.Where(x => x.InstitutionName != null).Select(x => x.InstitutionName).ToList();
             var course = context.NoteDetails.Where(x => x.Course != null).Select(x => x.Course).Distinct().ToList();
-            var notesDetails = context.NoteDetails.ToList().AsQueryable();
-            ViewBag.count = context.NoteDetails.ToList().Count();
+            var notesDetails = context.NoteDetails.Where(x=>x.Status == "Published").ToList().AsQueryable();
+            ViewBag.count = notesDetails.Count();
 
             NoteListsViewModel obj = new NoteListsViewModel()
             {
@@ -40,7 +40,7 @@ namespace NotesMarketPlace.Controllers
         //Filter Notes
         public ActionResult SearchNotes(string value, int? page)
         {
-            var notesDetails = context.NoteDetails.ToList().AsQueryable();
+            var notesDetails = context.NoteDetails.Where(x => x.Status == "Published").ToList().AsQueryable();
 
             if (notesDetails.Where(x => x.NoteTypes.Type == value).ToList().Any())
             {
@@ -151,7 +151,6 @@ namespace NotesMarketPlace.Controllers
                         Buyer = loggedInUser.ID,
                         IsSellerHasAllowedDownload = false,
                         IsAttachmentDownloaded = false,
-                        AttachmentDownloadedDate = System.DateTime.Now,
                         IsPaid = true,
                         Price = note.SellPrice,
                         NoteTitle = note.NoteTitle,
@@ -176,7 +175,8 @@ namespace NotesMarketPlace.Controllers
 
         public void notifySellerToAllowDownloadNote(string emailID, string buyer, string seller)
         {
-            var fromEmail = new MailAddress("akashbhimani046@yopmail.com", "Akash Bhimani");
+            string supportEmailID = context.ManageSystemConfiguration.Select(x => x.SupportEmail).FirstOrDefault();
+            var fromEmail = new MailAddress(supportEmailID);
             var toEmail = new MailAddress(emailID);
             var fromEmailPassword = "******";
             string subject = $"{buyer} wants to purchase your notes";

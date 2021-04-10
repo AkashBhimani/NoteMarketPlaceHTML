@@ -1,0 +1,185 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+
+@model IPagedList<NotesMarketPlace.NoteDetails>
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="dashboard-content main-section">
+
+    <div class="container">
+
+        <div class="section-container">
+
+            <div class="heading">
+                <h1>Dashboard</h1>
+            </div>
+
+            <div class="notes-status text-center">
+
+                <div class="row">
+
+                    <div class="col-md-4 col-sm-4">
+                        <div class="border">
+                            <h3><a href="@Url.Action("NotesUnderReview","Notes")">@ViewBag.NoOfNotesInReview</a></h3>
+                            <p>Numbers of notes in review for publish</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4">
+                        <div class="border">
+                            <h3><a href="@Url.Action("DownloadedNotes","Notes")">@ViewBag.NoOfDownloadedNotes</a></h3>
+                            <p>Numbers of new notes downloaded (Last 7 days)</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4">
+                        <div class="border">
+                            <h3><a href="@Url.Action("Members","Members")">@ViewBag.NoOfRegistration</a></h3>
+                            <p>Number of new registration (Last 7 days)</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="section-container">
+
+            <div class="row">
+
+                <div class="col-md-5 col-sm-12 col-xs-12">
+                    <div class="admin-heading-left">
+                        <h4>Published Notes</h4>
+                    </div>
+                </div>
+
+                @if (ViewBag.Message != null)
+                {
+                    <div class="col-md-12">
+                        <h4>@ViewBag.Message</h4>
+                    </div>
+                }
+                else
+                {
+                    using (Html.BeginForm("Dashboard", "Dashboard", FormMethod.Get))
+                    {
+
+                        <div class="col-md-3 col-sm-7 col-xs-7">
+                            <div class="form-group admin-heading-right">
+                                <img src="~/Content/Images/Dashboard/search-icon.svg">
+                                <input type="search" name="search" value="" placeholder="Search" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-sm-2 col-xs-5">
+                            <button type="submit" class="btn submit" style="width:100%;">SEARCH</button>
+                        </div>
+                    }
+
+                    <div class="col-md-2 col-sm-3 col-xs-12">
+                        <div class="form-group">
+                            <select class="form-controls" style="width: 100%; margin-top: 20px;" onchange="javascript:searchNotes(this)">
+                                <option value="" disabled selected>Select Month</option>
+                                <option value="@DateTime.Now.ToString("MMMM")">@DateTime.Now.ToString("MMMM")</option>
+                                <option value="@DateTime.Now.AddMonths(-1).ToString("MMMM")">@DateTime.Now.AddMonths(-1).ToString("MMMM")</option>
+                                <option value="@DateTime.Now.AddMonths(-2).ToString("MMMM")">@DateTime.Now.AddMonths(-2).ToString("MMMM")</option>
+                                <option value="@DateTime.Now.AddMonths(-3).ToString("MMMM")">@DateTime.Now.AddMonths(-3).ToString("MMMM")</option>
+                                <option value="@DateTime.Now.AddMonths(-4).ToString("MMMM")">@DateTime.Now.AddMonths(-4).ToString("MMMM")</option>
+                                <option value="@DateTime.Now.AddMonths(-5).ToString("MMMM")">@DateTime.Now.AddMonths(-5).ToString("MMMM")</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    @Html.Partial("_PublishedNotes", Model)
+
+                    if (Model != null)
+                    {
+                        <input type="hidden" value="@Model.PageNumber" id="pageNumber" />
+                    }
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Model -->
+<div class="modal fade" id="unpublish-note" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <input id="note-id" type="hidden" />
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+
+            <div class="modal-body">
+                <h3 id="note-title"></h3>
+                <div class="form-group comment">
+                    <label class="comment">Remarks *</label>
+                    <textarea class="form-control" id="remarks" name="comment" placeholder="Remarks..." rows="4"></textarea>
+                </div>
+                <button type="submit" class="btn btn-danger" onclick="UnpublishNote()" data-dismiss="modal">Unpublish</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    function openUnpublishModal(element) {
+        var id = element.getAttribute('data-id');
+        var title = element.getAttribute('data-title');
+        $('#unpublish-note').modal('show');
+        $('#note-id').val(id);
+        $('#note-title').text(title);
+    }
+
+    function UnpublishNote() {
+
+        if (confirm('Are you sure you want to Unpublish this note ?')) {
+            const remarks = $('#remarks').val();
+            const id = $('#note-id').val();
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ChangeStatusToRemoved", "Notes")',
+            dataType: "html",
+            data: {
+            id: id,
+            remarks: remarks
+            }
+            });
+        }
+
+    }
+
+    function searchNotes(element) {
+        const value = element.value;
+        const pageNumber = $('#pageNumber').val();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetPublishedNotesByFilter", "Dashboard")',
+            dataType: "html",
+            data: {
+                search: value,
+                page: pageNumber,
+            },
+            success: function (data) {
+                $('#published-note').html(data);
+            }
+        });
+    };
+</script>
+

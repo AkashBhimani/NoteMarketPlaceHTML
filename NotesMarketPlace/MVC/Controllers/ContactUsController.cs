@@ -34,10 +34,11 @@ namespace NotesMarketPlace.Controllers
         [HttpPost]
         public ActionResult SendContactUsEmail(ContactUsViewModel model)
         {
-            string emailId = User.Identity.Name;
-            var fromEmail = new MailAddress("akashbhimani046@yopmail.com", "Akash Bhimani");
-            var toEmail = new MailAddress(emailId);
-            var fromEmailPassword = "******"; // Replace with actual password
+            string supportEmailID = context.ManageSystemConfiguration.Select(x => x.SupportEmail).FirstOrDefault();
+            string adminEmailID = context.ManageSystemConfiguration.Select(x => x.EmailAddress).FirstOrDefault();
+            var fromEmail = new MailAddress(supportEmailID);
+            var toEmail = new MailAddress(adminEmailID);
+            var fromEmailPassword = "******";
             string subject = model.FullName + " - Query";
 
             string body = "<br /> Hello, <br />" +

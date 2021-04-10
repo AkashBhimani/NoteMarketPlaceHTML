@@ -1,0 +1,94 @@
+﻿@model NotesMarketPlace.Areas.Admin.Data.MyProfileViewModel
+
+@{
+    ViewBag.Title = "MyProfile";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- My Profile Details -->
+<div class="my-profile-details main-section form-properties">
+
+    <div class="container section-container">
+
+        <div class="row">
+
+            <div class="col-md-12 heading">
+                <h2>My Profile</h2>
+            </div>
+
+            @using (Html.BeginForm("MyProfile", "AdminAccount", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+
+                <div class="col-md-6 col-sm-12">
+
+                    <div>@Html.HiddenFor(x => x.ID)</div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.FirstName, "First Name *", new { @class = "name-of-input" })
+                        @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", @placeholder = "Enter your first name" })
+                        @Html.ValidationMessageFor(x => x.FirstName, "", new { @class = "error" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.LastName, "Last Name *", new { @class = "name-of-input" })
+                        @Html.TextBoxFor(x => x.LastName, new { @class = "form-control", @placeholder = "Enter your last name" })
+                        @Html.ValidationMessageFor(x => x.LastName, "", new { @class = "error" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.EmailID, "Email *", new { @class = "name-of-input" })
+                        @Html.TextBoxFor(x => x.EmailID, new { @class = "form-control", @placeholder = "Enter your email address", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(x => x.EmailID, "", new { @class = "error" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.SecondaryEmail, "Secondary Email", new { @class = "name-of-input" })
+                        @Html.TextBoxFor(x => x.SecondaryEmail, new { @class = "form-control", @placeholder = "Enter your email address" })
+                        @Html.ValidationMessageFor(x => x.SecondaryEmail, "", new { @class = "error" })
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-12 col-sm-12">
+                            @Html.LabelFor(x => x.PhoneNumber, "Phone Number", new { @class = "name-of-input" })
+                        </div>
+
+                        <div class="col-md-3 col-sm-2 col-xs-3">
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => m.PhoneNumber_CountryCode, new SelectList(Model.Countries, "CountryCode", "CountryCode"), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.PhoneNumber_CountryCode, "", new { @class = "error" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-9 col-sm-10 col-xs-9">
+                            <div class="form-group">
+                                @Html.TextBoxFor(x => x.PhoneNumber, "", new { @class = "form-control", @placeholder = "Enter your phone number" })
+                                @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "error" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 upload-img">
+                        <label for="Default-image" class="name-of-input">Default profile picture(if seller do not upload)</label>
+                        <div class="image-upload text-center">
+                            <label for="file-input">
+                                <img src="~/Content/Images/User-Profile/upload.png" />
+                                @Html.TextBoxFor(m => m.DefaultProfileImage, new { @type = "file", @id = "image-input-2", @name = "upload", @onchange = "ImageValidation1()" })
+                            </label>
+                        </div>
+                        <span id="img-extension-error-1">You can only upload file in png format.</span>
+                    </div>
+
+                    <button type="submit" class="btn submit">SUBMIT</button>
+
+                </div>
+
+            }
+
+        </div>
+
+    </div>
+
+</div>
+

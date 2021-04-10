@@ -1,0 +1,88 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+
+@model IPagedList<NotesMarketPlace.NoteDetails>
+
+<div class="col-md-12" id="rejected-book">
+
+    <div class="general-table table-responsive">
+
+        <table class="table table-one-col-color-in-rejectednotes">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        SR. NO
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("NOTE TITLE", "RejectedNotes", "Notes", new { sortBy = ViewBag.SortByNoteTitle, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("CATEGORY", "RejectedNotes", "Notes", new { sortBy = ViewBag.SortByCategory, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("SELLER", "RejectedNotes", "Notes", new { sortBy = ViewBag.SortBySeller, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col"></th>
+                    <th scope="col">
+                        @Html.ActionLink("DATE EDITED", "RejectedNotes", "Notes", new { sortBy = ViewBag.SortByEditedDate, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("REJECTED BY", "RejectedNotes", "Notes", new { sortBy = ViewBag.SortByRejectedBy, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("REMARK", "RejectedNotes", "Notes", new { sortBy = ViewBag.SortByRemarks, search = Request["search"] }, new { @class = "text-center" })
+                    </th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count == 0)
+                {
+                    <tr>
+                        <td colspan="10">No records Found.</td>
+                    </tr>
+                }
+                else
+                {
+
+                    int count = 1;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td scope="row">@count</td>
+                            <td><a href="@Url.Action("NoteDetails", "Notes", new { id = item.ID })">@item.NoteTitle</a></td>
+                            <td>@item.NoteCategories.CategoryName</td>
+                            <td>@item.Users1.FirstName @item.Users1.LastName</td>
+                            <td><a href="@Url.Action("MemberDetails","Members", new { id = item.UserID })"><img src="~/Content/Images/Dashboard/eye.png"></a></td>
+                            <td>@item.ModifiedDate.Value.ToString("dd-MM-yyyy, hh:mm")</td>
+                            <td>@item.Users.FirstName @item.Users.LastName</td>
+                            <td>@item.Remarks</td>
+                            <td>
+                                <div class="dropdown">
+                                    <i onclick="showhideDropdown(@count)" class="fa fa-ellipsis-v dropbtn" id="ellipsis"></i>
+                                    <div id="showhideDropdown_@count" class="dropdown-content">
+                                        <a href="@Url.Action("ChangeStatusToPublished","Notes",new { id=item.ID })">Approve</a>
+                                        <a href="@Url.Action("DownloadNote","Notes",new { id=item.ID })">Download Notes</a>
+                                        <a href="@Url.Action("NoteDetails","Notes",new { id=item.ID })">View More Details</a>
+                                    </div>
+                                </div>
+                            </td>
+                            @{ count++; }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="justify-content-center">
+        @if (Model != null)
+        {
+            @Html.PagedListPager(Model, page => Url.Action("RejectedNotes", "Notes", new { page, search = Request["search"], sortBy = Request["sortBy"] }))
+        }
+    </div>
+
+</div>
+
+

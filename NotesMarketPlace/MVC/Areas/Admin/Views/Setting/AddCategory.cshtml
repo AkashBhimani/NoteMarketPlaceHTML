@@ -1,0 +1,49 @@
+﻿@model NotesMarketPlace.Areas.Admin.Data.AddCategoryViewModel
+
+@{
+    ViewBag.Title = "Add Category";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Category input field -->
+<div class="add-category main-section">
+
+    <div class="container section-container">
+
+        <div class="row">
+
+            <div class="col-md-12 heading">
+                <h2>Add Category</h2>
+            </div>
+
+            @using (Html.BeginForm("AddCategory", "Setting", FormMethod.Post))
+            {
+        <div class="col-md-6 col-sm-12">
+            @if (Model != null)
+            {
+                <div>@Html.HiddenFor(x => x.ID)</div>
+            }
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Category, "Category *", new { @class = "name-of-input" })
+                @Html.TextBoxFor(x => x.Category, new { @class = "form-control", @placeholder = "Enter Category" })
+                @Html.ValidationMessageFor(x => x.Category, "", new { @class = "error" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Description, "Description *", new { @class = "name-of-input" })
+                @Html.TextAreaFor(x => x.Description, new { @class = "form-control", @placeholder = "Enter your description", @rows = "6" })
+                @Html.ValidationMessageFor(x => x.Description, "", new { @class = "error" })
+            </div>
+
+            <button type="submit" class="btn submit">SUBMIT</button>
+
+        </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>
+

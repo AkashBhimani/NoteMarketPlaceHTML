@@ -1,0 +1,147 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<NotesMarketPlace.Users>
+
+@{
+    ViewBag.Title = "Members";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="manage main-section">
+
+    <div class="container">
+
+        <div class="section-container">
+
+            <div class="row">
+
+                <div class="col-md-7 col-sm-6 col-xs-12">
+                    <div class="admin-heading-left">
+                        <h4>Members</h4>
+                    </div>
+                </div>
+
+                @if (ViewBag.Message != null)
+                {
+                    <div class="col-md-12">
+                        <h4>@ViewBag.Message</h4>
+                    </div>
+                }
+                else
+                {
+                    using (Html.BeginForm("Members", "Members", FormMethod.Get))
+                    {
+
+                        <div class="col-md-3 col-sm-4 col-xs-8">
+                            <div class="form-group admin-heading-right">
+                                <img src="~/Content/Images/Dashboard/search-icon.svg">
+                                <input type="search" name="search" value="" placeholder="Search" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-sm-2 col-xs-4 search-btn">
+                            <button type="submit" class="btn submit" style="width:100%;">SEARCH</button>
+                        </div>
+                    }
+
+                    <div class="col-md-12">
+
+                        <div class="general-table table-responsive">
+
+                            <table class="table table-col-color">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">
+                                            SR. NO
+                                        </th>
+                                        <th scope="col">
+                                            @Html.ActionLink("FIRST NAME", "Members", "Members", new { sortBy = ViewBag.SortByFirstName, search = Request["search"] }, null)
+                                        </th>
+                                        <th scope="col">
+                                            @Html.ActionLink("LAST NAME", "Members", "Members", new { sortBy = ViewBag.SortByLastName, search = Request["search"] }, null)
+                                        </th>
+                                        <th scope="col">
+                                            @Html.ActionLink("EMAIL", "Members", "Members", new { sortBy = ViewBag.SortByEmail, search = Request["search"] }, null)
+                                        </th>
+                                        <th scope="col">
+                                            @Html.ActionLink("JOINING DATE", "Members", "Members", new { sortBy = ViewBag.SortByCreatedDate, search = Request["search"] }, null)
+                                        </th>
+                                        <th scope="col">
+                                            @Html.ActionLink("UNDER REVIEW NOTES", "Members", "Members", new { sortBy = ViewBag.SortByNoteUnderReview, search = Request["search"] }, null)
+                                        </th>
+                                        <th scope="col">
+                                            @Html.ActionLink("PUBLISHED NOTES", "Members", "Members", new { sortBy = ViewBag.SortByPublishedNote, search = Request["search"] }, null)
+                                        </th>
+                                        <th scope="col">
+                                            @Html.ActionLink("DOWNLOADED NOTES", "Members", "Members", new { sortBy = ViewBag.SortByDownloadedNote, search = Request["search"] }, null)
+                                        </th>
+                                        <th scope="col">
+                                            @Html.ActionLink("TOTAL EXPENSES", "Members", "Members", new { sortBy = ViewBag.SortByTotalExpense, search = Request["search"] }, null)
+                                        </th>
+                                        <th scope="col" class="text-center">
+                                            @Html.ActionLink("TOTAL EARNINGS", "Members", "Members", new { sortBy = ViewBag.SortByTotalEarning, search = Request["search"] }, null)
+                                        </th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model == null)
+                                    {
+                                        <tr>
+                                            <td colspan="10">No records Found.</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+
+                                        int count = 1;
+                                        foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td scope="row">@count</td>
+                                                <td>@item.FirstName</td>
+                                                <td>@item.LastName</td>
+                                                <td>@item.EmailID</td>
+                                                <td>@item.CreatedDate.Value.ToString("dd-MM-yyyy, hh:mm")</td>
+                                                <td><a href="@Url.Action("NotesUnderReview","Notes", new { search = item.ID.ToString() })">@item.NoteDetails1.Where(x => x.Status == "In Review" || x.Status == "Submit for Review").Count()</a></td>
+                                                <td><a href="@Url.Action("PublishedNotes","Notes", new { search = item.ID.ToString() })">@item.NoteDetails1.Where(x => x.Status == "Published").Count()</a></td>
+                                                <td><a href="@Url.Action("DownloadedNotes","Notes", new { search = item.ID.ToString() })">@item.DownloadedNotes1.Where(x => x.IsAttachmentDownloaded == true).Count()</a></td>
+                                                <td><a href="@Url.Action("DownloadedNotes","Notes", new { search = item.ID.ToString() })">$@item.NoteDetails1.Sum(x => x.SellPrice)</a></td>
+                                                <td>$@item.DownloadedNotes1.Where(x => x.IsAttachmentDownloaded == true).Sum(x => x.Price)</td>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <i onclick="showhideDropdown(@count)" class="fa fa-ellipsis-v dropbtn" id="ellipsis"></i>
+                                                        <div id="showhideDropdown_@count" class="dropdown-content">
+                                                            <a href="@Url.Action("MemberDetails","Members", new { id = item.ID })">View More Details</a>
+                                                            <a href="@Url.Action("Deactive","Members", new { id = item.ID })" onclick="return confirm('Are you sure you want to make this member inactive?')">Deactive</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                @{ count++; }
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="justify-content-center">
+                            @if (Model != null)
+                            {
+                                @Html.PagedListPager(Model, page => Url.Action("Members", "Members", new { page, search = Request["search"], sortBy = Request["sortBy"] }))
+                            }
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+

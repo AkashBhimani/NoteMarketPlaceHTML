@@ -1,0 +1,136 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<NotesMarketPlace.NoteTypes>
+
+@{
+    ViewBag.Title = "ManageCategory";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="manage main-section">
+
+    <div class="container">
+
+        <div class="section-container">
+
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="admin-heading-left">
+                        <h4>Manage Type</h4>
+                    </div>
+                </div>
+
+                <div class="col-md-7 col-sm-6 col-xs-12">
+                    <div class="admin-heading-left">
+                        <a href="@Url.Action("AddType","Setting")" class="btn submit">ADD TYPE</a>
+                    </div>
+                </div>
+
+                @if (ViewBag.Message != null)
+                {
+                    <div class="col-md-12">
+                        <h4>@ViewBag.Message</h4>
+                    </div>
+                }
+                else
+                {
+                    using (Html.BeginForm("ManageType", "Setting", FormMethod.Get))
+                    {
+                        <div class="col-md-3 col-sm-4 col-xs-8">
+                            <div class="form-group admin-heading-right">
+                                <img src="~/Content/Images/Dashboard/search-icon.svg">
+                                <input type="search" name="search" value="" placeholder="Search" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-sm-2 col-xs-4 search-btn">
+                            <button type="submit" class="btn submit" style="width:100%;">SEARCH</button>
+                        </div>
+                    }
+
+                    <div class="col-md-12">
+
+                        <div class="general-table table-responsive">
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">
+                                            SR NO.
+                                        </th>
+                                        <th scope="col">
+                                            @Html.ActionLink("CATEGORY", "ManageType", "Setting", new { sortBy = ViewBag.SortByCategoryName, search = Request["search"] }, null)
+                                        </th>
+                                        <th scope="col">
+                                            @Html.ActionLink("DESCRIPTION", "ManageType", "Setting", new { sortBy = ViewBag.SortByDescription, search = Request["search"] }, null)
+                                        </th>
+                                        <th scope="col">
+                                            @Html.ActionLink("DATE ADDED", "ManageType", "Setting", new { sortBy = ViewBag.SortByCreatedDate, search = Request["search"] }, null)
+                                        </th>
+                                        <th scope="col">
+                                            @Html.ActionLink("ADDED BY", "ManageType", "Setting", new { sortBy = ViewBag.SortByAdder, search = Request["search"] }, null)
+                                        </th>
+                                        <th scope="col">ACTIVE</th>
+                                        <th scope="col">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model == null)
+                                    {
+                                        <tr>
+                                            <td colspan="10">No records Found.</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        int count = 1;
+                                        foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td scope="row">@count</td>
+                                                <td>@item.Type</td>
+                                                <td>@item.Description</td>
+                                                <td>@item.CreatedDate.Value.ToString("dd-MM-yyyy, hh:mm")</td>
+                                                <td>@item.Users.FirstName</td>
+                                                @{ string isActive = item.IsActive == true ? "Yes" : "No"; }
+                                                <td>@isActive</td>
+                                                <td>
+                                                    <a href="@Url.Action("AddType","Setting", new { @id=item.ID })"><img src="~/Content/Images/Dashboard/edit.png"></a>
+                                                    @if (item.IsActive == true)
+                                                    {
+                                                        <a href="@Url.Action("DeleteType","Setting",new { @id=item.ID })" onclick="return  confirm('Are you sure you want to make this type inactive?')"><i class="fa fa-trash"></i></a>
+                                                    }
+                                                </td>
+                                            </tr>
+
+                                            { count++; }
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <div class="justify-content-center">
+                            @if (Model != null)
+                            {
+                                @Html.PagedListPager(Model, page => Url.Action("ManageType", "Setting", new { page, search = Request["search"], sortBy = Request["sortBy"] }))
+                            }
+                        </div>
+
+                    </div>
+
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+

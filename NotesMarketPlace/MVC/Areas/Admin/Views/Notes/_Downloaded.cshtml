@@ -1,0 +1,93 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+
+@model IPagedList<NotesMarketPlace.DownloadedNotes>
+
+<div class="col-md-12" id="downloaded-book">
+
+    <div class="general-table table-responsive">
+
+        <table class="table table-one-col-color-in-downloadednote">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        SR. NO
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("NOTE TITLE", "DownloadedNotes", "Notes", new { sortBy = ViewBag.SortByNoteTitle, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("CATEGORY", "DownloadedNotes", "Notes", new { sortBy = ViewBag.SortByCategory, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("SELLER", "DownloadedNotes", "Notes", new { sortBy = ViewBag.SortBySeller, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col"></th>
+                    <th scope="col">
+                        @Html.ActionLink("BUYER", "DownloadedNotes", "Notes", new { sortBy = ViewBag.SortByBuyer, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col"></th>
+                    <th scope="col">
+                        @Html.ActionLink("SELL TYPE", "DownloadedNotes", "Notes", new { sortBy = ViewBag.SortByIsPaid, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("PRICE", "DownloadedNotes", "Notes", new { sortBy = ViewBag.SortByPrice, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col" class="text-center">
+                        @Html.ActionLink("DOWNLOADED DATE/TIME", "DownloadedNotes", "Notes", new { sortBy = ViewBag.SortByDownloadedDate, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count == 0)
+                {
+                    <tr>
+                        <td colspan="10">No records Found.</td>
+                    </tr>
+                }
+                else
+                {
+
+                    int count = 1;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td scope="row">@count</td>
+                            <td><a href="@Url.Action("NoteDetails", "Notes", new { id = item.NoteID })">@item.NoteTitle</a></td>
+                            <td>@item.Category</td>
+                            <td>@item.Users1.FirstName @item.Users1.LastName</td>
+                            <td><a href="@Url.Action("MemberDetails","Members", new { id = item.Seller })"><img src="~/Content/Images/Dashboard/eye.png"></a></td>
+                            <td>@item.Users.FirstName @item.Users.LastName</td>
+                            <td><a href="@Url.Action("MemberDetails","Members", new { id = item.Buyer })"><img src="~/Content/Images/Dashboard/eye.png"></a></td>
+                            @{ string IsPaid = item.IsPaid == true ? "Paid" : "Free"; }
+                            <td>@IsPaid</td>
+                            <td>$@item.Price</td>
+                            <td>@item.AttachmentDownloadedDate.Value.ToString("dd-MM-yyyy, hh:mm")</td>
+                            <td>
+                                <div class="dropdown">
+                                    <i onclick="showhideDropdown(@count)" class="fa fa-ellipsis-v dropbtn" id="ellipsis"></i>
+                                    <div id="showhideDropdown_@count" class="dropdown-content">
+                                        <a href="@Url.Action("DownloadNote","Notes",new { id=item.NoteID })">Download Notes</a>
+                                        <a href="@Url.Action("NoteDetails","Notes",new { id=item.NoteID })">View More Details</a>
+                                    </div>
+                                </div>
+                            </td>
+                            @{ count++; }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="justify-content-center">
+        @if (Model != null)
+        {
+            @Html.PagedListPager(Model, page => Url.Action("DownloadedNoted", "Notes", new { page, search = Request["search"], sortBy = Request["sortBy"] }))
+        }
+    </div>
+
+</div>
+

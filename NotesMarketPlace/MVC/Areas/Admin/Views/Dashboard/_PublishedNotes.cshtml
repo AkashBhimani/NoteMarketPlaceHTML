@@ -1,0 +1,102 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+
+@model IPagedList<NotesMarketPlace.NoteDetails>
+
+<div class="col-md-12 col-sm-12 col-xs-12" id="published-note">
+
+    <div class="general-table table-responsive">
+        <table class="table table-color-in-dashboard">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        SR. NO
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("TITLE", "Dashboard", "Dashboard", new { sortBy = ViewBag.SortByNoteTitle, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("CATEGORY", "Dashboard", "Dashboard", new { sortBy = ViewBag.SortByCategory, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col">ATTACHMENT SIZE</th>
+                    <th scope="col">
+                        @Html.ActionLink("SELL TYPE", "Dashboard", "Dashboard", new { sortBy = ViewBag.SortByIsPaid, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("PRICE", "Dashboard", "Dashboard", new { sortBy = ViewBag.SortByPrice, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("PUBLISHER", "Dashboard", "Dashboard", new { sortBy = ViewBag.SortByPublisher, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("PUBLISHED DATE", "Dashboard", "Dashboard", new { sortBy = ViewBag.SortByPublishedDate, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("NUMBER OF DOWNLOADS", "Dashboard", "Dashboard", new { sortBy = ViewBag.SortByNoOfDownload, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col" class="text-center"></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (Model.Count == 0)
+                {
+                    <tr id="published-note">
+                        <td colspan="10">No records Found.</td>
+                    </tr>
+                }
+                else
+                {
+
+                    int count = 1;
+                    foreach (var item in Model)
+                    {
+                        <tr id="published-note">
+                            <td scope="row">@count</td>
+                            <td><a href="@Url.Action("NoteDetails", "Notes", new { id = item.ID })">@item.NoteTitle</a></td>
+                            <td>@item.NoteCategories.CategoryName </td>
+
+                            @{
+                                DirectoryInfo info = new DirectoryInfo(Server.MapPath("/Members/" + item.UserID + "/" + item.ID + "/" + "/Attachment/"));
+                                long totalsize = info.EnumerateFiles().Sum(file => file.Length);
+                                totalsize = (long)totalsize / 1024; //KB
+                                string fileSize = totalsize + " KB";
+                                if (totalsize >= 1024)
+                                {
+                                    totalsize = (long)totalsize / 1024; //MB
+                                }
+                            }
+                            <td>@fileSize</td>
+                            @{ string IsPaid = item.IsPaid == true ? "Paid" : "Free"; }
+                            <td>@IsPaid</td>
+                            <td>$@item.SellPrice</td>
+                            <td>@item.Users.FirstName @item.Users.LastName</td>
+                            <td>@item.PublishedDate.Value.ToString("dd-MM-yyyy, hh:mm")</td>
+                            <td><a href="@Url.Action("DownloadedNotes","Notes",new { search= item.NoteTitle})">@item.DownloadedNotes.Where(x => x.IsAttachmentDownloaded == true).Count()</a></td>
+                            <td>
+                                <div class="dropdown">
+                                    <i onclick="showhideDropdown(@count)" class="fa fa-ellipsis-v dropbtn" id="ellipsis"></i>
+                                    <div id="showhideDropdown_@count" class="dropdown-content">
+                                        <a href="@Url.Action("DownloadNote","Notes",new { id=item.ID })">Download Notes</a>
+                                        <a href="@Url.Action("NoteDetails", "Notes", new { id = item.ID })">View More Details</a>
+                                        <a onclick="openUnpublishModal(this)" data-id="@item.ID" data-title="@item.NoteTitle - @item.NoteCategories.CategoryName">Unpublish</a>
+                                    </div>
+                                </div>
+                            </td>
+                            @{ count++; }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="justify-content-center">
+        @if (Model != null)
+        {
+            @Html.PagedListPager(Model, page => Url.Action("Dashboard", "Dashboard", new { page, search = Request["search"], sortBy = Request["sortBy"] }))
+        }
+    </div>
+
+</div>

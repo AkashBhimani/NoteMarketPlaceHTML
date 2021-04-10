@@ -42,6 +42,8 @@ namespace NotesMarketPlace.Models
 
         public string Professor { get; set; }
 
+        public string Status { get; set; }
+
         [Required]
         public bool IsPaid { get; set; }
 

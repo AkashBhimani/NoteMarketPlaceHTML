@@ -19,6 +19,7 @@ namespace NotesMarketPlace
         {
             this.DownloadedNotes = new HashSet<DownloadedNotes>();
             this.NoteReview = new HashSet<NoteReview>();
+            this.SellerNotesAttachments = new HashSet<SellerNotesAttachments>();
             this.SellerNotesReportedIssues = new HashSet<SellerNotesReportedIssues>();
             this.SpamReports = new HashSet<SpamReports>();
         }
@@ -30,7 +31,6 @@ namespace NotesMarketPlace
         public int CountryId { get; set; }
         public string NoteTitle { get; set; }
         public string DisplayPicture { get; set; }
-        public string UploadNote { get; set; }
         public Nullable<int> NumberOfPages { get; set; }
         public string Description { get; set; }
         public string InstitutionName { get; set; }
@@ -54,10 +54,13 @@ namespace NotesMarketPlace
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DownloadedNotes> DownloadedNotes { get; set; }
         public virtual NoteCategories NoteCategories { get; set; }
-        public virtual NoteTypes NoteTypes { get; set; }
         public virtual Users Users { get; set; }
+        public virtual NoteTypes NoteTypes { get; set; }
+        public virtual Users Users1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<NoteReview> NoteReview { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SellerNotesAttachments> SellerNotesAttachments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SellerNotesReportedIssues> SellerNotesReportedIssues { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

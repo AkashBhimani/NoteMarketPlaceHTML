@@ -29,3 +29,32 @@ window.onclick = function (event) {
 		}
 	}
 }
+
+/*-------------- Upload Picture Extension Validations -------------*/
+function ImageValidation1() {
+	var fileInput = document.getElementById('image-input-1');
+	var filePath = fileInput.value;
+	var allowedExtensions = /(\.jpg)$/i;
+
+	if (!allowedExtensions.exec(filePath)) {
+		$("#img-extension-error-1").show();
+		fileInput.value = '';
+	}
+	else {
+		$("#img-extension-error-1").hide();
+	}
+}
+
+function ImageValidation2() {
+	var fileInput = document.getElementById('image-input-2');
+	var filePath = fileInput.value;
+	var allowedExtensions = /(\.jpg)$/i;
+
+	if (!allowedExtensions.exec(filePath)) {
+		$("#img-extension-error-2").show();
+		fileInput.value = '';
+	}
+	else {
+		$("#img-extension-error-2").hide();
+	}
+}

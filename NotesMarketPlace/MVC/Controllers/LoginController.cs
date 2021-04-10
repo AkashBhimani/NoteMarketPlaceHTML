@@ -31,6 +31,11 @@ namespace NotesMarketPlace.Controllers
                 ViewBag.IsValid = false;
                 ModelState.AddModelError("", "This account dosen't exist.");
             }
+            if (db_user.IsActive == false)
+            {
+                ViewBag.IsValid = false;
+                ModelState.AddModelError("", "You are inactive.");
+            }
             else if (db_user != null && db_user.IsEmailVerified == false)
             {
                 ViewBag.IsValid = false;
@@ -41,29 +46,25 @@ namespace NotesMarketPlace.Controllers
                 ViewBag.IsValid = false;
                 ModelState.AddModelError("", "Please enter correct password.");
             }
-            else if (db_user != null && db_user.Password == Encrypt(user.Password) && user.RememberMe == "checked")
+            else if (db_user != null && db_user.Password == Encrypt(user.Password))
             {
                 FormsAuthentication.SetAuthCookie(db_user.EmailID, true);
-                if(context.UserProfile.Where(x=>x.UserID == db_user.ID).Any())
+                if (db_user.RoleID == 3)
                 {
-                    return RedirectToAction("NoteList", "SearchNotes");
+                    if (context.UserProfile.Where(x => x.UserID == db_user.ID).Any())
+                    {
+                        return RedirectToAction("NoteList", "SearchNotes");
+                    }
+                    else
+                    {
+                        return RedirectToAction("UserProfile", "UserAccount");
+                    }
                 }
                 else
                 {
-                    return RedirectToAction("UserProfile", "UserAccount");
+                    return RedirectToAction("Dashboard", "Dashboard", new { area = "Admin" });
                 }
-            }
-            else
-            {
-                FormsAuthentication.SetAuthCookie(db_user.EmailID, false);
-                if (context.UserProfile.Where(x => x.UserID == db_user.ID).Any())
-                {
-                    return RedirectToAction("NoteList", "SearchNotes");
-                }
-                else
-                {
-                    return RedirectToAction("UserProfile", "UserAccount");
-                }
+                
             }
 
             return View("Login");
@@ -98,9 +99,10 @@ namespace NotesMarketPlace.Controllers
         {
             string password = GeneratePassword();
             var user = context.Users.Where(a => a.EmailID == emailID).FirstOrDefault();
+            string supportEmailID = context.ManageSystemConfiguration.Select(x => x.SupportEmail).FirstOrDefault();
             user.Password = Encrypt(password);
             context.SaveChanges();
-            var fromEmail = new MailAddress("akashbhimani046@yopmail.com", "Akash Bhimani");
+            var fromEmail = new MailAddress(supportEmailID);
             var toEmail = new MailAddress(user.EmailID);
             var fromEmailPassword = "******";
             string subject = "New Temporary Password has been created for you";

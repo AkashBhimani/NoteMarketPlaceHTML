@@ -23,5 +23,7 @@ namespace NotesMarketPlace
         public Nullable<System.DateTime> ModifiedDate { get; set; }
         public Nullable<int> ModifiedBy { get; set; }
         public bool IsActive { get; set; }
+    
+        public virtual NoteDetails NoteDetails { get; set; }
     }
 }

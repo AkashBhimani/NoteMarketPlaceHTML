@@ -1,7 +1,10 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
 
-@model IPagedList<NotesMarketPlace.NoteDetails>
+@{
+    IPagedList<NotesMarketPlace.Models.DashboardViewModel> Model = ViewBag.table_entry;
+    IPagedList<NotesMarketPlace.Models.DashboardViewModel> Model1 = ViewBag.table_entry1;
+}
 @{
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -55,14 +58,14 @@
                     <div class="row" align="center">
                         <div class="col-md-4 col-sm-4">
                             <div class="dashboard-border">
-                                <a href="@Url.Action("MyDownloads","UserAccount")"><h3>@ViewBag.muDownloads</h3></a>                                
+                                <a href="@Url.Action("MyDownloads","UserAccount")"><h3>@ViewBag.myDownloads</h3></a>
                                 <p>My Downloads</p>
                             </div>
                         </div>
 
                         <div class="col-md-4 col-sm-4">
                             <div class="dashboard-border">
-                                <h3>12</h3>
+                                <a href="@Url.Action("MyRejectedNotes","UserAccount")"><h3>@ViewBag.myRejectedNote</h3></a>
                                 <p>My Rejected Notes</p>
                             </div>
                         </div>
@@ -105,7 +108,7 @@
                         <div class="col-md-3 col-sm-4 col-xs-8">
                             <div class="form-group dash-heading-right">
                                 <img src="~/Content/Images/Dashboard/search-icon.svg">
-                                <input type="search" name="search" value="" placeholder="Search" class="form-control">
+                                <input type="search" name="progressSearch" value="" placeholder="Search" class="form-control">
                             </div>
                         </div>
 
@@ -122,22 +125,22 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">
-                                            @Html.ActionLink("ADDED DATE", "Dashboard", "User", new { sortBy = ViewBag.SortByCreatedDate, search = Request["search"] }, null)
+                                            @Html.ActionLink("ADDED DATE", "Dashboard", "User", new { progressSortBy = ViewBag.progressSortByCreatedDate, progressSearch = Request["search"] }, null)
                                         </th>
                                         <th scope="col">
-                                            @Html.ActionLink("TITLE", "Dashboard", "User", new { sortBy = ViewBag.SortByNoteTitle, search = Request["search"] }, null)
+                                            @Html.ActionLink("TITLE", "Dashboard", "User", new { progressSortBy = ViewBag.progressSortByNoteTitle, progressSearch = Request["search"] }, null)
                                         </th>
                                         <th scope="col">
-                                            @Html.ActionLink("CATEGORY", "Dashboard", "User", new { sortBy = ViewBag.SortByCategory, search = Request["search"] }, null)
+                                            @Html.ActionLink("CATEGORY", "Dashboard", "User", new { progressSortBy = ViewBag.progressSortByCategory, progressSearch = Request["search"] }, null)
                                         </th>
                                         <th scope="col">
-                                            @Html.ActionLink("STATUS", "Dashboard", "User", new { sortBy = ViewBag.SortByStatus, search = Request["search"] }, null)
+                                            @Html.ActionLink("STATUS", "Dashboard", "User", new { progressSortBy = ViewBag.progressSortByStatus, progressSearch = Request["search"] }, null)
                                         </th>
                                         <th scope="col">ACTION</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (Model == null)
+                                    @if (Model.Count() == 0)
                                     {
                                         <tr>
                                             <td colspan="10">No records Found.</td>
@@ -147,25 +150,29 @@
                                     {
                                         foreach (var item in Model)
                                         {
-                                            if (item.Status != "Published")
+                                            if (item.NoteDetails.Status != "Published")
                                             {
                                                 <tr>
-                                                    @{string date = item.CreatedDate?.ToString("dd-MM-yyyy");}
+                                                    @{string date = item.NoteDetails.CreatedDate?.ToString("dd-MM-yyyy");}
                                                     <td scope="row">@date</td>
-                                                    <td>@item.NoteTitle</td>
+                                                    <td>@item.NoteDetails.NoteTitle</td>
                                                     <td>@item.NoteCategories.CategoryName</td>
-                                                    <td>@item.Status</td>
+                                                    <td>@item.NoteDetails.Status</td>
                                                     <td>
-                                                        @if (item.Status == "Draft")
+                                                        @if (item.NoteDetails.Status == "Draft")
                                                         {
-                                                            <a href="@Url.Action("AddNotes","User",new { ID = item.ID })"><img src="~/Content/Images/Dashboard/edit.png"></a>
-                                                            <a href="@Url.Action("DeleteRecord","User",new {id = item.ID })" onclick="return confirm('Do you want to delete the record?')">
+                                                            <a href="@Url.Action("AddNotes","User",new { ID = item.NoteDetails.ID })">
+                                                                <img src="~/Content/Images/Dashboard/edit.png">
+                                                            </a>
+                                                            <a href="@Url.Action("DeleteRecord","User",new {id = item.NoteDetails.ID })" onclick="return confirm('Do you want to delete the record?')">
                                                                 <i class="fa fa-trash"></i>
                                                             </a>
                                                         }
                                                         else
                                                         {
-                                                            <img src="~/Content/Images/Dashboard/eye.png">
+                                                            <a href="@Url.Action("NoteDetails","SearchNotes",new { ID = item.NoteDetails.ID })">
+                                                                <img src="~/Content/Images/Dashboard/eye.png">
+                                                            </a>
                                                         }
                                                     </td>
                                                 </tr>
@@ -179,13 +186,118 @@
                         <div class="justify-content-center">
                             @if (Model != null)
                             {
-                                @Html.PagedListPager(Model, page => Url.Action("Dashboard", "User", new { page, search = Request["search"] }))
+                                @Html.PagedListPager(Model, page => Url.Action("Dashboard", "User", new { progressPage = page, progressSearch = Request["search"] }))
                             }
                         </div>
 
                     </div>
 
                 }
+
+            </div>
+
+            <div class="container section-container">
+
+                <div class="row">
+
+                    <div class="col-md-7 col-sm-6 col-xs-12">
+                        <div class="dash-heading-left">
+                            <h4>Published Notes</h4>
+                        </div>
+                    </div>
+
+                    @if (ViewBag.Message != null)
+                    {
+                        <div class="col-md-12">
+                            <h4>@ViewBag.Message</h4>
+                        </div>
+                    }
+                    else
+                    {
+
+                        using (Html.BeginForm("Dashboard", "User", FormMethod.Get))
+                        {
+
+                            <div class="col-md-3 col-sm-4 col-xs-8">
+                                <div class="form-group dash-heading-right">
+                                    <img src="~/Content/Images/Dashboard/search-icon.svg">
+                                    <input type="search" name="publishSearch" value="" placeholder="Search" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-2 col-xs-4 search-btn">
+                                <button type="submit" class="btn submit" style="width:100%">SEARCH</button>
+                            </div>
+                        }
+
+                        <div class="col-md-12">
+
+                            <div class="general-table table-responsive">
+
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">
+                                                @Html.ActionLink("ADDED DATE", "Dashboard", "User", new { publishSortBy = ViewBag.publishSortByCreatedDate, publishSearch = Request["search"] }, null)
+                                            </th>
+                                            <th scope="col">
+                                                @Html.ActionLink("TITLE", "Dashboard", "User", new { publishSortBy = ViewBag.publishSortByNoteTitle, publishSearch = Request["search"] }, null)
+                                            </th>
+                                            <th scope="col">
+                                                @Html.ActionLink("CATEGORY", "Dashboard", "User", new { publishSortBy = ViewBag.publishSortByCategory, publishSearch = Request["search"] }, null)
+                                            </th>
+                                            <th scope="col">
+                                                @Html.ActionLink("STATUS", "Dashboard", "User", new { publishSortBy = ViewBag.publishSortByStatus, publishSearch = Request["search"] }, null)
+                                            </th>
+                                            <th scope="col">ACTION</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model1.Count() == 0)
+                                        {
+                                            <tr>
+                                                <td colspan="10">No records Found.</td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            foreach (var item in Model1)
+                                            {
+                                                if (item.NoteDetails.Status == "Published")
+                                                {
+                                                    <tr>
+                                                        @{string date = item.NoteDetails.PublishedDate?.ToString("dd-MM-yyyy");}
+                                                        <td scope="row">@date</td>
+                                                        <td>@item.NoteDetails.NoteTitle</td>
+                                                        <td>@item.NoteCategories.CategoryName</td>
+                                                        @{ string sellType = item.NoteDetails.IsPaid == true ? "Paid" : "Free"; }
+                                                        <td>@sellType</td>
+                                                        <td>$@item.NoteDetails.SellPrice</td>
+                                                        <td>
+                                                            <a href="@Url.Action("NoteDetails","SearchNotes",new { ID = item.NoteDetails.ID })">
+                                                                <img src="~/Content/Images/Dashboard/eye.png">
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                </table>
+
+                            </div>
+
+                            <div class="justify-content-center">
+                                @if (Model1 != null)
+                                {
+                                    @Html.PagedListPager(Model1, page => Url.Action("Dashboard", "User", new { publicPage = page, publishSearch = Request["search"] }))
+                                }
+                            </div>
+
+                        </div>
+
+                    }
+
+                </div>
 
             </div>
 

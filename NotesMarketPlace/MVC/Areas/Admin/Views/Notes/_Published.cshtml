@@ -1,0 +1,148 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+
+@model IPagedList<NotesMarketPlace.NoteDetails>
+
+<div class="col-md-12" id="published-book">
+
+    <div class="general-table table-responsive">
+
+        <table class="table table-one-col-color-in-publishednote">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        SR. NO
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("NOTE TITLE", "PublishedNotes", "Notes", new { sortBy = ViewBag.SortByNoteTitle, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("CATEGORY", "PublishedNotes", "Notes", new { sortBy = ViewBag.SortByCategory, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("SELL TYPE", "PublishedNotes", "Notes", new { sortBy = ViewBag.SortByIsPaid, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("PRICE", "PublishedNotes", "Notes", new { sortBy = ViewBag.SortBySellprice, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("SELLER", "PublishedNotes", "Notes", new { sortBy = ViewBag.SortBySeller, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col"></th>
+                    <th scope="col">
+                        @Html.ActionLink("PUBLISHED DATE", "PublishedNotes", "Notes", new { sortBy = ViewBag.SortByPublishedDate, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col">
+                        @Html.ActionLink("APPROVED BY", "PublishedNotes", "Notes", new { sortBy = ViewBag.SortByApprovedBy, search = Request["search"] }, null)
+                    </th>
+                    <th scope="col" class="text-center">
+                        @Html.ActionLink("NUMBER OF DOWNLOADS", "PublishedNotes", "Notes", new { sortBy = ViewBag.SortByNoOfDownloads, search = Request["search"] }, new { @class = "text-center" })
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count == 0)
+                {
+                    <tr>
+                        <td colspan="10">No records Found.</td>
+                    </tr>
+                }
+                else
+                {
+
+                    int count = 1;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td scope="row">@count</td>
+                            <td><a href="@Url.Action("NoteDetails", "Notes", new { id = item.ID })">@item.NoteTitle</a></td>
+                            <td>@item.NoteCategories.CategoryName</td>
+                            @{ string IsPaid = item.IsPaid == true ? "Paid" : "Free"; }
+                            <td>@IsPaid</td>
+                            <td>$@item.SellPrice</td>
+                            <td>@item.Users1.FirstName</td>
+                            <td><a href="@Url.Action("MemberDetails","Members", new { id = item.UserID })"><img src="~/Content/Images/Dashboard/eye.png"></a></td>
+                            <td>@item.PublishedDate.Value.ToString("dd-MM-yyyy, hh:mm")</td>
+                            <td>@item.Users.FirstName @item.Users.LastName</td>
+                            <td><a href="@Url.Action("DownloadedNotes","Notes",new { search= item.NoteTitle})">@item.DownloadedNotes.Where(x=>x.IsAttachmentDownloaded == true).Count()</a></td>
+                            <td>
+                                <div class="dropdown">
+                                    <i onclick="showhideDropdown(@count)" class="fa fa-ellipsis-v dropbtn" id="ellipsis"></i>
+                                    <div id="showhideDropdown_@count" class="dropdown-content">
+                                        <a href="@Url.Action("DownloadNote","Notes",new { id=item.ID })">Download Notes</a>
+                                        <a href="@Url.Action("NoteDetails","Notes",new { id=item.ID })">View More Details</a>
+                                        <a onclick="openUnpublishModal(this)" data-id="@item.ID" data-title="@item.NoteTitle - @item.NoteCategories.CategoryName">Unpublish</a>
+                                    </div>
+                                </div>
+                            </td>
+                            @{ count++; }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="justify-content-center">
+        @if (Model != null)
+        {
+            @Html.PagedListPager(Model, page => Url.Action("PublishedNotes", "Notes", new { page, search = Request["search"], sortBy = Request["sortBy"] }))
+        }
+    </div>
+
+</div>
+
+<!-- Model -->
+<div class="modal fade" id="unpublish-note" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <input id="note-id" type="hidden" />
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+
+            <div class="modal-body">
+                <h3 id="note-title"></h3>
+                <div class="form-group comment">
+                    <label class="comment">Remarks *</label>
+                    <textarea class="form-control" id="remarks" name="comment" placeholder="Remarks..." rows="4"></textarea>
+                </div>
+                <button type="submit" class="btn btn-danger" onclick="UnpublishNote()" data-dismiss="modal">Unpublish</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    function openUnpublishModal(element) {
+        var id = element.getAttribute('data-id');
+        var title = element.getAttribute('data-title');
+        $('#unpublish-note').modal('show');
+        $('#note-id').val(id);
+        $('#note-title').text(title);
+    }
+
+    function UnpublishNote() {
+
+        if (confirm('Are you sure you want to Unpublish this note ?')) {
+            const remarks = $('#remarks').val();
+            const id = $('#note-id').val();
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ChangeStatusToRemoved", "Notes")',
+            dataType: "html",
+            data: {
+            id: id,
+            remarks: remarks
+            }
+            });
+        }
+
+    }
+</script>

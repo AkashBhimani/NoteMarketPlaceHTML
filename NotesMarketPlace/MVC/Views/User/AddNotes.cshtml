@@ -13,7 +13,7 @@
     </div>
 
     @using (Html.BeginForm("AddNoteDetails", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    { 
+    {
 
         <!-- Add Note -->
         <div class="add-note">
@@ -69,7 +69,7 @@
                             <div class="image-upload text-center">
                                 <label for="file-input">
                                     <img src="~/Content/Images/User-Profile/upload.png" />
-                                    @Html.TextBoxFor(m => m.UploadNote, new { @type = "file", @id = "file-input", @name = "upload", @onchange = "fileValidation1()", @multiple="multiple" })
+                                    @Html.TextBoxFor(m => m.UploadNote, new { @type = "file", @id = "file-input-1", @name = "upload", @onchange = "fileValidation1()", @multiple = "multiple" })
                                 </label>
                             </div>
                             <span id="file-extension-error-1">You can only upload file in pdf format.</span>
@@ -219,7 +219,7 @@
                             <div class="image-upload text-center">
                                 <label for="file-input">
                                     <img src="~/Content/Images/User-Profile/upload.png" />
-                                    @Html.TextBoxFor(m => m.NotePreview, new { @type = "file", @id = "file-input", @name = "upload", @onchange = "fileValidation2()" })
+                                    @Html.TextBoxFor(m => m.NotePreview, new { @type = "file", @id = "file-input-2", @name = "upload", @onchange = "fileValidation2()" })
                                 </label>
                             </div>
                             <span id="file-extension-error-2">You can only upload Note Preview in pdf extension.</span>
@@ -231,8 +231,12 @@
                     <div class="row">
 
                         <div class="col-md-12 col-sm-12 col-xs-12">
-                            <button type="submit" class="btn submit">SAVE</button>
-                            <button type="submit" class="btn submit">PUBLISH</button>
+                            <button type="submit" class="btn submit" name="submit_btn" value="SAVE">SAVE</button>
+                            @if (Model.Status == "Draft" || Model.Status == null)
+                            {
+                                <button onclick="return confirm('Publishing this note will send note to administrator for review, once administrator review and approve then this note will be published to portal. Press yes to continue.')" 
+                                        type="submit" class="btn submit" name="submit_btn" value="PUBLISH">PUBLISH</button>
+                            }
                         </div>
 
                     </div>

@@ -21,8 +21,8 @@ namespace NotesMarketPlace
         public string FacebookURL { get; set; }
         public string TwitterURL { get; set; }
         public string LinkedInURL { get; set; }
-        public byte[] DefaultNoteDisplayImage { get; set; }
-        public byte[] DefaultProfilePicture { get; set; }
+        public string DefaultNoteDisplayImage { get; set; }
+        public string DefaultProfilePicture { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> ModifiedDate { get; set; }

@@ -85,7 +85,7 @@
                                             <td><a href="@Url.Action("NoteDetails","SearchNotes",new { id = item.ID })">@item.NoteTitle</a></td>
                                             <td>@item.NoteCategories.CategoryName</td>
                                             <td>Lorem Ipsum is simply dummy text.</td>
-                                            <td>Clone</td>
+                                            <td><a href="@Url.Action("AddNotes","User",new { ID = item.ID })">Clone</a></td>
                                             <td>
                                                 <div class="dropdown">
                                                     <i onclick="showhideDropdown(@count)" class="fa fa-ellipsis-v dropbtn" id="ellipsis"></i>

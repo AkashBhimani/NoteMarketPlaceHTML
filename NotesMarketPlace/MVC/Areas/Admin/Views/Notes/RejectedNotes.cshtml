@@ -1,0 +1,84 @@
+﻿@model NotesMarketPlace.Areas.Admin.Data.RejectedNotesViewModel
+
+@{
+    ViewBag.Title = "Rejected Notes";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="notesdetails main-section">
+
+    <div class="container">
+
+        <div class="section-container">
+
+            <div class="row">
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="admin-heading-left">
+                        <h4>Rejected Notes</h4>
+                    </div>
+                </div>
+
+                @if (ViewBag.Message != null)
+                {
+                    <div class="col-md-12">
+                        <h4>@ViewBag.Message</h4>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-7 col-sm-6">
+                        <p class="seller">Seller</p>
+                        <div class="form-group">
+                            @Html.DropDownListFor(x => x.Seller, new SelectList(Model.Seller),"Select Seller", new { @class = "form-controls", @onchange = "javascript:searchNotes(this)" })
+                        </div>
+                    </div>
+
+                    using (Html.BeginForm("RejectedNotes", "Notes", FormMethod.Get))
+                    {
+                        <div class="col-md-3 col-sm-4 col-xs-8">
+                            <div class="form-group admin-heading-right">
+                                <img src="~/Content/Images/Dashboard/search-icon.svg">
+                                <input type="search" name="search" value="" placeholder="Search" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-sm-2 col-xs-4 search-btn">
+                            <button type="submit" class="btn submit" style="width:100%;">SEARCH</button>
+                        </div>
+
+                    }
+                    if (Model.Notes != null)
+                    {
+                        <input type="hidden" value="@Model.Notes.PageNumber" id="pageNumber" />
+                    }
+                    @Html.Partial("_Rejected", Model.Notes);
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    function searchNotes(element) {
+        const value = element.value;
+        const pageNumber = $('#pageNumber').val();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetRejectedNotesBySeller", "Notes")',
+            dataType: "html",
+            data: {
+                search: value,
+                page: pageNumber,
+            },
+            success: function (data) {
+                $('#rejected-book').html(data);
+            }
+        });
+    };
+</script>
+

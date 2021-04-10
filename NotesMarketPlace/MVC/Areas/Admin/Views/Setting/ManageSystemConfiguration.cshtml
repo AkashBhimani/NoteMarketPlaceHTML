@@ -1,0 +1,95 @@
+﻿@model NotesMarketPlace.Areas.Admin.Data.ManageSystemConfigurationViewModel
+
+@{
+    ViewBag.Title = "Manage System Configuration";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="system-configuration main-section">
+
+    <div class="container section-container">
+
+        <div class="row">
+
+            <div class="col-md-12 heading">
+                <h2>Manage System Configuration</h2>
+            </div>
+
+            @using (Html.BeginForm("ManageSystemConfiguration", "Setting", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+
+                <div class="col-md-6 col-sm-12">
+
+                    @if (Model != null)
+                    {
+                        <div>@Html.HiddenFor(x => x.ID)</div>
+                    }
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.SupportEmailAddress, "Support email address *", new { @class = "name-of-input" })
+                        @Html.TextBoxFor(x => x.SupportEmailAddress, new { @class = "form-control", @placeholder = "Enter email address" })
+                        @Html.ValidationMessageFor(x => x.SupportEmailAddress, "", new { @class = "error" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.SupportContactNumber, "Support phone number *", new { @class = "name-of-input" })
+                        @Html.TextBoxFor(x => x.SupportContactNumber, new { @class = "form-control", @placeholder = "Enter phone number" })
+                        @Html.ValidationMessageFor(x => x.SupportContactNumber, "", new { @class = "error" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.EmailAddress, "Email address(es)(for various events system will send notifications to these users) *", new { @class = "name-of-input" })
+                        @Html.TextBoxFor(x => x.EmailAddress, new { @class = "form-control", @placeholder = "Enter email address" })
+                        @Html.ValidationMessageFor(x => x.EmailAddress, "", new { @class = "error" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.FacebookURL, "Fackbook URL", new { @class = "name-of-input" })
+                        @Html.TextBoxFor(x => x.FacebookURL, new { @class = "form-control", @placeholder = "Enter fackbook url" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.TwitterURL, "Twitter URL", new { @class = "name-of-input" })
+                        @Html.TextBoxFor(x => x.TwitterURL, new { @class = "form-control", @placeholder = "Enter twitter url" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.LinkedInURL, "Linkedin URL", new { @class = "name-of-input" })
+                        @Html.TextBoxFor(x => x.LinkedInURL, new { @class = "form-control", @placeholder = "Enter linkedin url" })
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 upload-img">
+                        <label for="Default-image" class="name-of-input">Default image for notes(if seller do not upload)</label>
+                        <div class="image-upload text-center">
+                            <label for="file-input">
+                                <img src="~/Content/Images/User-Profile/upload.png" />
+                                @Html.TextBoxFor(m => m.DefaultNoteImage, new { @type = "file", @id = "image-input-1", @name = "upload", @onchange = "ImageValidation1()" })
+                            </label>
+                        </div>
+                        @Html.ValidationMessageFor(x => x.DefaultNoteImage, "", new { @class = "error" })
+                        <span id="img-extension-error-1">You can only upload file in png format.</span>
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 upload-img">
+                        <label for="Default-image" class="name-of-input">Default profile picture(if seller do not upload)</label>
+                        <div class="image-upload text-center">
+                            <label for="file-input">
+                                <img src="~/Content/Images/User-Profile/upload.png" />
+                                @Html.TextBoxFor(m => m.DefaultProfileImage, new { @type = "file", @id = "image-input-2", @name = "upload", @onchange = "ImageValidation2()" })
+                            </label>
+                        </div>
+                        @Html.ValidationMessageFor(x => x.DefaultProfileImage, "", new { @class = "error" })
+                        <span id="img-extension-error-2">You can only upload file in png format.</span>
+                    </div>
+                    <button type="submit" class="btn submit">SUBMIT</button>
+
+                </div>
+
+            }
+
+        </div>
+
+    </div>
+
+</div>
+

@@ -7,8 +7,8 @@ using System.Web.Mvc;
 namespace NotesMarketPlace.Controllers
 {
     public class FAQController : Controller
-    {
-        // GET: FAQ
+    {   
+        [AllowAnonymous]
         [Route("FAQ")]
         public ActionResult FAQ()
         {

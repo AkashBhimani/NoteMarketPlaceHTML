@@ -1,0 +1,77 @@
+﻿@model NotesMarketPlace.Areas.Admin.Data.AddAdministratorViewModel
+
+@{
+    ViewBag.Title = "Add Administrator";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Adminstrator input field -->
+<div class="adding main-section">
+
+    <div class="container section-container">
+
+        <div class="row">
+
+            <div class="col-md-12 heading">
+                <h2>Add Administrator</h2>
+            </div>
+
+            @using (Html.BeginForm("AddAdministrator", "Setting", FormMethod.Post))
+            {
+                <div class="col-md-6 col-sm-12">
+
+                    @if (Model != null)
+                    {
+                        <div>@Html.HiddenFor(x => x.ID)</div>
+                    }
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.FirstName, "First Name *", new { @class = "name-of-input" })
+                        @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", @placeholder = "Enter your first name" })
+                        @Html.ValidationMessageFor(x => x.FirstName, "", new { @class = "error" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.LastName, "Last Name *", new { @class = "name-of-input" })
+                        @Html.TextBoxFor(x => x.LastName, new { @class = "form-control", @placeholder = "Enter your last name" })
+                        @Html.ValidationMessageFor(x => x.LastName, "", new { @class = "error" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.EmailID, "Email *", new { @class = "name-of-input" })
+                        @Html.TextBoxFor(x => x.EmailID, new { @class = "form-control", @placeholder = "Enter your email address" })
+                        @Html.ValidationMessageFor(x => x.EmailID, "", new { @class = "error" })
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-12 col-sm-12">
+                            @Html.LabelFor(x => x.PhoneNumber, "Phone Number", new { @class = "name-of-input" })
+                        </div>
+
+                        <div class="col-md-3 col-sm-2 col-xs-3">
+                            <div class="form-group">
+                                @Html.DropDownListFor(m => m.PhoneNumber_CountryCode, new SelectList(Model.Countries, "CountryCode", "CountryCode"), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.PhoneNumber_CountryCode, "", new { @class = "error" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-9 col-sm-10 col-xs-9">
+                            <div class="form-group">
+                                @Html.TextBoxFor(x => x.PhoneNumber, "", new { @class = "form-control", @placeholder = "Enter your phone number" })
+                                @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "error" })
+                            </div>
+                        </div>
+
+                    </div>
+                    <button type="submit" class="btn submit">SUBMIT</button>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>
+

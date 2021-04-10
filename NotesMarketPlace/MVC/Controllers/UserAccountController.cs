@@ -70,7 +70,6 @@ namespace NotesMarketPlace.Controllers
 
             if (ModelState.IsValid)
             {
-
                 //Profile Picture must be less than 10MB
                 if (model.ProfilePicture != null && model.ProfilePicture.ContentLength > 10485760)
                 {
@@ -146,7 +145,7 @@ namespace NotesMarketPlace.Controllers
             string emailId = User.Identity.Name;
             var notes = context.DownloadedNotes.Where(x=>x.IsSellerHasAllowedDownload == true && x.Users.EmailID == emailId).ToList().AsQueryable();
 
-            ViewBag.SortByCreatedDate = string.IsNullOrEmpty(sortBy) ? "Date" : "";
+            ViewBag.SortByDate = string.IsNullOrEmpty(sortBy) ? "Date" : "";
             ViewBag.SortByNoteTitle = sortBy == "NoteTitle desc" ? "NoteTitle" : "NoteTitle desc";
             ViewBag.SortByCategory = sortBy == "Category desc" ? "Category" : "Category desc";
             ViewBag.SortByBuyer = sortBy == "Buyer desc" ? "Buyer" : "Buyer desc";
@@ -183,7 +182,7 @@ namespace NotesMarketPlace.Controllers
             switch (sortBy)
             {
                 case "Date":
-                    notes = notes.OrderBy(x => x.CreatedDate);
+                    notes = notes.OrderBy(x => x.AttachmentDownloadedDate);
                     break;
 
                 case "NoteTitle desc":
@@ -227,7 +226,7 @@ namespace NotesMarketPlace.Controllers
                     break;
 
                 default:
-                    notes = notes.OrderByDescending(x => x.CreatedDate);
+                    notes = notes.OrderByDescending(x => x.AttachmentDownloadedDate);
                     break;
             }
 
@@ -240,7 +239,7 @@ namespace NotesMarketPlace.Controllers
             string emailId = User.Identity.Name;
             var loggrdInUser = context.Users.Where(x => x.EmailID == emailId).FirstOrDefault();
 
-            var notes = context.NoteDetails.Where(x=>x.Status == "Rejected").ToList().AsQueryable();
+            var notes = context.NoteDetails.Where(x=>x.Status == "Rejected" && x.Users1.EmailID == emailId ).ToList().AsQueryable();
 
             ViewBag.SortByNoteTitle = sortBy == "NoteTitle desc" ? "NoteTitle" : "NoteTitle desc";
             ViewBag.SortByCategory = sortBy == "Category desc" ? "Category" : "Category desc";
@@ -298,7 +297,7 @@ namespace NotesMarketPlace.Controllers
         public ActionResult MySoldNotes(string search, int? page, string sortBy)
         {
             string emailId = User.Identity.Name;
-            var notes = context.DownloadedNotes.Where(x => x.IsSellerHasAllowedDownload == true && x.Users1.EmailID == emailId).ToList().AsQueryable();
+            var notes = context.DownloadedNotes.Where(x => x.IsAttachmentDownloaded == true && x.Users1.EmailID == emailId).ToList().AsQueryable();
 
             ViewBag.SortByCreatedDate = string.IsNullOrEmpty(sortBy) ? "Date" : "";
             ViewBag.SortByNoteTitle = sortBy == "NoteTitle desc" ? "NoteTitle" : "NoteTitle desc";
@@ -391,6 +390,16 @@ namespace NotesMarketPlace.Controllers
         public ActionResult DownloadNote(int id)
         {
             DownloadedNotes note = context.DownloadedNotes.Where(x => x.NoteID == id).FirstOrDefault();
+
+            if(note.IsPaid == true)
+            {
+                note.AttachmentDownloadedDate = DateTime.Now;
+                note.IsSellerHasAllowedDownload = false;
+                note.IsAttachmentDownloaded = true;
+
+                context.SaveChanges();
+            }            
+
             string _Path = note.AttachmentPath;
 
             Response.Clear();
@@ -461,8 +470,10 @@ namespace NotesMarketPlace.Controllers
 
         public void NotifyAdminToSpamNote(string member,string seller,string noteTitle)
         {
-            var fromEmail = new MailAddress("akashbhimani046@yopmail.com", "Akash Bhimani");
-            var toEmail = new MailAddress("akashpbhimani000@gmail.com");
+            string supportEmailID = context.ManageSystemConfiguration.Select(x => x.SupportEmail).FirstOrDefault();
+            string adminEmailID = context.ManageSystemConfiguration.Select(x => x.EmailAddress).FirstOrDefault();
+            var fromEmail = new MailAddress(supportEmailID);
+            var toEmail = new MailAddress(adminEmailID);
             var fromEmailPassword = "******";
             string subject = $"{member} Reported an issue for {noteTitle}";
 

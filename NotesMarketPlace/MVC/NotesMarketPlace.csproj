@@ -43,6 +43,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.12.3.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>packages\DocumentFormat.OpenXml.2.12.3\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -83,6 +86,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Web.Razor">
@@ -218,6 +222,33 @@
     <Content Include="Members\2075\2006\Preview_16-03-2021.pdf" />
     <Content Include="Members\2070\2007\Attachment\Attachment1_17-03-2021.pdf" />
     <Content Include="Members\2070\2007\Preview_17-03-2021.pdf" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Setting\AddCategory.cshtml" />
+    <Content Include="Areas\Admin\Views\Setting\AddType.cshtml" />
+    <Content Include="Areas\Admin\Views\Setting\AddCountry.cshtml" />
+    <Content Include="Areas\Admin\Views\Setting\AddAdministrator.cshtml" />
+    <Content Include="Areas\Admin\Views\Setting\ManageAdministrator.cshtml" />
+    <Content Include="Areas\Admin\Views\Setting\ManageCategory.cshtml" />
+    <Content Include="Areas\Admin\Views\Setting\ManageType.cshtml" />
+    <Content Include="Areas\Admin\Views\Setting\ManageCountry.cshtml" />
+    <Content Include="Areas\Admin\Views\Setting\ManageSystemConfiguration.cshtml" />
+    <Content Include="Areas\Admin\Views\Setting\EmailVerificationModal.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminAccount\ChangePassword.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminAccount\MyProfile.cshtml" />
+    <Content Include="Areas\Admin\Views\Notes\NotesUnderReview.cshtml" />
+    <Content Include="Areas\Admin\Views\Notes\_UnderReview.cshtml" />
+    <Content Include="Areas\Admin\Views\Notes\NoteDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Notes\PublishedNotes.cshtml" />
+    <Content Include="Areas\Admin\Views\Notes\_Published.cshtml" />
+    <Content Include="Areas\Admin\Views\Notes\RejectedNotes.cshtml" />
+    <Content Include="Areas\Admin\Views\Notes\_Rejected.cshtml" />
+    <Content Include="Areas\Admin\Views\Notes\DownloadedNotes.cshtml" />
+    <Content Include="Areas\Admin\Views\Notes\_Downloaded.cshtml" />
+    <Content Include="Areas\Admin\Views\Members\Members.cshtml" />
+    <Content Include="Areas\Admin\Views\Members\MemberDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\SpamReports\SpamReports.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\Dashboard.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\_PublishedNotes.cshtml" />
     <EntityDeploy Include="NotesMarketPlace.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>NotesMarketPlace.Designer.cs</LastGenOutput>
@@ -234,6 +265,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminAccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MembersController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NotesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SettingController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SpamReportsController.cs" />
+    <Compile Include="Areas\Admin\Data\AddAdministratorViewModel.cs" />
+    <Compile Include="Areas\Admin\Data\AddCategoryViewModel.cs" />
+    <Compile Include="Areas\Admin\Data\AddCountryViewModel.cs" />
+    <Compile Include="Areas\Admin\Data\AddTypeViewModel.cs" />
+    <Compile Include="Areas\Admin\Data\DownloadedNotesViewModel.cs" />
+    <Compile Include="Areas\Admin\Data\ManageSystemConfigurationViewModel.cs" />
+    <Compile Include="Areas\Admin\Data\MemberDetailsViewModel.cs" />
+    <Compile Include="Areas\Admin\Data\MyProfileViewModel.cs" />
+    <Compile Include="Areas\Admin\Data\NotesUnderReviewViewModel.cs" />
+    <Compile Include="Areas\Admin\Data\PublishedNotesViewModel.cs" />
+    <Compile Include="Areas\Admin\Data\RejectedNotesViewModel.cs" />
     <Compile Include="Controllers\ContactUsController.cs" />
     <Compile Include="Controllers\FAQController.cs" />
     <Compile Include="Controllers\ForgotPasswordController.cs" />
@@ -258,6 +307,7 @@
     <Compile Include="Models\AddNoteViewModel.cs" />
     <Compile Include="Models\ChangePasswordViewModel.cs" />
     <Compile Include="Models\ContactUsViewModel.cs" />
+    <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\NoteListsViewModel.cs" />
     <Compile Include="Models\UserProfileViewModel.cs" />
@@ -309,6 +359,7 @@
     <Compile Include="Users.cs">
       <DependentUpon>NotesMarketPlace.tt</DependentUpon>
     </Compile>
+    <Compile Include="WebRoleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -335,7 +386,6 @@
     <Content Include="Views\FAQ\FAQ.cshtml" />
     <Content Include="Views\ContactUs\ContactUs.cshtml" />
     <Content Include="Views\User\AddNotes.cshtml" />
-    <Content Include="Views\Shared\_UserLayout.cshtml" />
     <Content Include="Views\SignUp\EmailVerificationModal.cshtml" />
     <Content Include="Views\Login\ForgotPassword.cshtml" />
     <Content Include="Views\User\BuyersRequest.cshtml" />
@@ -349,6 +399,7 @@
     <Content Include="Views\UserAccount\MySoldNotes.cshtml" />
     <Content Include="Views\UserAccount\_NoteReview.cshtml" />
     <Content Include="Views\UserAccount\MyRejectedNotes.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_AdminLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

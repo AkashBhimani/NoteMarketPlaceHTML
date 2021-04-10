@@ -61,7 +61,7 @@
                                                         </span>
                                                     }
                                                 </li>
-                                                <li><i class="fa fa-calendar"></i><span>@item.CreatedDate.Value.ToString("ddd, MMM dd yyyy")</span></li>
+                                                <li><i class="fa fa-calendar"></i><span>@item.PublishedDate.Value.ToString("ddd, MMM dd yyyy")</span></li>
 
                                                 @{
                                                     List<NoteReview> list = item.NoteReview.Where(x => x.NoteID == item.ID).ToList();

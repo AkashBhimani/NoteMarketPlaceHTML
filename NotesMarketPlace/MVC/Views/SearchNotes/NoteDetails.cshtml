@@ -7,6 +7,8 @@
 
 @{
     NotesMarketPlaceEntities context = new NotesMarketPlaceEntities();
+    string emailID = User.Identity.Name;
+    Users loggedInUser = context.Users.Where(x => x.EmailID == emailID).FirstOrDefault();
 
     List<NoteReview> list = Model.NoteReview.Where(x => x.NoteID == Model.ID).OrderByDescending(x => x.CreatedDate).ToList();
     int noOfReviews = list.Count();
@@ -109,7 +111,10 @@
                                 <p>Namber of Pages: <span>@Model.NumberOfPages</span></p>
                             }
 
-                            <p>Approved Date: <span>@Model.CreatedDate.Value.ToString("MMMM dd yyy")</span></p>
+                            @if (Model.PublishedDate != null)
+                            {
+                                <p>Approved Date: <span>@Model.PublishedDate.Value.ToString("MMMM dd yyy")</span></p>
+                            }
 
                             @if (noOfReviews != 0)
                             {
@@ -206,7 +211,9 @@
 
                                         <div class="col-md-11 col-sm-11 col-xs-10">
 
-                                            <h5>@user.Users.FirstName @user.Users.LastName</h5>
+                                            <h5>
+                                                @user.Users.FirstName @user.Users.LastName
+                                            </h5>
                                             @for (int i = 1; i <= 5; i++)
                                             {
                                                 string addClass = (i <= item.Rate ? "fa fa-star" : "fa fa-star-o");
@@ -250,11 +257,11 @@
                                 <h3>Thank you for purchasing!</h3>
                             </div>
                             <h5>Dear @ViewBag.buyer,</h5>
-                            <p>As this is paid notes - you need to pay seller @Model.Users.FirstName offline.We will send him an email you want to download this notes. He may contact you further for payment process completion.</p>
+                            <p>As this is paid notes - you need to pay seller @Model.Users1.FirstName offline.We will send him an email you want to download this notes. He may contact you further for payment process completion.</p>
                             <br />
                             <p>In case, you have urgency,</p>
 
-                            <p>Please contact us on @Model.Users.UserProfile.Select(x => x.PhoneNumber_CountryCode).FirstOrDefault() @Model.Users.UserProfile.Select(x => x.PhoneNumber).FirstOrDefault()</p>
+                            <p>Please contact us on @Model.Users1.UserProfile.Select(x => x.PhoneNumber_CountryCode).FirstOrDefault() @Model.Users1.UserProfile.Select(x => x.PhoneNumber).FirstOrDefault()</p>
                             <br />
                             <p>Once he receives the payment and acknowledge us - selected notes you can see over my downloads tab for download.</p>
                             <br />

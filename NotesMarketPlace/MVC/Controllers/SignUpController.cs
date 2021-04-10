@@ -55,12 +55,13 @@ namespace NotesMarketPlace.Controllers
         public void SendVerificationLinkEmail(string emailID)
         {
             var user = context.Users.Where(a => a.EmailID == emailID).FirstOrDefault();
+            string supportEmailID = context.ManageSystemConfiguration.Select(x => x.SupportEmail).FirstOrDefault();
             var verifyUrl = "/SignUp/EmailVerificationModal?emailID=" + user.EmailID;
             var link = Request.Url.AbsoluteUri.Replace(Request.Url.PathAndQuery, verifyUrl);
 
-            var fromEmail = new MailAddress("akashbhimani046@yopmail.com", "Akash Bhimani");
+            var fromEmail = new MailAddress(supportEmailID);
             var toEmail = new MailAddress(user.EmailID);
-            var fromEmailPassword = "******"; // Replace with actual password
+            var fromEmailPassword = "******";
             string subject = "Note Marketplace - Email Verification";
 
             string body = "<br /> Hello " + user.FirstName + ", <br /> Thank you for signing up with us." +

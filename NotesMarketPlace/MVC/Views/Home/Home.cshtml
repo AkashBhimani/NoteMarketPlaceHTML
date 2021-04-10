@@ -330,9 +330,9 @@
 
                         <div class="col-md-6 col-sm-6 col-xs-12 list">
                             <ul class="social-list">
-                                <li><a href="#"><i class="fa fa-facebook "></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter "></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin "></i></a></li>
+                                <li><a href="@context.ManageSystemConfiguration.Select(x=>x.FacebookURL).FirstOrDefault()" target="_blank"><i class="fa fa-facebook "></i></a></li>
+                                <li><a href="@context.ManageSystemConfiguration.Select(x=>x.TwitterURL).FirstOrDefault()" target="_blank"><i class="fa fa-twitter "></i></a></li>
+                                <li><a href="@context.ManageSystemConfiguration.Select(x=>x.LinkedInURL).FirstOrDefault()" target="_blank"><i class="fa fa-linkedin "></i></a></li>
                             </ul>
                         </div>
                     </div>

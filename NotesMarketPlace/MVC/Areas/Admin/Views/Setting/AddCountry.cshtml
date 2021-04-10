@@ -1,0 +1,43 @@
+﻿@model NotesMarketPlace.Areas.Admin.Data.AddCountryViewModel
+@{
+    ViewBag.Title = "Add Country";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Country input field -->
+<div class="adding main-section">
+
+    <div class="container section-container">
+
+        <div class="row">
+
+            <div class="col-md-12 heading">
+                <h2>Add Country</h2>
+            </div>
+
+            @using (Html.BeginForm("AddCountry", "Setting", FormMethod.Post))
+            {
+                <div class="col-md-6 col-sm-12">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.CountryName, "Country Name *", new { @class = "name-of-input" })
+                        @Html.TextBoxFor(x => x.CountryName, new { @class = "form-control", @placeholder = "Enter your country name" })
+                        @Html.ValidationMessageFor(x => x.CountryName, "", new { @class = "error" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.CountryCode, "Country Code *", new { @class = "name-of-input" })
+                        @Html.TextBoxFor(x => x.CountryCode, new { @class = "form-control", @placeholder = "Enter your country code" })
+                        @Html.ValidationMessageFor(x => x.CountryCode, "", new { @class = "error" })
+                    </div>
+
+                    <button type="submit" class="btn submit">SUBMIT</button>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>
+

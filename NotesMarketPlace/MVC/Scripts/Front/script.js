@@ -101,7 +101,7 @@ $("button.accordion").click(function () {
 
 /*-------------- File Extension Validations -------------*/
 function fileValidation1() {
-    var fileInput = document.getElementById('file-input');
+    var fileInput = document.getElementById('file-input-1');
     var filePath = fileInput.value;
     var allowedExtensions = /(\.pdf)$/i;
 
@@ -115,7 +115,7 @@ function fileValidation1() {
 }
 
 function fileValidation2() {
-    var fileInput = document.getElementById('file-input');
+    var fileInput = document.getElementById('file-input-2');
     var filePath = fileInput.value;
     var allowedExtensions = /(\.pdf)$/i;
 
